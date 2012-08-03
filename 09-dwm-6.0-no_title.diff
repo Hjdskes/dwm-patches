@@ -1,0 +1,17 @@
+--- dwm.c.orig	2012-05-25 21:51:23.619051048 +0200
++++ src/dwm-6.0/dwm.c  2012-05-25 21:52:01.599050258 +0200
+@@ -912,13 +912,7 @@
+ 		dc.x = m->ww;
+ 	if((dc.w = dc.x - x) > bh) {
+ 		dc.x = x;
+-		if(m->sel) {
+-			col = m == selmon ? dc.sel : dc.norm;
+-			drawtext(m->sel->name, col, False);
+-			drawsquare(m->sel->isfixed, m->sel->isfloating, False, col);
+-		}
+-		else
+-			drawtext(NULL, dc.norm, False);
++       drawtext(NULL, dc.norm, False);
+ 	}
+ 	XCopyArea(dpy, dc.drawable, m->barwin, dc.gc, 0, 0, m->ww, bh, 0, 0);
+ 	XSync(dpy, False);

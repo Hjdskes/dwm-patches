@@ -1,0 +1,42 @@
+--- dwm.c.orig	2012-06-10 16:07:53.579354764 +0200
++++ src/dwm-6.0/dwm.c	2012-06-10 16:07:42.462688354 +0200
+@@ -853,20 +853,16 @@
+ 	drawtext(m->ltsymbol, dc.norm, False);
+ 	dc.x += dc.w;
+ 	x = dc.x;
+-	if(m == selmon) { /* status is only drawn on selected monitor */
+-		dc.w = TEXTW(stext);
+-		dc.x = m->ww - dc.w;
++	dc.w = TEXTW(stext);
++   dc.x = m->ww - dc.w;
+ 		if(showsystray && m == selmon) {
+ 			dc.x -= getsystraywidth();
+ 		}
+-		if(dc.x < x) {
+-			dc.x = x;
+-			dc.w = m->ww - x;
+-		}
+-		drawtext(stext, dc.norm, False);
++	if(dc.x < x) {
++		dc.x = x;
++		dc.w = m->ww - x;
+ 	}
+-	else
+-		dc.x = m->ww;
++    drawtext(stext, dc.norm, False);
+ 	if((dc.w = dc.x - x) > bh) {
+ 		dc.x = x;
+ 		if(m->sel) {
+@@ -2214,9 +2210,11 @@
+ 
+ void
+ updatestatus(void) {
++	Monitor* m;
+ 	if(!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
+ 		strcpy(stext, "dwm-"VERSION);
+-	drawbar(selmon);
++	for(m = mons; m; m = m->next)
++		drawbar(m);
+ }
+ 
+ void

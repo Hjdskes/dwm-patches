@@ -1,0 +1,14 @@
+--- dwm.c.orig	2012-05-26 22:57:43.330456793 +0200
++++ src/dwm-6.0/dwm.c	2012-05-26 22:56:57.623790647 +0200
+@@ -1316,9 +1316,9 @@
+ 		if(ISVISIBLE(c))
+ 			n++;
+ 	if(n > 0) /* override layout symbol */
+-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
++		snprintf(m->ltsymbol, sizeof m->ltsymbol, "%d", n);
+ 	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
+-		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, False);
++		resize(c, m->wx - c->bw, m->wy - c->bw, m->ww, m->wh, False);
+ }
+ 
+ void
