@@ -18,7 +18,7 @@ _patches=(01-dwm-6.0-xft.diff
 		  05-dwm-6.0-urgentcolor.diff
 		  06-dwm-6.0-occupiedcol.diff
           07-dwm-6.0-monocle_fixes.diff
-	 	  08-dwm-6.0-statusallmons.diff
+		  08-dwm-6.0-statusallmons.diff
           09-dwm-6.0-chat.diff
           10-dwm-6.0-no_title.diff
           11-dwm-6.0-XKeycodeToKeysym_fix.diff
