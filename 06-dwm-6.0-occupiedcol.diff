@@ -52,8 +52,8 @@
  	int i, x, y, h, len, olen;
 @@ -1799,6 +1786,8 @@
  	dc.urg[ColBorder] = getcolor(urgbordercolor);
-     dc.urg[ColBG] = getcolor(urgbgcolor);
-     dc.urg[ColFG] = getcolor(urgfgcolor);
+     dc.urg[ColFG] = getcolor(urgbgcolor);
+     dc.urg[ColBG] = getcolor(urgfgcolor);
 +	dc.occ[ColBG] = getcolor(occbgcolor);
 +	dc.occ[ColFG] = getcolor(occfgcolor);
      dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));

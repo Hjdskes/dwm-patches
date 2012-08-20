@@ -25,8 +25,8 @@
  	dc.sel[ColFG] = getcolor(selfgcolor);
 -	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
 +	dc.urg[ColBorder] = getcolor(urgbordercolor);
-+    dc.urg[ColBG] = getcolor(urgbgcolor);
-+    dc.urg[ColFG] = getcolor(urgfgcolor);
++    dc.urg[ColFG] = getcolor(urgbgcolor);
++    dc.urg[ColBG] = getcolor(urgfgcolor);
 +    dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
