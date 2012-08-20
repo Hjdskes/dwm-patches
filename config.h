@@ -1,10 +1,11 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "Ubuntu:size=8:antialias=true:hinting=true";
+//static const char font[]            = "Ubuntu:size=8:antialias=true:hinting=true";
 //static const char font[]			  = "Droid Sans:Bold:size=8:antialias=true:hinting=true";
+static const char font[]			= "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
 /* gaia212 */
-static const char normbordercolor[] = "#90B4B0";
+static const char normbordercolor[] = "#A3CDC8";
 static const char normbgcolor[]     = "#6D9F99";
 static const char normfgcolor[]     = "#F9F9F9";
 static const char selbordercolor[]  = "#FDBE45";
@@ -13,7 +14,9 @@ static const char selfgcolor[]      = "#FFA905";
 static const char urgbordercolor[]  = "#A62A3E";
 static const char urgbgcolor[]      = "#000C1A";
 static const char urgfgcolor[]      = "#A62A3E";
-/* bohoomil */
+static const char occbgcolor[]		= "#6D9F99";
+static const char occfgcolor[]		= "#93C724";
+/* gaia212 dark */
 //static const char normbordercolor[] = "#192033";
 //static const char normbgcolor[]     = "#000C1A";
 //static const char normfgcolor[]     = "#ACB4BF";
@@ -22,7 +25,7 @@ static const char urgfgcolor[]      = "#A62A3E";
 //static const char urgbordercolor[]  = "#A62A3E";
 //static const char urgbgcolor[]      = "#000C1A";
 //static const char urgfgcolor[]      = "#A62A3E";
-static const unsigned int systrayspacing = 2;     // systray spacing
+static const unsigned int systrayspacing = 1;     // systray spacing
 static const unsigned int borderpx       = 1;     // border pixel of windows
 static const unsigned int gappx          = 2;     // gap pixel between windows
 static const unsigned int snap           = 2;     // snap pixel
@@ -66,7 +69,7 @@ static const Rule rules[] = {
     { "Gimp",      NULL,       NULL,               1 << 3,       False,       -1 },
     { "llpp",      NULL,       NULL,               1 << 4,       False,       -1 },
     { "Gnumeric",  NULL,       NULL,               1 << 4,       False,       -1 },
-    { "Abiword",   NULL,       NULL,               1 << 4,       False        -1 },
+    { "Abiword",   NULL,       NULL,               1 << 4,       False,       -1 },
 };
 
 /* key definitions */
