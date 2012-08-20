@@ -8,7 +8,7 @@
 -		dc.w = TEXTW(stext);
 -		dc.x = m->ww - dc.w;
 +	dc.w = TEXTW(stext);
-+   dc.x = m->ww - dc.w;
++    dc.x = m->ww - dc.w;
  		if(showsystray && m == selmon) {
  			dc.x -= getsystraywidth();
  		}

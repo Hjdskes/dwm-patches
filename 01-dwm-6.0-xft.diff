@@ -126,7 +126,7 @@
  }
  
 -unsigned long
-+XftColor 
++XftColor
  getcolor(const char *colstr) {
 -	Colormap cmap = DefaultColormap(dpy, screen);
 -	XColor color;

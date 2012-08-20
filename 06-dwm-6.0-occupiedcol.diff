@@ -1,14 +1,16 @@
---- dwm.c.orig.occ.tril	2012-08-20 19:30:40.883200412 +0200
-+++ src/dwm-6.0/dwm.c	2012-08-20 21:34:25.729988929 +0200
-@@ -122,6 +122,7 @@
+--- dwm.c.orig	2012-08-20 22:54:34.873332484 +0200
++++ src/dwm-6.0/dwm.c	2012-08-20 22:56:44.293329500 +0200
+@@ -121,7 +121,8 @@
  	XftColor norm[ColLast];
  	XftColor sel[ColLast];
  	XftColor urg[ColLast];
-+	XftColor occ[ColLast];
-    Drawable drawable;
+-    Drawable drawable;
++    XftColor occ[ColLast];
++	Drawable drawable;
  	GC gc;
  	struct {
-@@ -216,7 +217,6 @@
+ 		int ascent;
+@@ -214,7 +215,6 @@
  static Monitor *dirtomon(int dir);
  static void drawbar(Monitor *m);
  static void drawbars(void);
@@ -16,25 +18,20 @@
  static void drawtext(const char *text, XftColor col[ColLast], Bool invert);
  static void enternotify(XEvent *e);
  static void expose(XEvent *e);
-@@ -843,12 +843,14 @@
- 			urg |= c->tags;
- 	}
+@@ -843,10 +843,9 @@
  	dc.x = 0;
-+ 
-+
-+
  	for(i = 0; i < LENGTH(tags); i++) {
          dc.w = TEXTW(tags[i].name);
 -        col = urg & 1 << i ? dc.urg : m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
 +		col = (m->tagset[m->seltags] & 1 << i) ?
-+            dc.sel : (urg & 1 << i ? dc.urg :(occ & 1 << i ? dc.occ : dc.norm));
++			dc.sel : (urg & 1 << i ? dc.urg :(occ & 1 << i ? dc.occ : dc.norm));
  		drawtext(tags[i].name, col, urg & 1 << i);
 -		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 -		           occ & 1 << i, urg & 1 << i, col);
  		dc.x += dc.w;
  	}
  	dc.w = blw = TEXTW(m->ltsymbol);
-@@ -883,18 +885,6 @@
+@@ -891,18 +890,6 @@
  }
  
  void
@@ -53,12 +50,12 @@
  drawtext(const char *text, XftColor col[ColLast], Bool invert) {
  	char buf[256];
  	int i, x, y, h, len, olen;
-@@ -1791,6 +1781,8 @@
+@@ -1799,6 +1786,8 @@
  	dc.urg[ColBorder] = getcolor(urgbordercolor);
-    dc.urg[ColBG] = getcolor(urgbgcolor);
-    dc.urg[ColFG] = getcolor(urgfgcolor);
-+    dc.occ[ColFG] = getcolor(occfgcolor);
+     dc.urg[ColBG] = getcolor(urgbgcolor);
+     dc.urg[ColFG] = getcolor(urgfgcolor);
 +	dc.occ[ColBG] = getcolor(occbgcolor);
-    dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
++	dc.occ[ColFG] = getcolor(occfgcolor);
+     dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);

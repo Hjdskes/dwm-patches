@@ -6,7 +6,7 @@
  	const char *symbol;
 -	void (*arrange)(Monitor *);
 +	Bool addgaps;
-+   void (*arrange)(Monitor *);
++    void (*arrange)(Monitor *);
  } Layout;
  
  struct Monitor {
