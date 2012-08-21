@@ -1,0 +1,28 @@
+--- dwm.c.orig	2012-08-21 12:51:35.810479996 +0200
++++ src/dwm-6.0/dwm.c	2012-08-21 12:52:29.017145428 +0200
+@@ -123,6 +123,7 @@
+ 	XftColor sel[ColLast];
+ 	XftColor urg[ColLast];
+     XftColor occ[ColLast];
++	XftColor sym[ColLast];
+ 	Drawable drawable;
+ 	GC gc;
+ 	struct {
+@@ -851,7 +852,7 @@
+ 		dc.x += dc.w;
+ 	}
+ 	dc.w = blw = TEXTW(m->ltsymbol);
+-	drawtext(m->ltsymbol, dc.norm, False);
++	drawtext(m->ltsymbol, dc.sym, False);
+ 	dc.x += dc.w;
+ 	x = dc.x;
+ 	dc.w = TEXTW(stext);
+@@ -1780,6 +1781,8 @@
+     dc.urg[ColBG] = getcolor(urgfgcolor);
+ 	dc.occ[ColBG] = getcolor(occbgcolor);
+ 	dc.occ[ColFG] = getcolor(occfgcolor);
++	dc.sym[ColFG] = getcolor(symfgcolor);
++	dc.sym[ColBG] = getcolor(symbgcolor);
+     dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
+ 	dc.gc = XCreateGC(dpy, root, 0, NULL);
+ 	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
