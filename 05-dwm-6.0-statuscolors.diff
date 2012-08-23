@@ -1,5 +1,5 @@
---- dwm.c.orig	2012-08-23 12:34:29.407205988 +0200
-+++ src/dwm-6.0/dwm.c	2012-08-23 12:37:45.627202786 +0200
+--- dwm.c.orig	2012-08-23 13:44:28.603802012 +0200
++++ dwm.c.patched	2012-08-23 13:49:03.247130723 +0200
 @@ -50,6 +50,7 @@
  #define LENGTH(X)               (sizeof X / sizeof X[0])
  #define MAX(A, B)               ((A) > (B) ? (A) : (B))
@@ -184,7 +184,32 @@
  	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
-@@ -1971,7 +1994,7 @@
+@@ -1869,8 +1892,23 @@
+ 
+ int
+ textnw(const char *text, unsigned int len) {
++	// remove non-printing color codes before calculating width
++	char *ptr = (char *) text;
++	unsigned int i, ibuf, lenbuf=len;
++	char buf[len+1];
++
++	for(i=0, ibuf=0; *ptr && i<len; i++, ptr++) {
++		if(*ptr <= NUMCOLORS && *ptr > 0) {
++			if (i < len) { lenbuf--; }
++		} else {
++			buf[ibuf]=*ptr;
++			ibuf++;
++		}
++	}
++	buf[ibuf]=0;
++
+ 	XGlyphInfo ext;
+-	XftTextExtentsUtf8(dpy, dc.font.xfont, (XftChar8 *) text, len, &ext);
++	XftTextExtentsUtf8(dpy, dc.font.xfont, (XftChar8 *) buf, lenbuf, &ext);
+ 	return ext.xOff;
+ }
+ 
+@@ -1971,7 +2009,7 @@
  	if(!c)
  		return;
  	grabbuttons(c, False);
@@ -193,7 +218,7 @@
  	if(setfocus)
  		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
  }
-@@ -2277,11 +2300,11 @@
+@@ -2277,11 +2315,11 @@
  		/* init systray */
  		if(!(systray = (Systray *)calloc(1, sizeof(Systray))))
  			die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
@@ -207,7 +232,7 @@
  		XSelectInput(dpy, systray->win, SubstructureNotifyMask);
  		XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation], XA_CARDINAL, 32,
  				PropModeReplace, (unsigned char *)&systrayorientation, 1);
-@@ -2334,8 +2357,11 @@
+@@ -2334,8 +2372,11 @@
  			wmh->flags &= ~XUrgencyHint;
  			XSetWMHints(dpy, c->win, wmh);
  		}
