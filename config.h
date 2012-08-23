@@ -1,30 +1,18 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-//static const char font[]            = "Ubuntu:size=8:antialias=true:hinting=true";
-//static const char font[]			  = "Droid Sans:Bold:size=8:antialias=true:hinting=true";
 static const char font[]			= "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
-/* gaia212 */
-static const char normbordercolor[] = "#A3CDC8";
-static const char normbgcolor[]     = "#6D9F99";
-static const char normfgcolor[]     = "#F9F9F9";
-static const char selbordercolor[]  = "#FDBE45";
-static const char selbgcolor[]      = "#6D9F99";
-static const char selfgcolor[]      = "#FFA905";
-static const char urgbordercolor[]  = "#A62A3E";
-static const char urgbgcolor[]      = "#000C1A";
-static const char urgfgcolor[]      = "#A62A3E";
-static const char occbgcolor[]		= "#6D9F99";
-static const char occfgcolor[]		= "#93C724";
-/* gaia212 dark */
-//static const char normbordercolor[] = "#192033";
-//static const char normbgcolor[]     = "#000C1A";
-//static const char normfgcolor[]     = "#ACB4BF";
-//static const char selbordercolor[]  = "#B27D12";
-//static const char selbgcolor[]      = "#000C1A";
-//static const char urgbordercolor[]  = "#A62A3E";
-//static const char urgbgcolor[]      = "#000C1A";
-//static const char urgfgcolor[]      = "#A62A3E";
+#define NUMCOLORS 4
+static const char colors[NUMCOLORS][ColLast][9] = {
+    /* border    foreground background */
+    /* gaia2 */
+    { "#A3CDC8", "#F9F9F9", "#6D9F99" }, // 1 = normal
+    { "#FDBE45", "#FFA905", "#6D9F99" }, // 2 = selected
+    { "#F54844", "#F54844", "#6D9F99" }, // 3 = urgent
+	{ "#93C724", "#93C724", "#6D9F99" }, // 4 = occupied
+};
+//static const char occbgcolor[]		= "#6D9F99";
+//static const char occfgcolor[]		= "#93C724";*/
 static const unsigned int systrayspacing = 1;     // systray spacing
 static const unsigned int borderpx       = 1;     // border pixel of windows
 static const unsigned int gappx          = 2;     // gap pixel between windows
@@ -85,7 +73,8 @@ static const Rule rules[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenu[]    = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+//static const char *dmenu[]    = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *dmenu[]	  = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *kill[]     = { "xkill", NULL };
 static const char *lock[]     = { "slock", NULL };
 static const char *halt[]     = { "dmenu_shutdown", NULL };

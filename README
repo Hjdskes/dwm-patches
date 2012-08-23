@@ -4,4 +4,3 @@ ToDO:
 1. Fix the systray patch on monocle mode: currently, it shows a border underneath it.
 2. Fix the chatlayout for Skype and (probably not gonna happen soon), make it work with two chat clients simultaneously.
 3. When there's only one client running, don't show any gaps.
-4. Statuscolor patch

@@ -1,44 +1,40 @@
---- dwm.c.orig	2012-08-20 22:54:34.873332484 +0200
-+++ src/dwm-6.0/dwm.c	2012-08-20 22:56:44.293329500 +0200
-@@ -121,7 +121,8 @@
- 	XftColor norm[ColLast];
- 	XftColor sel[ColLast];
- 	XftColor urg[ColLast];
--    Drawable drawable;
-+    XftColor occ[ColLast];
-+	Drawable drawable;
- 	GC gc;
- 	struct {
- 		int ascent;
-@@ -214,7 +215,6 @@
- static Monitor *dirtomon(int dir);
+--- dwm.c.orig	2012-08-23 12:17:08.540556832 +0200
++++ src/dwm-6.0/dwm.c	2012-08-23 12:28:41.207211846 +0200
+@@ -214,7 +214,6 @@
  static void drawbar(Monitor *m);
  static void drawbars(void);
--static void drawsquare(Bool filled, Bool empty, Bool invert, XftColor col[ColLast]);
- static void drawtext(const char *text, XftColor col[ColLast], Bool invert);
+ static void drawcoloredtext(char *text);
+-static void drawsquare(Bool filled, Bool empty, XftColor col[ColLast]);
+ static void drawtext(const char *text, XftColor col[ColLast], Bool pad);
  static void enternotify(XEvent *e);
  static void expose(XEvent *e);
-@@ -843,10 +843,9 @@
+@@ -843,9 +842,8 @@
  	dc.x = 0;
  	for(i = 0; i < LENGTH(tags); i++) {
          dc.w = TEXTW(tags[i].name);
--        col = urg & 1 << i ? dc.urg : m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
-+		col = urg & 1 << i ? dc.urg : (m->tagset[m->seltags] & 1 << i) ?
-+			dc.sel : (occ & 1 << i ? dc.occ : dc.norm);
- 		drawtext(tags[i].name, col, urg & 1 << i);
--		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
--		           occ & 1 << i, urg & 1 << i, col);
+-		col = dc.colors[ (m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:0) ];
++		col = dc.colors[ (m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:(occ & 1 << i ? 3:0)) ];
+         drawtext(tags[i].name, col, True);
+-		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i, occ & 1 << i, col);
  		dc.x += dc.w;
  	}
  	dc.w = blw = TEXTW(m->ltsymbol);
-@@ -891,18 +890,6 @@
+@@ -871,7 +869,6 @@
+ 		if(m->sel) {
+ 			col = dc.colors[ m == selmon ? 1 : 0 ];
+ 			drawtext(m->sel->name, col, True);
+-			drawsquare(m->sel->isfixed, m->sel->isfloating, col);
+ 		}
+ 		else
+ 			drawtext(NULL, dc.colors[0], False);
+@@ -914,18 +911,6 @@
  }
  
  void
--drawsquare(Bool filled, Bool empty, Bool invert, XftColor col[ColLast]) {
+-drawsquare(Bool filled, Bool empty, XftColor col[ColLast]) {
 -	int x;
 -
--	XSetForeground(dpy, dc.gc, col[invert ? ColBG : ColFG].pixel);
+-	XSetForeground(dpy, dc.gc, col[ColFG].pixel);
 -	x = (dc.font.ascent + dc.font.descent + 2) / 4;
 -	if(filled)
 -		XFillRectangle(dpy, dc.drawable, dc.gc, dc.x+1, dc.y+1, x+1, x+1);
@@ -47,15 +43,6 @@
 -}
 -
 -void
- drawtext(const char *text, XftColor col[ColLast], Bool invert) {
+ drawtext(const char *text, XftColor col[ColLast], Bool pad) {
  	char buf[256];
  	int i, x, y, h, len, olen;
-@@ -1799,6 +1786,8 @@
- 	dc.urg[ColBorder] = getcolor(urgbordercolor);
-     dc.urg[ColFG] = getcolor(urgbgcolor);
-     dc.urg[ColBG] = getcolor(urgfgcolor);
-+	dc.occ[ColBG] = getcolor(occbgcolor);
-+	dc.occ[ColFG] = getcolor(occfgcolor);
-     dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
- 	dc.gc = XCreateGC(dpy, root, 0, NULL);
- 	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
