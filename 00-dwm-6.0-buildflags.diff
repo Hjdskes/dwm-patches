@@ -1,5 +1,5 @@
 --- config.mk.orig	2011-12-19 16:02:46.000000000 +0100
-+++ src/dwm-6.0/config.mk	2012-05-26 15:46:24.429574270 +0200
++++ b/dwm-6.0/config.mk	2012-05-26 15:46:24.429574270 +0200
 @@ -14,12 +14,17 @@
  XINERAMALIBS = -L${X11LIB} -lXinerama
  XINERAMAFLAGS = -DXINERAMA
