@@ -1,5 +1,5 @@
 --- dwm.c.orig	2012-05-26 15:42:46.462912626 +0200
-+++ src/dwm-6.0/dwm.c	2012-05-26 15:42:15.122913347 +0200
++++ b/dwm-6.0/dwm.c	2012-05-26 15:42:15.122913347 +0200
 @@ -56,12 +56,30 @@
  #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
  #define TEXTW(X)                (textnw(X, strlen(X)) + dc.font.height)
