@@ -11,8 +11,6 @@ static const char colors[NUMCOLORS][ColLast][9] = {
     { "#F54844", "#F54844", "#6D9F99" }, // 3 = urgent
 	{ "#93C724", "#93C724", "#6D9F99" }, // 4 = occupied
 };
-//static const char occbgcolor[]		= "#6D9F99";
-//static const char occfgcolor[]		= "#93C724";*/
 static const unsigned int systrayspacing = 1;     // systray spacing
 static const unsigned int borderpx       = 1;     // border pixel of windows
 static const unsigned int gappx          = 2;     // gap pixel between windows
@@ -73,7 +71,7 @@ static const Rule rules[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-//static const char *dmenu[]    = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *gtk3[]	  = { "transmission-gtk", NULL };
 static const char *dmenu[]	  = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *kill[]     = { "xkill", NULL };
 static const char *lock[]     = { "slock", NULL };
@@ -94,7 +92,8 @@ static const char *mpdprev[]  = { "mpc", "prev", NULL };
 static const char *mpdstop[]  = { "mpc", "stop", NULL };
 
 static Key keys[] = {
-	/* modifier                     key        function        argument */
+	/* modifier                     key        		 function        argument */
+	{ MODKEY,						XK_w,			 spawn,			 {.v = gtk3 } },
     { MODKEY,                       XK_r,            spawn,          {.v = dmenu } },
     { MODKEY,                       XK_x,            spawn,          {.v = kill } },
     { MODKEY,                       XK_l,            spawn,          {.v = lock } },
