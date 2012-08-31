@@ -47,7 +47,6 @@ static const Rule rules[] = {
     /*WM_CLASS     WM_CLASS    WM_NAME
 	  class        instance    title               tags mask     isfloating   monitor */
     { "Chromium",  NULL,       NULL,               1,            False,       -1 },
-    { "Emesene",   NULL,       NULL,               1 << 1,       False,       -1 },
     { "Skype",     NULL,       NULL,               1 << 1,       False,       -1 },
     { "Skype",     NULL,       "Call with Aggi~",  1 << 1,       True,        -1 },
 	{ NULL,        "ncmpcpp",  NULL,               1 << 3,       False,       -1 },
@@ -81,8 +80,8 @@ static const char *browser[]  = { "chromium", NULL };
 //static const char *files[]    = { "urxvtc", "-name", "ranger", "-e", "ranger", NULL };
 static const char *files[]	  = { "thunar", };
 static const char *music[]    = { "urxvtc", "-name", "ncmpcpp", "-e", "ncmpcpp", NULL };
-static const char *msn[]      = { "emesene2", "-s", NULL };
-static const char *scrot[]    = { "scrot", NULL};
+static const char *skype[]	  = { "skype", NULL };
+static const char *scrot[]    = { "scrot", NULL };
 static const char *volup[]    = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
 static const char *voldown[]  = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
 static const char *volmute[]  = { "amixer", "-q", "sset", "Master", "toggle", NULL };
@@ -93,7 +92,7 @@ static const char *mpdstop[]  = { "mpc", "stop", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        		 function        argument */
-	{ MODKEY,						XK_w,			 spawn,			 {.v = gtk3 } },
+	{ MODKEY,						XK_g,			 spawn,			 {.v = gtk3 } },
     { MODKEY,                       XK_r,            spawn,          {.v = dmenu } },
     { MODKEY,                       XK_x,            spawn,          {.v = kill } },
     { MODKEY,                       XK_l,            spawn,          {.v = lock } },
@@ -102,7 +101,7 @@ static Key keys[] = {
     { MODKEY,                       XK_2,            spawn,          {.v = browser } },
     { MODKEY,                       XK_3,            spawn,          {.v = files } },
     { MODKEY,                       XK_4,            spawn,          {.v = music } },
-    { MODKEY,                       XK_5,            spawn,          {.v = msn } },
+    { MODKEY,                       XK_5,            spawn,          {.v = skype } },
     { 0,                            XK_Print,        spawn,          {.v = scrot } },
     { 0,                            0x1008ff13,      spawn,          {.v = volup } },
     { 0,                            0x1008ff11,      spawn,          {.v = voldown } },
