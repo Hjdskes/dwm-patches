@@ -62,9 +62,7 @@ static const Rule rules[] = {
 #define MONKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -133,13 +131,12 @@ static Key keys[] = {
     TAGKEYS(                        XK_F3,                           2)
     TAGKEYS(                        XK_F4,                           3)
     TAGKEYS(                        XK_F5,                           4)
-    { MODKEY,                       XK_0,            view,           {.ui = ~0 } },
-    { MODKEY|ShiftMask,             XK_0,            tag,            {.ui = ~0 } },
+    { MODKEY,                       XK_o,            view,           {.ui = ~0 } },
+    { MODKEY|ShiftMask,             XK_a,            tag,            {.ui = ~0 } },
     { MONKEY,                       XK_Left,         focusmon,       {.i = -1 } },
     { MONKEY,                       XK_Right,        focusmon,       {.i = +1 } },
     { MONKEY|ShiftMask,             XK_Left,         tagmon,         {.i = -1 } },
     { MONKEY|ShiftMask,             XK_Right,        tagmon,         {.i = +1 } },
-
 };
 
 /* button definitions */
@@ -147,15 +144,11 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[4]} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = term } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
-	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
