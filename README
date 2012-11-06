@@ -2,7 +2,8 @@ This is my personal DWM. In this repositorie you will find my patches, my config
 
 ToDO:
 1. Fix the systray patch on monocle mode: currently, it shows a border underneath it.
-2. Fix the chatlayout for Skype and (probably not gonna happen soon), make it work with two chat clients simultaneously.
+2. Fix the chatlayout for Skype.
 3. Spacing of layout symbol in the actual code.
-4. Move clock to center.
-5. Add separators between tag names.
+4. Add more functions to the transparent bar patch:
+   4.1 Allow to configure the level of transparency;
+   4.2 Have the Pixmap recreated upon changing wallpaper.
