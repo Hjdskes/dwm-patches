@@ -1,0 +1,39 @@
+--- dwm.c.orig	2012-09-07 18:39:48.746501192 +0200
++++ b/dwm-6.0/dwm.c	2012-09-07 18:41:59.729832322 +0200
+@@ -82,8 +82,8 @@
+ 	   NetWMWindowTypeDialog, NetLast }; /* EWMH atoms */
+ enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+-       ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
++enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin,
++	   ClkRootWin, ClkLast };             /* clicks */
+ 
+ typedef union {
+ 	int i;
+@@ -499,10 +499,8 @@
+ 		}
+ 		else if(ev->x < x + blw)
+ 			click = ClkLtSymbol;
+-		else if(ev->x > selmon->ww - TEXTW(stext))
++		else
+ 			click = ClkStatusText;
+-		else
+-			click = ClkWinTitle;
+ 	}
+ 	else if((c = wintoclient(ev->window))) {
+ 		focus(c);
+@@ -863,12 +861,7 @@
+ 	drawcoloredtext(stext);
+ 	if((dc.w = dc.x - x) > bh) {
+ 		dc.x = x;
+-		if(m->sel) {
+-			col = dc.colors[ m == selmon ? 1 : 0 ];
+-			drawtext(m->sel->name, col, True);
+-		}
+-		else
+-			drawtext(NULL, dc.colors[0], False);
++		drawtext(NULL, dc.colors[0], False);
+ 	}
+ 	XCopyArea(dpy, dc.drawable, m->barwin, dc.gc, 0, 0, m->ww, bh, 0, 0);
+ 	XSync(dpy, False);

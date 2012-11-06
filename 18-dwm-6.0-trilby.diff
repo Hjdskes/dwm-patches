@@ -1,0 +1,38 @@
+--- dwm.c.orig	2012-11-03 18:15:36.148188645 +0100
++++ dwm.c.patched	2012-11-06 12:19:31.545253818 +0100
+@@ -159,6 +159,7 @@
+ 	Client *sel;
+ 	Client *stack;
+ 	Monitor *next;
++	Pixmap bartrans;
+ 	Window barwin;
+ 	const Layout *lt[2];
+ 	int curtag;
+@@ -573,6 +574,7 @@
+ 	}
+ 	XUnmapWindow(dpy, mon->barwin);
+ 	XDestroyWindow(dpy, mon->barwin);
++	XFreePixmap(dpy, mon->bartrans);
+ 	free(mon->mfacts);
+ 	free(mon->nmasters);
+ 	free(mon->lts);
+@@ -917,8 +919,8 @@
+ 	int i, x, y, h, len, olen;
+ 	XftDraw *d;
+ 
+-	XSetForeground(dpy, dc.gc, col[ColBG].pixel);
+-	XFillRectangle(dpy, dc.drawable, dc.gc, dc.x, dc.y, dc.w, dc.h);
++	//XFillRectangle(dpy, dc.drawable, dc.gc, dc.x, dc.y, dc.w,  dc.h);
++	XCopyArea(dpy, selmon->bartrans, dc.drawable, dc.gc, dc.x, dc.y, dc.w, dc.h, dc.x, dc.y);
+ 	if(!text)
+ 		return;
+ 	olen = strlen(text);
+@@ -2023,6 +2025,8 @@
+ 		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, w, bh, 0, DefaultDepth(dpy, screen),
+ 		                          CopyFromParent, DefaultVisual(dpy, screen),
+ 		                          CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
++		m->bartrans = XCreatePixmap(dpy, root, w, bh, DefaultDepth(dpy, screen));
++		XCopyArea(dpy, root, m->bartrans, dc.gc, 0, 0, m->ww, bh, 0, 0);
+ 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]);
+ 		XMapRaised(dpy, m->barwin);
+ 	}
