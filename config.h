@@ -1,20 +1,30 @@
+
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]			= "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
+//static const char font[]			= "Source Sans Pro:Semibold:pixelsize=9:antialias=true:hinting=true";
+static const char font[]		  = "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border    foreground background */
     /* gaia2 */
-    { "#A3CDC8", "#F9F9F9", "#6D9F99" }, // 1 = normal
-    { "#FDBE45", "#FFA905", "#6D9F99" }, // 2 = selected
-    { "#F54844", "#F54844", "#6D9F99" }, // 3 = urgent
-	{ "#93C724", "#93C724", "#6D9F99" }, // 4 = occupied
+    //{ "#A3CDC8", "#F9F9F9", "#6D9F99" }, // 1 = normal
+    //{ "#FDBE45", "#FFA905", "#6D9F99" }, // 2 = selected
+    //{ "#F54844", "#F54844", "#6D9F99" }, // 3 = urgent
+	//{ "#93C724", "#93C724", "#6D9F99" }, // 4 = occupied
+	//{ "#8C8C8C", "#F9F9F9", "#222222" },
+    //{ "#FDBE45", "#FFA905", "#222222" },
+    //{ "#F54844", "#F54844", "#222222" },
+    //{ "#C8C8C8", "#C8C8C8", "#222222" },
+	{ "#0F2328", "#F2F1F0", "#393F3F" },
+	{ "#0076F3", "#3A81CD", "#393F3F" },
+	{ "#DC322F", "#DC322F", "#393F3F" },
+	{ "#16596A", "#16596A", "#393F3F" },
 };
-static const unsigned int systrayspacing = 1;     // systray spacing
-static const unsigned int borderpx       = 1;     // border pixel of windows
-static const unsigned int gappx          = 2;     // gap pixel between windows
-static const unsigned int snap           = 2;     // snap pixel
+static const unsigned int systrayspacing = 1;     // Systray spacing
+static const unsigned int borderpx       = 2;     // Border pixel of windows
+static const unsigned int gappx          = 2;     // Gap pixel between windows
+static const unsigned int snap           = 2;     // Snap pixel
 static const Bool showbar                = True;  // False means no bar
 static const Bool showsystray            = True;  // False means no systray
 static const Bool topbar                 = True;  // False means bottom bar
@@ -25,12 +35,12 @@ static const int nmaster      = 1;     // number of clients in master area
 static const Bool resizehints = False; // True means respect size hints in tiled resizals
 
 static const Layout layouts[] = {
-/*    symbol   gaps   arrange function */
-    { "T",   True,  tile    }, // first entry is default
-    { "B",   True,  bstack  },
-    { "C",   True,  chat    },
-    { "M",   False, monocle },
-    { "F",   False, NULL    }, // no layout function means floating behavior
+/*    symbol gaps   arrange function */
+    { "   T",   True,  tile    }, // first entry is default
+    { "   B",   True,  bstack  },
+    { "   C",   True,  chat    },
+    { "   M",   False, monocle },
+    { "   F",   False, NULL    }, // no layout function means floating behavior
 };
 
 /* tagging */
@@ -46,7 +56,9 @@ static const Tag tags[] = {
 static const Rule rules[] = {
     /*WM_CLASS     WM_CLASS    WM_NAME
 	  class        instance    title               tags mask     isfloating   monitor */
-    { "Chromium",  NULL,       NULL,               1,            False,       -1 },
+    { "Firefox",   NULL,       NULL,               1,            False,       -1 },
+	{ NULL,		   NULL,	   "Jagex Ltd.",	   1 << 1,		 True,		  -1 },
+	{ NULL,		   NULL,	   "RuneScape",		   1 << 1,		 False,		  -1 },
     { "Skype",     NULL,       NULL,               1 << 1,       False,       -1 },
     { "Skype",     NULL,       "Call with Aggi~",  1 << 1,       True,        -1 },
 	{ NULL,        "ncmpcpp",  NULL,               1 << 3,       False,       -1 },
@@ -68,21 +80,22 @@ static const Rule rules[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *gtk3[]	  = { "transmission-gtk", NULL };
 static const char *dmenu[]	  = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *kill[]     = { "xkill", NULL };
-static const char *lock[]     = { "slock", NULL };
-static const char *halt[]     = { "dmenu_shutdown", NULL };
 static const char *term[]     = { "urxvtc", NULL };
-static const char *browser[]  = { "chromium", NULL };
-//static const char *files[]    = { "urxvtc", "-name", "ranger", "-e", "ranger", NULL };
-static const char *files[]	  = { "thunar", };
+static const char *browser[]  = { "firefox", NULL };
+static const char *files[]	  = { "nautilus", };
 static const char *music[]    = { "urxvtc", "-name", "ncmpcpp", "-e", "ncmpcpp", NULL };
 static const char *skype[]	  = { "skype", NULL };
 static const char *scrot[]    = { "scrot", NULL };
-static const char *volup[]    = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
-static const char *voldown[]  = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
-static const char *volmute[]  = { "amixer", "-q", "sset", "Master", "toggle", NULL };
+static const char *kill[]     = { "xkill", NULL };
+static const char *lock[]     = { "slock", NULL };
+static const char *halt[]     = { "dmenu_shutdown", NULL };
+//static const char *volup[]    = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
+//static const char *voldown[]  = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
+//static const char *volmute[]  = { "amixer", "-q", "sset", "Master", "toggle", NULL };
+static const char *volup[]	  = { "volume", "up", NULL };
+static const char *voldown[]  = { "volume", "down", NULL };
+static const char *volmute[]  = { "volume", "toggle", NULL };
 static const char *mpdplay[]  = { "mpc", "toggle", NULL };
 static const char *mpdnext[]  = { "mpc", "next", NULL };
 static const char *mpdprev[]  = { "mpc", "prev", NULL };
@@ -90,7 +103,6 @@ static const char *mpdstop[]  = { "mpc", "stop", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        		 function        argument */
-	{ MODKEY,						XK_g,			 spawn,			 {.v = gtk3 } },
     { MODKEY,                       XK_r,            spawn,          {.v = dmenu } },
     { MODKEY,                       XK_x,            spawn,          {.v = kill } },
     { MODKEY,                       XK_l,            spawn,          {.v = lock } },

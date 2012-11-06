@@ -18,7 +18,7 @@
 +	Client *c, *bl = NULL;
 +
 +	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
-+		if(strstr(c->name, "emesene") || strstr(c->name, "Skype"))
++		if(strstr(c->name, "Skype"))
 +       	bl = c;
 +	if(n == 0)
 +		return;

@@ -1,14 +1,15 @@
---- ../dwm-o/dwm-6.0/dwm.c	2011-12-19 10:02:46.000000000 -0500
-+++ b/dwm-6.0/dwm.c	2012-05-16 22:33:00.043394484 -0400
-@@ -39,6 +39,7 @@
+--- dwm.c.orig	2012-11-06 19:23:08.551028862 +0100
++++ b/dwm-6.0/dwm.c	2012-11-06 19:23:45.277705928 +0100
+@@ -36,6 +36,8 @@
+ #include <X11/Xlib.h>
+ #include <X11/Xproto.h>
+ #include <X11/Xutil.h>
++#include <fontconfig/fontconfig.h>
++#include <X11/Xft/Xft.h>
  #ifdef XINERAMA
  #include <X11/extensions/Xinerama.h>
  #endif /* XINERAMA */
-+#include <X11/Xft/Xft.h>
- 
- /* macros */
- #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
-@@ -99,16 +100,15 @@
+@@ -99,16 +101,15 @@
  
  typedef struct {
  	int x, y, w, h;
@@ -28,7 +29,7 @@
  	} font;
  } DC; /* draw context */
  
-@@ -178,15 +178,15 @@
+@@ -178,15 +179,15 @@
  static Monitor *dirtomon(int dir);
  static void drawbar(Monitor *m);
  static void drawbars(void);
@@ -47,7 +48,7 @@
  static Bool getrootptr(int *x, int *y);
  static long getstate(Window w);
  static Bool gettextprop(Window w, Atom atom, char *text, unsigned int size);
-@@ -485,10 +485,6 @@
+@@ -485,10 +486,6 @@
  	for(m = mons; m; m = m->next)
  		while(m->stack)
  			unmanage(m->stack, False);
@@ -58,7 +59,7 @@
  	XUngrabKey(dpy, AnyKey, AnyModifier, root);
  	XFreePixmap(dpy, dc.drawable);
  	XFreeGC(dpy, dc.gc);
-@@ -719,7 +715,7 @@
+@@ -719,7 +716,7 @@
  drawbar(Monitor *m) {
  	int x;
  	unsigned int i, occ = 0, urg = 0;
@@ -67,7 +68,7 @@
  	Client *c;
  
  	for(c = m->clients; c; c = c->next) {
-@@ -774,10 +770,10 @@
+@@ -774,10 +771,10 @@
  }
  
  void
@@ -80,7 +81,7 @@
  	x = (dc.font.ascent + dc.font.descent + 2) / 4;
  	if(filled)
  		XFillRectangle(dpy, dc.drawable, dc.gc, dc.x+1, dc.y+1, x+1, x+1);
-@@ -786,11 +782,12 @@
+@@ -786,11 +783,12 @@
  }
  
  void
@@ -95,7 +96,7 @@
  	XFillRectangle(dpy, dc.drawable, dc.gc, dc.x, dc.y, dc.w, dc.h);
  	if(!text)
  		return;
-@@ -805,11 +802,11 @@
+@@ -805,11 +803,11 @@
  	memcpy(buf, text, len);
  	if(len < olen)
  		for(i = len; i && i > len - 3; buf[--i] = '.');
@@ -112,7 +113,7 @@
  }
  
  void
-@@ -855,7 +852,7 @@
+@@ -855,7 +853,7 @@
  		detachstack(c);
  		attachstack(c);
  		grabbuttons(c, True);
@@ -121,7 +122,7 @@
  		setfocus(c);
  	}
  	else
-@@ -926,14 +923,14 @@
+@@ -926,14 +924,14 @@
  	return atom;
  }
  
@@ -141,7 +142,7 @@
  }
  
  Bool
-@@ -1034,35 +1031,13 @@
+@@ -1034,35 +1032,13 @@
  
  void
  initfont(const char *fontstr) {
@@ -183,7 +184,7 @@
  	dc.font.height = dc.font.ascent + dc.font.descent;
  }
  
-@@ -1144,7 +1119,7 @@
+@@ -1144,7 +1120,7 @@
  
  	wc.border_width = c->bw;
  	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
@@ -192,7 +193,7 @@
  	configure(c); /* propagates border_width, if size doesn't change */
  	updatewindowtype(c);
  	updatesizehints(c);
-@@ -1621,8 +1596,6 @@
+@@ -1621,8 +1597,6 @@
  	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
@@ -201,7 +202,7 @@
  	/* init bars */
  	updatebars();
  	updatestatus();
-@@ -1692,13 +1665,9 @@
+@@ -1692,13 +1666,9 @@
  
  int
  textnw(const char *text, unsigned int len) {
@@ -218,7 +219,7 @@
  }
  
  void
-@@ -1776,7 +1745,7 @@
+@@ -1776,7 +1746,7 @@
  	if(!c)
  		return;
  	grabbuttons(c, False);
