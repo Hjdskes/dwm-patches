@@ -2,8 +2,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-//static const char font[]			= "Source Sans Pro:Semibold:pixelsize=9:antialias=true:hinting=true";
-static const char font[]		  = "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
+static const char font[]		    = "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border    foreground background */
@@ -12,10 +11,6 @@ static const char colors[NUMCOLORS][ColLast][9] = {
     //{ "#FDBE45", "#FFA905", "#6D9F99" }, // 2 = selected
     //{ "#F54844", "#F54844", "#6D9F99" }, // 3 = urgent
 	//{ "#93C724", "#93C724", "#6D9F99" }, // 4 = occupied
-	//{ "#8C8C8C", "#F9F9F9", "#222222" },
-    //{ "#FDBE45", "#FFA905", "#222222" },
-    //{ "#F54844", "#F54844", "#222222" },
-    //{ "#C8C8C8", "#C8C8C8", "#222222" },
 	{ "#0F2328", "#F2F1F0", "#393F3F" },
 	{ "#0076F3", "#3A81CD", "#393F3F" },
 	{ "#DC322F", "#DC322F", "#393F3F" },
@@ -25,6 +20,7 @@ static const unsigned int systrayspacing = 1;     // Systray spacing
 static const unsigned int borderpx       = 2;     // Border pixel of windows
 static const unsigned int gappx          = 2;     // Gap pixel between windows
 static const unsigned int snap           = 2;     // Snap pixel
+static const float opacity    			 = 0.75;  // Opacity of the statusbar (max 0.75)
 static const Bool showbar                = True;  // False means no bar
 static const Bool showsystray            = True;  // False means no systray
 static const Bool topbar                 = True;  // False means bottom bar
@@ -38,7 +34,6 @@ static const Layout layouts[] = {
 /*    symbol gaps   arrange function */
     { "   T",   True,  tile    }, // first entry is default
     { "   B",   True,  bstack  },
-    { "   C",   True,  chat    },
     { "   M",   False, monocle },
     { "   F",   False, NULL    }, // no layout function means floating behavior
 };
@@ -46,11 +41,11 @@ static const Layout layouts[] = {
 /* tagging */
 static const Tag tags[] = {
     /* name    layout       mfact  nmaster*/
-    { "web",   &layouts[3], -1,    -1 },
-    { "chill", &layouts[2], 0.80,  -1 },
+    { "web",   &layouts[2], -1,    -1 },
+    { "chill", &layouts[0], -1,	   -1 },
     { "term",  &layouts[0], -1,    -1 },
-    { "media", &layouts[3], -1,    -1 },
-    { "work",  &layouts[3], -1,    -1 },
+    { "media", &layouts[2], -1,    -1 },
+    { "work",  &layouts[2], -1,    -1 },
 };
 
 static const Rule rules[] = {
@@ -64,9 +59,7 @@ static const Rule rules[] = {
 	{ NULL,        "ncmpcpp",  NULL,               1 << 3,       False,       -1 },
     { "MPlayer",   NULL,       NULL,               1 << 3,       True,        -1 },
     { "Gimp",      NULL,       NULL,               1 << 3,       False,       -1 },
-    { "llpp",      NULL,       NULL,               1 << 4,       False,       -1 },
-    { "Gnumeric",  NULL,       NULL,               1 << 4,       False,       -1 },
-    { "Abiword",   NULL,       NULL,               1 << 4,       False,       -1 },
+    { "Evince",    NULL,       NULL,               1 << 4,       False,       -1 },
 };
 
 /* key definitions */
@@ -83,23 +76,20 @@ static const Rule rules[] = {
 static const char *dmenu[]	  = { "dmenu_run", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *term[]     = { "urxvtc", NULL };
 static const char *browser[]  = { "firefox", NULL };
-static const char *files[]	  = { "nautilus", };
+static const char *files[]	  = { "nautilus", NULL };
 static const char *music[]    = { "urxvtc", "-name", "ncmpcpp", "-e", "ncmpcpp", NULL };
 static const char *skype[]	  = { "skype", NULL };
 static const char *scrot[]    = { "scrot", NULL };
 static const char *kill[]     = { "xkill", NULL };
 static const char *lock[]     = { "slock", NULL };
 static const char *halt[]     = { "dmenu_shutdown", NULL };
-//static const char *volup[]    = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
-//static const char *voldown[]  = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
-//static const char *volmute[]  = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *volup[]	  = { "volume", "up", NULL };
 static const char *voldown[]  = { "volume", "down", NULL };
 static const char *volmute[]  = { "volume", "toggle", NULL };
-static const char *mpdplay[]  = { "mpc", "toggle", NULL };
-static const char *mpdnext[]  = { "mpc", "next", NULL };
-static const char *mpdprev[]  = { "mpc", "prev", NULL };
-static const char *mpdstop[]  = { "mpc", "stop", NULL };
+static const char *mpdplay[]  = { "ncmpcpp", "toggle", NULL };
+static const char *mpdnext[]  = { "ncmpcpp", "next", NULL };
+static const char *mpdprev[]  = { "ncmpcpp", "prev", NULL };
+static const char *mpdstop[]  = { "ncmpcpp", "stop", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        		 function        argument */
@@ -108,10 +98,10 @@ static Key keys[] = {
     { MODKEY,                       XK_l,            spawn,          {.v = lock } },
     { MODKEY,                       XK_Escape,       spawn,          {.v = halt } },
     { MODKEY,                       XK_1,            spawn,          {.v = term } },
-    { MODKEY,                       XK_2,            spawn,          {.v = browser } },
-    { MODKEY,                       XK_3,            spawn,          {.v = files } },
+    { MODKEY,                       XK_2,            spawn, 	     {.v = browser } },
+    { MODKEY,                       XK_3,            spawn,     	 {.v = files } },
     { MODKEY,                       XK_4,            spawn,          {.v = music } },
-    { MODKEY,                       XK_5,            spawn,          {.v = skype } },
+    { MODKEY,                       XK_5,            spawn,     	 {.v = skype } },
     { 0,                            XK_Print,        spawn,          {.v = scrot } },
     { 0,                            0x1008ff13,      spawn,          {.v = volup } },
     { 0,                            0x1008ff11,      spawn,          {.v = voldown } },
@@ -135,9 +125,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_f,            togglefloating, {0} },
     { MODKEY,                       XK_t,            setlayout,      {.v = &layouts[0] } },
     { MODKEY,                       XK_b,            setlayout,      {.v = &layouts[1] } },
-    { MODKEY,                       XK_c,            setlayout,      {.v = &layouts[2] } },
-    { MODKEY,                       XK_m,            setlayout,      {.v = &layouts[3] } },
-    { MODKEY,                       XK_f,            setlayout,      {.v = &layouts[4] } },
+    { MODKEY,                       XK_m,            setlayout,      {.v = &layouts[2] } },
+    { MODKEY,                       XK_f,            setlayout,      {.v = &layouts[3] } },
     TAGKEYS(                        XK_F1,                           0)
     TAGKEYS(                        XK_F2,                           1)
     TAGKEYS(                        XK_F3,                           2)

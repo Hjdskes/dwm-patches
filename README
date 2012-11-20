@@ -1,9 +1,9 @@
-This is my personal DWM. In this repositorie you will find my patches, my config.h and the Arch Linux PKGBUILD.
+This is my personal DWM. In this repository you will find my patches, my config.h and the Arch Linux PKGBUILD.
 
 ToDO:
-1. Fix the systray patch on monocle mode: currently, it shows a border underneath it.
-2. Fix the chatlayout for Skype.
+1. Fix switching from Monocle to any other layout; there's no gap appearing when there's only one window open.
+2. Fix the chatlayout for Skype. NOTE: I'm trying to see if I can do without Chat layout!
 3. Spacing of layout symbol in the actual code.
-4. Add more functions to the transparent bar patch:
-   4.1 Allow to configure the level of transparency;
-   4.2 Have the Pixmap recreated upon changing wallpaper.
+4. Don't make the text transparent with a transparent statusbar.
+5. Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
+6. Try cleaning up patches and code.
