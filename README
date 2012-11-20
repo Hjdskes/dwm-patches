@@ -1,9 +1,8 @@
 This is my personal DWM. In this repository you will find my patches, my config.h and the Arch Linux PKGBUILD.
 
 ToDO:
-1. Fix switching from Monocle to any other layout; there's no gap appearing when there's only one window open.
-2. Fix the chatlayout for Skype. NOTE: I'm trying to see if I can do without Chat layout!
-3. Spacing of layout symbol in the actual code.
-4. Don't make the text transparent with a transparent statusbar.
-5. Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
-6. Try cleaning up patches and code.
+1. Fix the chatlayout for Skype. NOTE: I'm trying to see if I can do without Chat layout!
+2. Spacing of layout symbol in the actual code.
+3. Don't make the text transparent with a transparent statusbar.
+4. Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
+5. Try cleaning up patches and code.
