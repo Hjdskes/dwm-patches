@@ -19,12 +19,11 @@ _patches=(01-dwm-6.0-xft.diff
 		  06-dwm-6.0-occupiedcol.diff
 		  07-dwm-6.0-monocle_fixes.diff
 		  08-dwm-6.0-statusallmons.diff
-#		  09-dwm-6.0-chat.diff
-		  10-dwm-6.0-attachaside.diff
-		  11-dwm-6.0-no_title.diff
-		  12-dwm-6.0-remove_unfunc.diff
-		  13-dwm-6.0-XKeycodeToKeysym_fix.diff
-#		  18-dwm-6.0-transparentbar.diff
+		  09-dwm-6.0-attachaside.diff
+		  10-dwm-6.0-no_title.diff
+		  11-dwm-6.0-remove_unfunc.diff
+		  12-dwm-6.0-XKeycodeToKeysym_fix.diff
+		  18-dwm-6.0-transparentbar.diff
           00-dwm-6.0-buildflags.diff)
 source=(${_source[@]} ${_patches[@]})
 
@@ -42,4 +41,3 @@ build() {
   install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE && \
   install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
 }
-k

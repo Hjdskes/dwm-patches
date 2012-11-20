@@ -4,5 +4,6 @@ ToDO:
 1. Fix the chatlayout for Skype. NOTE: I'm trying to see if I can do without Chat layout!
 2. Spacing of layout symbol in the actual code.
 3. Don't make the text transparent with a transparent statusbar.
+   3.1 Move unsigned long real_opacity[] someplace else, use only once. 
 4. Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
 5. Try cleaning up patches and code.
