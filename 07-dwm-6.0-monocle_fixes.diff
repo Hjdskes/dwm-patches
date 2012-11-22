@@ -1,5 +1,5 @@
---- dwm.c.orig	2012-11-20 20:52:23.098854505 +0100
-+++ b/dwm-6.0/dwm.c	2012-11-20 20:57:27.055568947 +0100
+--- dwm.c.orig	2012-11-22 23:21:30.536217615 +0100
++++ dwm.c.patched	2012-11-22 23:23:10.746234672 +0100
 @@ -1325,9 +1325,14 @@
  		if(ISVISIBLE(c))
  			n++;
@@ -50,3 +50,24 @@
  	if(selmon->sel->isfloating)
  		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
  		       selmon->sel->w, selmon->sel->h, False);
+@@ -2494,7 +2508,11 @@
+ 		mh = m->nmasters[m->curtag] ? m->wh * m->mfacts[m->curtag] : 0;
+ 	else
+ 		mh = m->wh;
+-	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
++		if(!c->bw && c->oldbw) {
++			c->bw = c->oldbw;
++			c->oldbw = 0;
++		}
+ 		if(i < m->nmasters[m->curtag]) {
+ 			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
+ 			resize(c, m->wx + mx, m->wy, w - (2*c->bw), mh - (2*c->bw), False);
+@@ -2505,6 +2523,7 @@
+ 			resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
+ 			tx += WIDTH(c) + gap;
+ 		}
++	}
+ }
+ 
+ int
