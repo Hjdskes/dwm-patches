@@ -1,5 +1,5 @@
-
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const char font[]		    = "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true";
@@ -103,9 +103,9 @@ static Key keys[] = {
     { MODKEY,                       XK_4,            spawn,          {.v = music } },
     { MODKEY,                       XK_5,            spawn,     	 {.v = skype } },
     { 0,                            XK_Print,        spawn,          {.v = scrot } },
-    { 0,                            0x1008ff13,      spawn,          {.v = volup } },
-    { 0,                            0x1008ff11,      spawn,          {.v = voldown } },
-    { 0,                            0x1008ff12,      spawn,          {.v = volmute } },
+    { 0,                            XF86XK_AudioRaiseVolume,      spawn,          {.v = volup } },
+    { 0,                            XF86XK_AudioLowerVolume,      spawn,          {.v = voldown } },
+    { 0,                            XF86XK_AudioMute,      spawn,          {.v = volmute } },
     { 0,                            0x1008ff14,      spawn,          {.v = mpdplay } },
     { 0,                            0x1008ff17,      spawn,          {.v = mpdnext } },
     { 0,                            0x1008ff16,      spawn,          {.v = mpdprev } },
