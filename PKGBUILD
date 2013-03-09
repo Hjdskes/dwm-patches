@@ -14,14 +14,15 @@ _source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
 _patches=(00-dwm-6.0-pertag2.diff
 		  01-dwm-6.0-statuscolors.diff
 		  02-dwm-6.0-hideempty.diff
-		  03-dwm-6.0-occupiedcol.diff
-		  04-dwm-6.0-oneclientmonocle.diff
-		  05-dwm-6.0-attachaside.diff
-		  06-dwm-6.0-centerclock.diff
-		  07-dwm-6.0-monoclefixes.diff
-		  08-dwm-6.0-focusfollowmousetag.diff
-		  09-dwm-6.0-removeunfunc.diff
-		  10-dwm-6.0-xkeycodetokeysymfix.diff
+		  03-dwm-6.0-chat.diff
+		  04-dwm-6.0-occupiedcol.diff
+		  05-dwm-6.0-oneclientmonocle.diff
+		  06-dwm-6.0-attachaside.diff
+		  07-dwm-6.0-centerclock.diff
+		  08-dwm-6.0-monoclefixes.diff
+		  09-dwm-6.0-focusfollowmousetag.diff
+		  10-dwm-6.0-removeunfunc.diff
+		  11-dwm-6.0-xkeycodetokeysymfix.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
 

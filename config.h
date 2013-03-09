@@ -6,14 +6,15 @@ static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#EDEDED", "#F2F1F0", "#283A3F" },
+    { "#DEDEDE", "#F2F1F0", "#283A3F" },
     { "#4A90D9", "#4A90D9", "#283A3F" },
     { "#DC322F", "#DC322F", "#283A3F" },
     { "#16596A", "#16596A", "#283A3F" },
 };
 
-static const unsigned int borderpx       = 1;      /* border pixel of windows */
-static const unsigned int snap           = 2;      /* snap pixel */
+static const unsigned int borderpx       = 1;      /* Border pixel of windows */
+static const unsigned int snap           = 2;      /* Snap pixel */
+static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
@@ -26,6 +27,7 @@ static const Bool resizehints = False; /* True means respect size hints in tiled
 static const Layout layouts[] = {
 	/* symbol  arrange */
 	{ "T",  tile },
+	{ "C",  chat },
 	{ "B",  bstack },
 	{ "M",  monocle },
 	{ "F",  NULL },
@@ -33,12 +35,12 @@ static const Layout layouts[] = {
 
 /* tagging */
 static const Tag tags[] = {
-	/* name		layout       mfact	nmaster */
-	{ "web",	&layouts[2], -1,	-1 },
-	{ "chill",	&layouts[0], -1,	-1 },
-	{ "term",	&layouts[0], -1,	-1 },
-	{ "media",	&layouts[2], -1,	-1 },
-	{ "work",	&layouts[2], -1,	-1 },
+	/* name		 layout       mfact	nmaster */
+	{ "1:web",	 &layouts[3], -1,	-1 },
+	{ "2:chill", &layouts[1], 0.80,	-1 },
+	{ "3:term",	 &layouts[0], -1,	-1 },
+	{ "4:media", &layouts[3], -1,	-1 },
+	{ "5:work",	 &layouts[3], -1,	-1 },
 };
 
 static const Rule rules[] = {
@@ -125,9 +127,10 @@ static Key keys[] = {
 	{ MODKEY,                   XK_space,                   setlayout,      {0} },
 	{ MODKEY|ShiftMask,         XK_f,                       togglefloating, {0} },
 	{ MODKEY,                   XK_t,                       setlayout,      {.v = &layouts[0] } },
-	{ MODKEY,                   XK_b,                       setlayout,      {.v = &layouts[1] } },
-	{ MODKEY,                   XK_m,                       setlayout,      {.v = &layouts[2] } },
-	{ MODKEY,                   XK_f,                       setlayout,      {.v = &layouts[3] } },
+	{ MODKEY,                   XK_c,                       setlayout,      {.v = &layouts[1] } },
+	{ MODKEY,                   XK_b,                       setlayout,      {.v = &layouts[2] } },
+	{ MODKEY,                   XK_m,                       setlayout,      {.v = &layouts[3] } },
+	{ MODKEY,                   XK_f,                       setlayout,      {.v = &layouts[4] } },
 	TAGKEYS(                    XK_F1,                      0)
 	TAGKEYS(                    XK_F2,                      1)
 	TAGKEYS(                    XK_F3,                      2)
