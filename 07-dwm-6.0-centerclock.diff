@@ -1,0 +1,70 @@
+--- src/dwm-6.0/dwm.c	2013-03-08 22:48:36.863144502 +0100
++++ b/dwm-6.0/dwm.c	2013-03-08 22:48:25.366478029 +0100
+@@ -30,6 +30,7 @@
+ #include <unistd.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
++#include <time.h>
+ #include <X11/cursorfont.h>
+ #include <X11/keysym.h>
+ #include <X11/Xatom.h>
+@@ -63,7 +64,7 @@
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+        NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
++enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClock,
+        ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
+ 
+ typedef union {
+@@ -479,7 +480,7 @@
+ 		else if(ev->x > selmon->ww - TEXTW(stext))
+ 			click = ClkStatusText;
+ 		else
+-			click = ClkWinTitle;
++			click = ClkClock;
+ 	}
+ 	else if((c = wintoclient(ev->window))) {
+ 		focus(c);
+@@ -761,7 +762,9 @@
+ 
+ void
+ drawbar(Monitor *m) {
+-	int x;
++	int x, clockw;
++	time_t current;
++	char clock[38];
+ 	unsigned int i, occ = 0, urg = 0;
+ 	unsigned long *col;
+ 	Client *c;
+@@ -796,14 +799,14 @@
+ 	else
+ 		dc.x = m->ww;
+ 	if((dc.w = dc.x - x) > bh) {
++		time(&current);
++		strftime(clock, 38, clock_fmt, localtime(&current));
++		clockw = TEXTW(clock);
+ 		dc.x = x;
+-		if(m->sel) {
+-			col = m == selmon ? dc.colors[1] : dc.colors[0];
+-			drawtext(m->sel->name, col, True);
+-			drawsquare(m->sel->isfixed, m->sel->isfloating, col);
+-		}
+-		else
+-			drawtext(NULL, dc.colors[0], False);
++		drawtext(NULL, dc.colors[0], False);
++		dc.w = MIN(dc.w, clockw);
++		dc.x = MAX(dc.x, (m->mw / 2) - (clockw / 2));
++		drawtext(clock, dc.colors[1], True);
+ 	}
+ 	XCopyArea(dpy, dc.drawable, m->barwin, dc.gc, 0, 0, m->ww, bh, 0, 0);
+ 	XSync(dpy, False);
+@@ -2254,6 +2257,8 @@
+ 		die("usage: dwm [-v]\n");
+ 	if(!setlocale(LC_CTYPE, "") || !XSupportsLocale())
+ 		fputs("warning: no locale support\n", stderr);
++	else
++		setlocale(LC_ALL, "");
+ 	if(!(dpy = XOpenDisplay(NULL)))
+ 		die("dwm: cannot open display\n");
+ 	checkotherwm();

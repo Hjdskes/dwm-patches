@@ -1,0 +1,104 @@
+--- dwm.c.orig	2013-03-09 22:16:32.781631246 +0100
++++ b/dwm-6.0/dwm.c	2013-03-09 23:43:10.921543799 +0100
+@@ -444,21 +444,25 @@
+ 	if(n == 0)
+ 		return;
+ 
+-	if(n > m->nmasters[m->curtag])
+-		mh = m->nmasters[m->curtag] ? m->wh * m->mfacts[m->curtag] : 0;
+-	else
+-		mh = m->wh;
+-	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+-		if(i < m->nmasters[m->curtag]) {
+-			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
+-			resize(c, m->wx + mx, m->wy, w - (2*c->bw), mh - (2*c->bw), False);
+-			mx += WIDTH(c);
+-		}
+-		else {
+-			w = (m->ww - tx) / (n - i);
+-			resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
+-			tx += WIDTH(c);
+-		}
++	if(n == 1) {
++		monocle(selmon);
++	} else {
++		if(n > m->nmasters[m->curtag])
++			mh = m->nmasters[m->curtag] ? m->wh * m->mfacts[m->curtag] : 0;
++		else
++			mh = m->wh;
++		for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++			if(i < m->nmasters[m->curtag]) {
++				w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
++				resize(c, m->wx + mx, m->wy, w - (2*c->bw), mh - (2*c->bw), False);
++				mx += WIDTH(c);
++			}
++			else {
++				w = (m->ww - tx) / (n - i);
++				resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
++				tx += WIDTH(c);
++			}
++	}
+ }
+ 
+ void
+@@ -547,7 +551,10 @@
+ 		ch = rows ? m->wh / rows : m->wh;
+ 		cx = m->wx + cn*cw;
+ 		cy = m->wy + rn*ch;
+-		resize(c, cx, cy, cw - 2 * c->bw, ch - 2 * c->bw, False);
++		if(n == 1 && !bl)
++			resize(c, cx - c->bw, cy, cw, ch, False);
++		else
++			resize(c, cx, cy, cw - 2 * c->bw, ch - 2 * c->bw, False);
+ 		rn++;
+ 		if(rn >= rows) {
+ 			rn = 0;
+@@ -556,6 +563,7 @@
+ 	}
+ }
+ 
++
+ void
+ checkotherwm(void) {
+ 	xerrorxlib = XSetErrorHandler(xerrorstart);
+@@ -1836,21 +1844,25 @@
+ 	if(n == 0)
+ 		return;
+ 
+-	if(n > m->nmasters[m->curtag])
+-		mw = m->nmasters[m->curtag] ? m->ww * m->mfacts[m->curtag] : 0;
+-	else
+-		mw = m->ww;
+-	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+-		if(i < m->nmasters[m->curtag]) {
+-			h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
+-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
+-			my += HEIGHT(c);
+-		}
+-		else {
+-			h = (m->wh - ty) / (n - i);
+-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+-			ty += HEIGHT(c);
+-		}
++	if(n == 1) {
++		monocle(selmon);
++	} else {
++		if(n > m->nmasters[m->curtag])
++			mw = m->nmasters[m->curtag] ? m->ww * m->mfacts[m->curtag] : 0;
++		else
++			mw = m->ww;
++		for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++			if(i < m->nmasters[m->curtag]) {
++				h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
++				resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
++				my += HEIGHT(c);
++			}
++			else {
++				h = (m->wh - ty) / (n - i);
++				resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
++				ty += HEIGHT(c);
++			}
++	}
+ }
+ 
+ void
