@@ -7,7 +7,7 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 
 The `Under construction` directory contains files I'm still working on, but not currently using. **It might not be in a usable state!**
 
-ToDO:
+**ToDo:**
 * Spacing of layout symbol in the actual code --> XFT patch.
 * Don't make the text transparent with a transparent statusbar.
 	* Move unsigned long real_opacity[] someplace else, use only once. 
