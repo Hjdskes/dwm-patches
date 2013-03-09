@@ -1,0 +1,75 @@
+--- dwm.c.orig	2012-05-08 22:32:33.883110400 +0200
++++ b/dwm-6.0/dwm.c	2012-05-08 22:35:59.353105670 +0200
+@@ -121,7 +121,8 @@
+ 
+ typedef struct {
+ 	const char *symbol;
+-	void (*arrange)(Monitor *);
++	Bool addgaps;
++	void (*arrange)(Monitor *);
+ } Layout;
+ 
+ struct Monitor {
+@@ -295,6 +296,7 @@
+ static DC dc;
+ static Monitor *mons = NULL, *selmon = NULL;
+ static Window root;
++static int gap;
+ 
+ /* configuration, allows nested code to access above variables */
+ #include "config.h"
+@@ -489,7 +491,7 @@
+ void
+ cleanup(void) {
+ 	Arg a = {.ui = ~0};
+-	Layout foo = { "", NULL };
++	Layout foo = { "", False, NULL };
+ 	Monitor *m;
+ 
+ 	view(&a);
+@@ -1406,10 +1408,11 @@
+ resizeclient(Client *c, int x, int y, int w, int h) {
+ 	XWindowChanges wc;
+ 
+-	c->oldx = c->x; c->x = wc.x = x;
+-	c->oldy = c->y; c->y = wc.y = y;
+-	c->oldw = c->w; c->w = wc.width = w;
+-	c->oldh = c->h; c->h = wc.height = h;
++	gap = c->isfloating ? 0 : c->mon->lt[c->mon->sellt]->addgaps ? gappx : 0;
++	c->oldx = c->x; c->x = wc.x = x + gap;
++	c->oldy = c->y; c->y = wc.y = y + gap;
++	c->oldw = c->w; c->w = wc.width = w - (gap ? (x + w + (c->bw * 2) == c->mon->mx + c->mon->mw ? 2 : 1) * gap : 0);
++	c->oldh = c->h; c->h = wc.height = h - (gap ? (y + h + (c->bw * 2) == c->mon->my + c->mon->mh ? 2 : 1) * gap : 0);
+ 	wc.border_width = c->bw;
+ 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+ 	configure(c);
+@@ -1786,12 +1789,12 @@
+ 		if(i < m->nmasters[m->curtag]) {
+ 			h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
+ 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
+-			my += HEIGHT(c);
++			my += HEIGHT(c) + gap;
+ 		}
+ 		else {
+ 			h = (m->wh - ty) / (n - i);
+ 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+-			ty += HEIGHT(c);
++			ty += HEIGHT(c) + gap;
+ 		}
+ }
+ 
+@@ -2237,12 +2240,12 @@
+ 		if(i < m->nmasters[m->curtag]) {
+ 			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
+ 			resize(c, m->wx + mx, m->wy, w - (2*c->bw), mh - (2*c->bw), False);
+-			mx += WIDTH(c);
++			mx += WIDTH(c) + gap;
+ 		}
+ 		else {
+ 			w = (m->ww - tx) / (n - i);
+ 			resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
+-			tx += WIDTH(c);
++			tx += WIDTH(c) + gap;
+ 		}
+ }
+ 

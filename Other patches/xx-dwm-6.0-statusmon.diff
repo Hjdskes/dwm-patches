@@ -1,0 +1,57 @@
+--- dwm.c.orig	2012-12-17 16:39:35.400054839 +0100
++++ b/dwm-6.0/dwm.c	2012-12-17 17:22:35.500642385 +0100
+@@ -146,6 +146,7 @@
+ 
+ struct Monitor {
+ 	char ltsymbol[16];
++	int status;
+ 	int num;
+ 	int by;               /* bar geometry */
+ 	int mx, my, mw, mh;   /* screen size */
+@@ -750,6 +751,7 @@
+ 	if(!(m->lts = calloc(numtags, sizeof(Layout *))))
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(Layout *) * numtags);
+ 	m->tagset[0] = m->tagset[1] = 1;
++	m->status = 0;
+ 	m->mfacts[0] = mfact;
+ 	m->nmasters[0] = nmaster;
+ 	m->lts[0] = &layouts[0];
+@@ -851,7 +853,7 @@
+ 	drawtext(m->ltsymbol, dc.colors[0], False);
+ 	dc.x += dc.w;
+ 	x = dc.x;
+-	if(m == selmon) { /* status is only drawn on selected monitor */
++	if(m->status) { /* status is only drawn on status monitor */
+ 		dc.w = textnw(stext, strlen(stext)); // no padding
+ 		dc.x = m->ww - dc.w;
+ 		if(showsystray && m == selmon) {
+@@ -2123,6 +2125,7 @@
+ 					m->my = m->wy = unique[i].y_org;
+ 					m->mw = m->ww = unique[i].width;
+ 					m->mh = m->wh = unique[i].height;
++					m->status = (i == statusmon ? 1: 0);
+ 					updatebarpos(m);
+ 				}
+ 		}
+@@ -2151,6 +2154,7 @@
+ 	{
+ 		if(!mons)
+ 			mons = createmon();
++		mons->status = 1;
+ 		if(mons->mw != sw || mons->mh != sh) {
+ 			dirty = True;
+ 			mons->mw = mons->ww = sw;
+@@ -2240,9 +2244,12 @@
+ 
+ void
+ updatestatus(void) {
++	Monitor *m;
++
+ 	if(!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
+ 		strcpy(stext, "dwm-"VERSION);
+-	drawbar(selmon);
++	for(m = mons; m; m = m->next)
++		drawbar(m);
+ }
+ 
+ void

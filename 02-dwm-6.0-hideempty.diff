@@ -1,0 +1,42 @@
+--- src/dwm-6.0/dwm.c	2013-03-07 20:39:38.389954161 +0100
++++ b/dwm-6.0/dwm.c	2013-03-07 20:39:32.909954254 +0100
+@@ -437,7 +437,7 @@
+ 
+ void
+ buttonpress(XEvent *e) {
+-	unsigned int i, x, click;
++	unsigned int i, x, click, occ = 0;
+ 	Arg arg = {0};
+ 	Client *c;
+ 	Monitor *m;
+@@ -451,10 +451,14 @@
+ 		focus(NULL);
+ 	}
+ 	if(ev->window == selmon->barwin) {
++		for(c = m->clients; c; c = c->next) {
++			occ |= c->tags;
++		}
+ 		i = x = 0;
+-		do
++		do {
++			if (!(m->tagset[m->seltags] & 1 << i) && !(occ & 1 << i)) continue;
+ 			x += TEXTW(tags[i].name);
+-		while(ev->x >= x && ++i < LENGTH(tags));
++		} while(ev->x >= x && ++i < LENGTH(tags));
+ 		if(i < LENGTH(tags)) {
+ 			click = ClkTagBar;
+ 			arg.ui = 1 << i;
+@@ -758,10 +762,12 @@
+ 	}
+ 	dc.x = 0;
+ 	for(i = 0; i < LENGTH(tags); i++) {
++		if (!(m->tagset[m->seltags] & 1 << i) && !(occ & 1 << i))
++			continue;
+ 		dc.w = TEXTW(tags[i].name);
+ 		col = dc.colors[ (m->tagset[m->seltags] & 1 << i ? 1:(urg & 1 << i ? 2:0))];
+ 		drawtext(tags[i].name, col, True);
+-		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i, occ & 1 << i, col);
++		drawsquare(False, False, urg & 1 << i, col);
+ 		dc.x += dc.w;
+ 	}
+ 	dc.w = blw = TEXTW(m->ltsymbol);

@@ -1,0 +1,37 @@
+--- dwm.c.orig	2013-01-25 18:01:06.889939640 +0100
++++ b/dwm-6.0/dwm.c	2013-01-25 18:02:40.646604729 +0100
+@@ -162,6 +162,7 @@
+ static void arrange(Monitor *m);
+ static void arrangemon(Monitor *m);
+ static void attach(Client *c);
++static void attachaside(Client *c);
+ static void attachstack(Client *c);
+ static void buttonpress(XEvent *e);
+ static void checkotherwm(void);
+@@ -421,6 +422,17 @@
+ }
+ 
+ void
++attachaside(Client *c) {
++	Client *at = nexttiled(c->mon->clients);;
++	if(c->mon->sel == NULL || c->mon->sel->isfloating || !at) {
++		attach(c);
++		return;
++	}
++	c->next = at->next;
++	at->next = c;
++}
++
++void
+ attachstack(Client *c) {
+ 	c->snext = c->mon->stack;
+ 	c->mon->stack = c;
+@@ -1142,7 +1154,7 @@
+ 		c->isfloating = c->oldstate = trans != None || c->isfixed;
+ 	if(c->isfloating)
+ 		XRaiseWindow(dpy, c->win);
+-	attach(c);
++	attachaside(c);
+ 	attachstack(c);
+ 	XMoveResizeWindow(dpy, c->win, c->x + 2 * sw, c->y, c->w, c->h); /* some windows require this */
+ 	setclientstate(c, NormalState);

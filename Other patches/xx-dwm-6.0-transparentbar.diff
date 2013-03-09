@@ -1,0 +1,39 @@
+--- src/dwm-6.0/dwm.c	2012-11-19 21:21:14.014549633 +0100
++++ b/dwm-6.0/dwm.c	2012-11-19 21:20:56.621213447 +0100
+@@ -80,7 +80,7 @@
+ enum { CurNormal, CurResize, CurMove, CurLast };        /* cursor */
+ enum { ColBorder, ColFG, ColBG, ColLast };              /* color */
+ enum { NetSupported, NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation,
+-	   NetWMName, NetWMState, NetWMFullscreen, NetActiveWindow, NetWMWindowType,
++	   NetWMName, NetWMState, NetWMFullscreen, NetWMWindowsOpacity, NetActiveWindow, NetWMWindowType,
+ 	   NetWMWindowTypeDialog, NetLast }; /* EWMH atoms */
+ enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+@@ -1795,6 +1795,7 @@
+ 	xatom[Manager] = XInternAtom(dpy, "MANAGER", False);
+ 	xatom[Xembed] = XInternAtom(dpy, "_XEMBED", False);
+ 	xatom[XembedInfo] = XInternAtom(dpy, "_XEMBED_INFO", False);
++	netatom[NetWMWindowsOpacity] = XInternAtom(dpy, "_NET_WM_WINDOW_OPACITY", False);
+ 	/* init cursors */
+ 	cursor[CurNormal] = XCreateFontCursor(dpy, XC_left_ptr);
+ 	cursor[CurResize] = XCreateFontCursor(dpy, XC_sizing);
+@@ -2024,6 +2025,9 @@
+ 		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, w, bh, 0, DefaultDepth(dpy, screen),
+ 		                          CopyFromParent, DefaultVisual(dpy, screen),
+ 		                          CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
++		unsigned long real_opacity[] = { opacity * 0xffffffff };
++		XChangeProperty(dpy, m->barwin, netatom[NetWMWindowsOpacity], XA_CARDINAL,
++				32, PropModeReplace, (unsigned char *)real_opacity, 1);
+ 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]);
+ 		XMapRaised(dpy, m->barwin);
+ 	}
+@@ -2270,6 +2274,9 @@
+ 		if(!(systray = (Systray *)calloc(1, sizeof(Systray))))
+ 			die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
+ 		systray->win = XCreateSimpleWindow(dpy, root, x, selmon->by, w, bh, 0, 0, dc.colors[1][ColBG].pixel);
++		unsigned long real_opacity[] = { opacity * 0xffffffff };
++		XChangeProperty(dpy, systray->win, netatom[NetWMWindowsOpacity], XA_CARDINAL,
++			32, PropModeReplace, (unsigned char *)real_opacity, 1);
+ 		wa.event_mask        = ButtonPressMask | ExposureMask;
+ 		wa.override_redirect = True;
+ 		wa.background_pixmap = ParentRelative;
