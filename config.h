@@ -12,7 +12,7 @@ static const char colors[NUMCOLORS][ColLast][9] = {
     { "#16596A", "#16596A", "#283A3F" },
 };
 
-static const unsigned int borderpx       = 1;      /* Border pixel of windows */
+static const unsigned int borderpx       = 2;      /* Border pixel of windows */
 static const unsigned int snap           = 2;      /* Snap pixel */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */

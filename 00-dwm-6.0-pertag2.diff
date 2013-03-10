@@ -1,6 +1,6 @@
---- dwm.c.orig	2012-05-25 14:24:03.753559789 +0200
-+++ b/dwm-6.0/dwm.c	2012-05-25 14:22:37.793561769 +0200
-@@ -141,8 +141,6 @@
+--- src/dwm-6.0/dwm.c	2011-12-19 16:02:46.000000000 +0100
++++ b/dwm-6.0/dwm.c	2013-03-09 21:04:53.671703568 +0100
+@@ -126,8 +126,6 @@
  
  struct Monitor {
  	char ltsymbol[16];
@@ -9,7 +9,7 @@
  	int num;
  	int by;               /* bar geometry */
  	int mx, my, mw, mh;   /* screen size */
-@@ -158,9 +156,21 @@
+@@ -143,9 +141,21 @@
  	Monitor *next;
  	Window barwin;
  	const Layout *lt[2];
@@ -31,15 +31,48 @@
  	const char *class;
  	const char *instance;
  	const char *title;
-@@ -266,6 +276,7 @@
- static int xerrordummy(Display *dpy, XErrorEvent *ee);
- static int xerrorstart(Display *dpy, XErrorEvent *ee);
- static void zoom(const Arg *arg);
+@@ -161,6 +171,7 @@
+ static void arrangemon(Monitor *m);
+ static void attach(Client *c);
+ static void attachstack(Client *c);
 +static void bstack(Monitor *m);
+ static void buttonpress(XEvent *e);
+ static void checkotherwm(void);
+ static void cleanup(void);
+@@ -424,6 +435,32 @@
+ }
  
- /* variables */
- static const char broken[] = "broken";
-@@ -456,7 +467,7 @@
+ void
++bstack(Monitor *m) {
++	unsigned int i, n, w, mh, mx, tx;
++	Client *c;
++
++	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	if(n == 0)
++		return;
++
++	if(n > m->nmasters[m->curtag])
++		mh = m->nmasters[m->curtag] ? m->wh * m->mfacts[m->curtag] : 0;
++	else
++		mh = m->wh;
++	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++		if(i < m->nmasters[m->curtag]) {
++			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
++			resize(c, m->wx + mx, m->wy, w - (2*c->bw), mh - (2*c->bw), False);
++			mx += WIDTH(c);
++		}
++		else {
++			w = (m->ww - tx) / (n - i);
++			resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
++			tx += WIDTH(c);
++		}
++}
++
++void
+ buttonpress(XEvent *e) {
+ 	unsigned int i, x, click;
+ 	Arg arg = {0};
+@@ -441,7 +478,7 @@
  	if(ev->window == selmon->barwin) {
  		i = x = 0;
  		do
@@ -48,7 +81,7 @@
  		while(ev->x >= x && ++i < LENGTH(tags));
  		if(i < LENGTH(tags)) {
  			click = ClkTagBar;
-@@ -524,6 +535,9 @@
+@@ -513,6 +550,9 @@
  	}
  	XUnmapWindow(dpy, mon->barwin);
  	XDestroyWindow(dpy, mon->barwin);
@@ -58,7 +91,7 @@
  	free(mon);
  }
  
-@@ -658,17 +672,31 @@
+@@ -646,17 +686,31 @@
  Monitor *
  createmon(void) {
  	Monitor *m;
@@ -94,7 +127,7 @@
  	return m;
  }
  
-@@ -741,9 +769,9 @@
+@@ -729,9 +783,9 @@
  	}
  	dc.x = 0;
  	for(i = 0; i < LENGTH(tags); i++) {
@@ -106,7 +139,7 @@
  		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
  		           occ & 1 << i, urg & 1 << i, col);
  		dc.x += dc.w;
-@@ -1037,7 +1065,7 @@
+@@ -1028,7 +1082,7 @@
  
  void
  incnmaster(const Arg *arg) {
@@ -115,7 +148,7 @@
  	arrange(selmon);
  }
  
-@@ -1551,7 +1579,7 @@
+@@ -1558,7 +1612,7 @@
  	if(!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
  		selmon->sellt ^= 1;
  	if(arg && arg->v)
@@ -124,7 +157,7 @@
  	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
  	if(selmon->sel)
  		arrange(selmon);
-@@ -1566,10 +1594,10 @@
+@@ -1573,10 +1627,10 @@
  
  	if(!arg || !selmon->lt[selmon->sellt]->arrange)
  		return;
@@ -137,7 +170,7 @@
  	arrange(selmon);
  }
  
-@@ -1705,13 +1733,13 @@
+@@ -1710,13 +1764,13 @@
  	if(n == 0)
  		return;
  
@@ -155,7 +188,7 @@
  			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
  			my += HEIGHT(c);
  		}
-@@ -1743,13 +1771,24 @@
+@@ -1748,13 +1802,24 @@
  
  void
  toggletag(const Arg *arg) {
@@ -181,7 +214,7 @@
  		focus(NULL);
  		arrange(selmon);
  	}
-@@ -2038,11 +2077,26 @@
+@@ -2043,11 +2108,26 @@
  
  void
  view(const Arg *arg) {
@@ -209,36 +242,3 @@
  	focus(NULL);
  	arrange(selmon);
  }
-@@ -2121,6 +2175,32 @@
- 	pop(c);
- }
- 
-+void
-+bstack(Monitor *m) {
-+	unsigned int i, n, w, mh, mx, tx;
-+	Client *c;
-+
-+	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-+	if(n == 0)
-+		return;
-+
-+	if(n > m->nmasters[m->curtag])
-+		mh = m->nmasters[m->curtag] ? m->wh * m->mfacts[m->curtag] : 0;
-+	else
-+		mh = m->wh;
-+	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-+		if(i < m->nmasters[m->curtag]) {
-+			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
-+			resize(c, m->wx + mx, m->wy, w - (2*c->bw), mh - (2*c->bw), False);
-+			mx += WIDTH(c);
-+		}
-+		else {
-+			w = (m->ww - tx) / (n - i);
-+			resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
-+			tx += WIDTH(c);
-+		}
-+}
-+
- int
- main(int argc, char *argv[]) {
- 	if(argc == 2 && !strcmp("-v", argv[1]))
