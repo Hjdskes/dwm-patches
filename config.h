@@ -6,7 +6,7 @@ static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#DEDEDE", "#F2F1F0", "#283A3F" },
+    { "#EDEDED", "#F2F1F0", "#283A3F" },
     { "#4A90D9", "#4A90D9", "#283A3F" },
     { "#DC322F", "#DC322F", "#283A3F" },
     { "#16596A", "#16596A", "#283A3F" },
