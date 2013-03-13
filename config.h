@@ -6,7 +6,7 @@ static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#EDEDED", "#F2F1F0", "#283A3F" },
+    { "#DC322F", "#F2F1F0", "#283A3F" },
     { "#4A90D9", "#4A90D9", "#283A3F" },
     { "#DC322F", "#DC322F", "#283A3F" },
     { "#16596A", "#16596A", "#283A3F" },
@@ -47,11 +47,10 @@ static const Rule rules[] = {
     /*WM_CLASS              WM_CLASS    WM_NAME
       class                 instance    title               tags mask   isfloating  monitor */
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
-    { NULL,                 NULL,       "Jagex Ltd.",       1 << 1,     True,       -1 },
-    { NULL,                 NULL,       "RuneScape",        1 << 1,     False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
     { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
 	{ "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
+    { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
     { "Gimp",               NULL,       NULL,               1 << 3,     False,      -1 },
@@ -80,8 +79,8 @@ static const char *files[]      = { "nautilus", NULL };
 static const char *music[]      = { "audacious", NULL };
 static const char *skype[]      = { "skype", NULL };
 static const char *scrot[]      = { "gnome-screenshot", NULL };
-/*static const char *kill[]       = { "xkill", NULL };
-static const char *lock[]       = { "slock", NULL };*/
+static const char *kill[]       = { "xkill", NULL };
+static const char *lock[]       = { "slock", NULL };
 static const char *halt[]       = { "dmenu_shutdown", NULL };
 static const char *volup[]      = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
 static const char *voldown[]    = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
@@ -95,8 +94,8 @@ static const char *stop[]    = { "audtool", "playback-stop", NULL };
 static Key keys[] = {
 	/* modifier                 key        function        argument */
 	{ MODKEY,                   XK_r,                       spawn,          {.v = dmenu } },
-/*	{ MODKEY,                   XK_x,                       spawn,          {.v = kill } },
-	{ MODKEY,                   XK_l,                       spawn,          {.v = lock } },*/
+	{ MODKEY,                   XK_x,                       spawn,          {.v = kill } },
+	{ MODKEY,                   XK_l,                       spawn,          {.v = lock } },
 	{ MODKEY,                   XK_Escape,                  spawn,          {.v = halt } },
 	{ MODKEY,                   XK_z,                       spawn,          {.v = find } },
 	{ MODKEY,                   XK_o,                       spawn,          {.v = dmfm } },
