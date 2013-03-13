@@ -17,7 +17,7 @@ _patches=(00-dwm-6.0-pertag2.diff
 		  03-dwm-6.0-chat.diff
 		  04-dwm-6.0-occupiedcol.diff
 		  05-dwm-6.0-oneclientmonocle.diff
-          06-dwm-6.0-enhancedborders.diff
+		  06-dwm-6.0-singularborders.diff
 		  07-dwm-6.0-attachaside.diff
 		  08-dwm-6.0-centerclock.diff
 		  09-dwm-6.0-monoclefixes.diff
