@@ -14,3 +14,8 @@ The `Under construction` directory contains files I'm still working on, but not 
 	* Move unsigned long real_opacity[] someplace else, use only once. 
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
 * Try cleaning up patches and code.
+
+**Issues:**
+* singular borders
+	* on multimonitor, you see monitor one's borders on monitor two and vice-versa
+	* floating clients will hide behind tiled clients when changed focus

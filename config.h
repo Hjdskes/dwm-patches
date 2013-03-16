@@ -1,12 +1,14 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
+#include <push.c>
+/*#include <movestack.c>*/
 
 /* appearance */
 static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-72-c-60-*-*";
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#DEDEDE", "#F2F1F0", "#283A3F" },
+    { "#BDBDBD", "#F2F1F0", "#283A3F" },
     { "#4A90D9", "#4A90D9", "#283A3F" },
     { "#DC322F", "#DC322F", "#283A3F" },
     { "#16596A", "#16596A", "#283A3F" },
@@ -25,7 +27,7 @@ static const int nmaster      = 1;     /* number of clients in master area */
 static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
-	/* symbol  arrange */
+  /* symbol arrange */
 	{ "T",  tile },
 	{ "C",  chat },
 	{ "B",  bstack },
@@ -36,7 +38,7 @@ static const Layout layouts[] = {
 /* tagging */
 static const Tag tags[] = {
 	/* name		 layout       mfact	nmaster */
-	{ "1:web",	 &layouts[3], -1,	-1 },
+	{ "1:web",	 &layouts[0], -1,	-1 },
 	{ "2:chill", &layouts[1], 0.80,	-1 },
 	{ "3:term",	 &layouts[0], -1,	-1 },
 	{ "4:media", &layouts[3], -1,	-1 },
@@ -48,7 +50,7 @@ static const Rule rules[] = {
       class                 instance    title               tags mask   isfloating  monitor */
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
-    { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
+    /*{ "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,      -1 },*/
 	{ "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
     { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
@@ -70,21 +72,21 @@ static const Rule rules[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenu[]      = { "dmenu_run", "-f", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *find[]       = { "dmenu_finder", NULL };
-static const char *dmfm[]       = { "dmenu_fm", NULL };
-static const char *term[]       = { "urxvtc", NULL };
-static const char *browser[]    = { "firefox", NULL };
-static const char *files[]      = { "nautilus", NULL };
-static const char *music[]      = { "audacious", NULL };
-static const char *skype[]      = { "skype", NULL };
-static const char *scrot[]      = { "gnome-screenshot", NULL };
-static const char *kill[]       = { "xkill", NULL };
-static const char *lock[]       = { "slock", NULL };
-static const char *halt[]       = { "dmenu_shutdown", NULL };
-static const char *volup[]      = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
-static const char *voldown[]    = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
-static const char *volmute[]    = { "amixer", "-q", "sset", "Master", "toggle", NULL };
+static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *find[]    = { "dmenu_finder", NULL };
+static const char *dmfm[]    = { "dmenu_fm", NULL };
+static const char *term[]    = { "urxvtc", NULL };
+static const char *browser[] = { "firefox", NULL };
+static const char *files[]   = { "nautilus", NULL };
+static const char *music[]   = { "audacious", NULL };
+static const char *skype[]   = { "skype", NULL };
+static const char *scrot[]   = { "gnome-screenshot", NULL };
+static const char *kill[]    = { "xkill", NULL };
+static const char *lock[]    = { "slock", NULL };
+static const char *halt[]    = { "dmenu_shutdown", NULL };
+static const char *volup[]   = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
+static const char *voldown[] = { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
+static const char *volmute[] = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *play[]    = { "audtool", "playback-playpause", NULL };
 static const char *next[]    = { "audtool", "playlist-advance", NULL };
 static const char *prev[]    = { "audtool", "playlist-reverse", NULL };
@@ -114,16 +116,20 @@ static Key keys[] = {
 	{ 0,                        XF86XK_AudioStop,           spawn,          {.v = stop } },
 	{ MODKEY|ControlMask,       XK_b,                       togglebar,      {0} },
 	{ MODKEY|ControlMask,       XK_q,                       quit,           {0} },
-	{ MODKEY,                   XK_Right,                   focusstack,     {.i = +1 } },
-	{ MODKEY,                   XK_Left,                    focusstack,     {.i = -1 } },
+	{ MODKEY,                   XK_Tab,                     focusstack,     {.i = +1 } },
+	{ MODKEY|ShiftMask,         XK_Tab,                     focusstack,     {.i = -1 } },
 	{ MODKEY,                   XK_Return,                  zoom,           {0} },
-	{ MODKEY,                   XK_Tab,                     view,           {0} },
+	{ MODKEY|ControlMask,       XK_Tab,                     view,           {0} },
 	{ MODKEY,                   XK_q,                       killclient,     {0} },
 	{ MODKEY,                   XK_bracketleft,             setmfact,       {.f = -0.05} },
 	{ MODKEY,                   XK_bracketright,            setmfact,       {.f = +0.05} },
 	{ MODKEY,                   XK_equal,                   incnmaster,     {.i = +1 } },
 	{ MODKEY,                   XK_minus,                   incnmaster,     {.i = -1 } },
 	{ MODKEY,                   XK_space,                   setlayout,      {0} },
+	{ MODKEY,                   XK_Up,                      pushup,         {0} },
+	{ MODKEY,                   XK_Down,                    pushdown,       {0} },
+	/*{ MODKEY,                   XK_Up,                      movestack,      {.i = -1 } },
+	{ MODKEY,                   XK_Down,                    movestack,      {.i = +1 } },*/
 	{ MODKEY|ShiftMask,         XK_f,                       togglefloating, {0} },
 	{ MODKEY,                   XK_t,                       setlayout,      {.v = &layouts[0] } },
 	{ MODKEY,                   XK_c,                       setlayout,      {.v = &layouts[1] } },
