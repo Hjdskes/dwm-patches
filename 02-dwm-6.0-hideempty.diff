@@ -33,7 +33,7 @@
 +		if (!(m->tagset[m->seltags] & 1 << i) && !(occ & 1 << i))
 +			continue;
  		dc.w = TEXTW(tags[i].name);
- 		col = dc.colors[ (m->tagset[m->seltags] & 1 << i ? 1:(urg & 1 << i ? 2:0))];
+ 		col = dc.colors[(m->tagset[m->seltags] & 1 << i ? 1:(urg & 1 << i ? 2:0))];
  		drawtext(tags[i].name, col, True);
 -		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i, occ & 1 << i, col);
 +		drawsquare(False, False, urg & 1 << i, col);

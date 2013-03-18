@@ -12,8 +12,8 @@
  		if (!(m->tagset[m->seltags] & 1 << i) && !(occ & 1 << i))
  			continue;
  		dc.w = TEXTW(tags[i].name);
--		col = dc.colors[ (m->tagset[m->seltags] & 1 << i ? 1:(urg & 1 << i ? 2:0))];
-+		col = dc.colors[ (m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:(occ & 1 << i ? 3:0)) ];
+-		col = dc.colors[(m->tagset[m->seltags] & 1 << i ? 1:(urg & 1 << i ? 2:0))];
++		col = dc.colors[(m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:(occ & 1 << i ? 3:0)) ];
  		drawtext(tags[i].name, col, True);
 -		drawsquare(False, False, urg & 1 << i, col);
  		dc.x += dc.w;
@@ -25,7 +25,7 @@
  void
 -drawsquare(Bool filled, Bool empty, unsigned long col[ColLast]) {
 -	int x;
--	XSetForeground(dpy, dc.gc, col[ ColFG ]);
+-	XSetForeground(dpy, dc.gc, col[ColFG]);
 -	x = (dc.font.ascent + dc.font.descent + 2) / 4;
 -	if(filled)
 -		XFillRectangle(dpy, dc.drawable, dc.gc, dc.x+1, dc.y+1, x+1, x+1);

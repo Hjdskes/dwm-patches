@@ -32,7 +32,7 @@ static void
 pushdown(const Arg *arg) {
 	Client *sel = selmon->sel, *c;
 
-	if(!sel || sel->isfloating)
+	if(!sel || sel->isfloating || sel == nexttiled(selmon->clients))
 		return;
 	if((c = nexttiled(sel->next))) {
 		/* attach after c */

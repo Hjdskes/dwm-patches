@@ -1,7 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 #include <push.c>
-/*#include <movestack.c>*/
 
 /* appearance */
 static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-72-c-60-*-*";
@@ -128,8 +127,6 @@ static Key keys[] = {
 	{ MODKEY,                   XK_space,                   setlayout,      {0} },
 	{ MODKEY,                   XK_Up,                      pushup,         {0} },
 	{ MODKEY,                   XK_Down,                    pushdown,       {0} },
-	/*{ MODKEY,                   XK_Up,                      movestack,      {.i = -1 } },
-	{ MODKEY,                   XK_Down,                    movestack,      {.i = +1 } },*/
 	{ MODKEY|ShiftMask,         XK_f,                       togglefloating, {0} },
 	{ MODKEY,                   XK_t,                       setlayout,      {.v = &layouts[0] } },
 	{ MODKEY,                   XK_c,                       setlayout,      {.v = &layouts[1] } },
