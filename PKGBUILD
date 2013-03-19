@@ -17,15 +17,16 @@ _patches=(00-dwm-6.0-pertag2.diff
 		  02-dwm-6.0-hideempty.diff
 		  03-dwm-6.0-chat.diff
 		  04-dwm-6.0-push.diff
-		  05-dwm-6.0-occupiedcol.diff
-		  06-dwm-6.0-singularborders.diff
-#		  06-dwm-6.0-singularborders2.diff
-		  07-dwm-6.0-attachaside.diff
-		  08-dwm-6.0-centerclock.diff
-#		  09-dwm-6.0-monoclefixes.diff
-		  10-dwm-6.0-focusfollowmousetag.diff
-		  11-dwm-6.0-removeunfunc.diff
-		  12-dwm-6.0-xkeycodetokeysymfix.diff
+		  05-dwm-6.0-cycle.diff
+		  06-dwm-6.0-occupiedcol.diff
+		  07-dwm-6.0-singularborders.diff
+#		  07-dwm-6.0-singularborders2.diff
+		  08-dwm-6.0-attachaside.diff
+		  09-dwm-6.0-centerclock.diff
+#		  10-dwm-6.0-monoclefixes.diff
+		  11-dwm-6.0-focusfollowmousetag.diff
+		  12-dwm-6.0-removeunfunc.diff
+		  13-dwm-6.0-xkeycodetokeysymfix.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
 
