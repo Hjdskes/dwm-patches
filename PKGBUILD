@@ -11,21 +11,21 @@ options=(zipman)
 provides=('dwm')
 conflicts=('dwm-pango')
 _source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
-        config.h
-		push.c)
+        config.h)
 _patches=(00-dwm-6.0-pertag2.diff
 		  01-dwm-6.0-statuscolors.diff
 		  02-dwm-6.0-hideempty.diff
 		  03-dwm-6.0-chat.diff
-		  04-dwm-6.0-occupiedcol.diff
-		  05-dwm-6.0-singularborders.diff
-#		  05-dwm-6.0-singularborders2.diff
-		  06-dwm-6.0-attachaside.diff
-		  07-dwm-6.0-centerclock.diff
-#		  08-dwm-6.0-monoclefixes.diff
-		  09-dwm-6.0-focusfollowmousetag.diff
-		  10-dwm-6.0-removeunfunc.diff
-		  11-dwm-6.0-xkeycodetokeysymfix.diff
+		  04-dwm-6.0-push.diff
+		  05-dwm-6.0-occupiedcol.diff
+		  06-dwm-6.0-singularborders.diff
+#		  06-dwm-6.0-singularborders2.diff
+		  07-dwm-6.0-attachaside.diff
+		  08-dwm-6.0-centerclock.diff
+#		  09-dwm-6.0-monoclefixes.diff
+		  10-dwm-6.0-focusfollowmousetag.diff
+		  11-dwm-6.0-removeunfunc.diff
+		  12-dwm-6.0-xkeycodetokeysymfix.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
 
@@ -36,7 +36,6 @@ build() {
 
   cd $srcdir/$pkgname-$pkgver
   cp $srcdir/config.h config.h
-  cp $srcdir/push.c push.c
 
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 || return 1
   make PREFIX=/usr DESTDIR=$pkgdir install || return 1

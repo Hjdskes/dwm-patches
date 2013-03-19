@@ -1,6 +1,5 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
-#include <push.c>
 
 /* appearance */
 static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-72-c-60-*-*";
