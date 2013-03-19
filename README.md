@@ -7,11 +7,9 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 
 **ToDo:**
 * Fix chatlayout in singularborders
-* In push.c, do we detect master correctly? (c == nexttiled(selmon->clients)
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make monitor2 one, single tag on its own
 * Spacing of layout symbol in the actual code --> XFT patch.
-* Don't make the text transparent with a transparent statusbar.
-	* Move unsigned long real_opacity[] someplace else, use only once. 
+* Move unsigned long real_opacity[] someplace else, use only once --> transparent statusbar patch. 
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
 * Try cleaning up patches and code.
 
