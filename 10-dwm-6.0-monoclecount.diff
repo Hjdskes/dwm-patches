@@ -1,15 +1,15 @@
---- a/dwm.c	2013-02-11 22:11:39.194773229 +0200
-+++ b/dwm-6.0/dwm.c	2013-02-11 22:11:39.196773229 +0200
-@@ -754,6 +754,7 @@ drawbar(Monitor *m) {
- 	int x;
+--- dwm.c.orig	2013-03-20 00:12:04.259752714 +0100
++++ b/dwm-6.0/dwm.c	2013-03-20 00:14:27.236417119 +0100
+@@ -863,6 +863,7 @@
+ 	char clock[38];
  	unsigned int i, occ = 0, urg = 0;
  	unsigned long *col;
 +	unsigned int a = 0, s = 0;
  	Client *c;
  
  	for(c = m->clients; c; c = c->next) {
-@@ -770,6 +771,14 @@ drawbar(Monitor *m) {
- 		           occ & 1 << i, urg & 1 << i, col);
+@@ -879,6 +880,15 @@
+ 		drawtext(tags[i].name, col, True);
  		dc.x += dc.w;
  	}
 +	if(m->lt[m->sellt]->arrange == monocle) {
@@ -18,12 +18,13 @@
 +				s = a;
 +		if(!s && a)
 +			s = a;
-+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "%d/%d", s, a);
++		if(s && a)
++			snprintf(m->ltsymbol, sizeof m->ltsymbol, "%d/%d", s, a);
 +	}
  	dc.w = blw = TEXTW(m->ltsymbol);
- 	drawtext(m->ltsymbol, dc.norm, False);
+ 	drawtext(m->ltsymbol, dc.colors[0], True);
  	dc.x += dc.w;
-@@ -1230,14 +1239,8 @@ maprequest(XEvent *e) {
+@@ -1347,14 +1357,8 @@
  
  void
  monocle(Monitor *m) {
@@ -36,4 +37,5 @@
 -	if(n > 0) /* override layout symbol */
 -		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
  	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
- 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, False);
+ 		resize(c, m->wx - c->bw, m->wy, m->ww, m->wh, False);
+ }
