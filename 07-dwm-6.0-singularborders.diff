@@ -1,6 +1,6 @@
---- dwm.c.orig	2013-03-13 21:38:39.966488246 +0100
-+++ b/dwm-6.0/dwm.c	2013-03-13 21:50:56.966475847 +0100
-@@ -451,13 +451,16 @@
+--- dwm.c.orig	2013-03-19 18:35:13.983405766 +0100
++++ b/dwm-6.0/dwm.c	2013-03-19 18:50:30.623390346 +0100
+@@ -457,13 +457,16 @@
  	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
  		if(i < m->nmasters[m->curtag]) {
  			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
@@ -21,28 +21,31 @@
  		}
  }
  
-@@ -520,7 +523,7 @@
+@@ -526,7 +529,7 @@
  	/* buddy list */
  	ww = (bl ? m->mfacts[m->curtag] * m->ww : m->ww);
  	if(bl) {
 -		resize(bl, m->wx + ww, m->wy, m->ww - ww - 2 * bl->bw, m->wh - 2 * bl->bw, False);
-+		resize(bl, m->wx + ww, m->wy, m->ww - ww, m->wh - bl->bw, False);
++		resize(bl, m->wx - bl->bw + ww, m->wy, m->ww - ww, m->wh - bl->bw, False);
  		if(--n == 0)
  			return;
  	}
-@@ -547,7 +550,10 @@
+@@ -551,9 +554,12 @@
+ 		if(i/rows + 1 > cols - n%cols)
+ 			rows = n/cols + 1;
  		ch = rows ? m->wh / rows : m->wh;
- 		cx = m->wx + cn*cw;
+-		cx = m->wx + cn*cw;
++		cx = m->wx + cn*cw - c->bw;
  		cy = m->wy + rn*ch;
 -		resize(c, cx, cy, cw - 2 * c->bw, ch - 2 * c->bw, False);
 +		if(n == 1 && !bl)
-+			resize(c, cx - c->bw, cy, cw, ch, False);
++			resize(c, cx, cy, cw, ch, False);
 +		else
-+			resize(c, cx - c->bw, cy, cw, ch - c->bw, False);
++			resize(c, cx, cy, cw - c->bw, ch - c->bw, False);
  		rn++;
  		if(rn >= rows) {
  			rn = 0;
-@@ -983,6 +989,7 @@
+@@ -990,6 +996,7 @@
  		attachstack(c);
  		grabbuttons(c, True);
  		XSetWindowBorder(dpy, c->win, dc.colors[1][ColBorder]);
@@ -50,7 +53,7 @@
  		setfocus(c);
  	}
  	else
-@@ -1327,7 +1334,7 @@
+@@ -1334,7 +1341,7 @@
  	if(n > 0) /* override layout symbol */
  		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
  	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
@@ -59,7 +62,7 @@
  }
  
  void
-@@ -1843,13 +1850,16 @@
+@@ -1910,13 +1917,16 @@
  	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
  		if(i < m->nmasters[m->curtag]) {
  			h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
