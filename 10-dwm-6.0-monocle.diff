@@ -1,0 +1,11 @@
+--- dwm.c.orig	2013-03-20 19:43:43.566652431 +0100
++++ b/dwm-6.0/dwm.c	2013-03-20 19:43:52.126652286 +0100
+@@ -1354,7 +1354,7 @@
+ 		if(ISVISIBLE(c))
+ 			n++;
+ 	if(n > 0) /* override layout symbol */
+-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
++		snprintf(m->ltsymbol, sizeof m->ltsymbol, "%d", n);
+ 	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
+ 		resize(c, m->wx - c->bw, m->wy, m->ww, m->wh, False);
+ }
