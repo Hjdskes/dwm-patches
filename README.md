@@ -16,4 +16,3 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 **Issues:**
 * singular borders
 	* on multimonitor, you see monitor one's borders on monitor two and vice-versa
-	* floating clients will hide behind tiled clients when changed focus

@@ -1,6 +1,14 @@
---- dwm.c.orig	2013-03-19 18:35:13.983405766 +0100
-+++ b/dwm-6.0/dwm.c	2013-03-19 18:50:30.623390346 +0100
-@@ -457,13 +457,16 @@
+--- dwm.c.orig	2013-03-20 21:44:58.599863377 +0100
++++ b/dwm-6.0/dwm.c	2013-03-21 00:52:32.519924353 +0100
+@@ -222,6 +222,7 @@
+ static void pushdown(const Arg *arg);
+ static void pushup(const Arg *arg);
+ static void quit(const Arg *arg);
++static void raisefloating(void);
+ static Monitor *recttomon(int x, int y, int w, int h);
+ static void resize(Client *c, int x, int y, int w, int h, Bool interact);
+ static void resizeclient(Client *c, int x, int y, int w, int h);
+@@ -457,13 +458,16 @@
  	for(i = mx = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
  		if(i < m->nmasters[m->curtag]) {
  			w = (m->ww - mx) / (MIN(n, m->nmasters[m->curtag]) - i);
@@ -21,7 +29,7 @@
  		}
  }
  
-@@ -526,7 +529,7 @@
+@@ -526,7 +530,7 @@
  	/* buddy list */
  	ww = (bl ? m->mfacts[m->curtag] * m->ww : m->ww);
  	if(bl) {
@@ -30,7 +38,7 @@
  		if(--n == 0)
  			return;
  	}
-@@ -551,9 +554,12 @@
+@@ -551,9 +555,12 @@
  		if(i/rows + 1 > cols - n%cols)
  			rows = n/cols + 1;
  		ch = rows ? m->wh / rows : m->wh;
@@ -45,15 +53,16 @@
  		rn++;
  		if(rn >= rows) {
  			rn = 0;
-@@ -990,6 +996,7 @@
+@@ -990,6 +997,8 @@
  		attachstack(c);
  		grabbuttons(c, True);
  		XSetWindowBorder(dpy, c->win, dc.colors[1][ColBorder]);
 +		XRaiseWindow(dpy, c->win);
++		raisefloating();
  		setfocus(c);
  	}
  	else
-@@ -1334,7 +1341,7 @@
+@@ -1334,7 +1343,7 @@
  	if(n > 0) /* override layout symbol */
  		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
  	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
@@ -62,8 +71,31 @@
  }
  
  void
-@@ -1910,13 +1917,16 @@
- 	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+@@ -1503,6 +1512,18 @@
+ 	running = False;
+ }
+ 
++void
++raisefloating(void) {
++	Client *c;
++	XEvent ev;
++
++	for(c = selmon->clients; c; c = c->next)
++		if(c->isfloating)
++			XRaiseWindow(dpy, c->win);
++	XSync(dpy, False);
++	while(XCheckMaskEvent(dpy, EnterWindowMask, &ev));
++}
++
+ Monitor *
+ recttomon(int x, int y, int w, int h) {
+ 	Monitor *m, *r = selmon;
+@@ -1907,17 +1928,21 @@
+ 		mw = m->nmasters[m->curtag] ? m->ww * m->mfacts[m->curtag] : 0;
+ 	else
+ 		mw = m->ww;
+-	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
  		if(i < m->nmasters[m->curtag]) {
  			h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
 -			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
@@ -81,5 +113,7 @@
 +			resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
 +			ty += HEIGHT(c) - c->bw;
  		}
++	}
  }
  
+ void
