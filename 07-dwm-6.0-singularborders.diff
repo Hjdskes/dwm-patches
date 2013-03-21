@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-03-20 21:44:58.599863377 +0100
-+++ b/dwm-6.0/dwm.c	2013-03-21 00:52:32.519924353 +0100
+--- dwm.c.orig	2013-03-21 12:34:03.138493187 +0100
++++ b/dwm-6.0/dwm.c	2013-03-21 12:34:50.975159031 +0100
 @@ -222,6 +222,7 @@
  static void pushdown(const Arg *arg);
  static void pushup(const Arg *arg);
@@ -71,7 +71,7 @@
  }
  
  void
-@@ -1503,6 +1512,18 @@
+@@ -1503,6 +1512,20 @@
  	running = False;
  }
  
@@ -80,9 +80,11 @@
 +	Client *c;
 +	XEvent ev;
 +
-+	for(c = selmon->clients; c; c = c->next)
-+		if(c->isfloating)
-+			XRaiseWindow(dpy, c->win);
++	if(selmon->lt[selmon->sellt]->arrange) {
++		for(c = selmon->clients; c; c = c->next)
++			if(c->isfloating)
++				XRaiseWindow(dpy, c->win);
++	}
 +	XSync(dpy, False);
 +	while(XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 +}
@@ -90,7 +92,7 @@
  Monitor *
  recttomon(int x, int y, int w, int h) {
  	Monitor *m, *r = selmon;
-@@ -1907,17 +1928,21 @@
+@@ -1907,17 +1930,21 @@
  		mw = m->nmasters[m->curtag] ? m->ww * m->mfacts[m->curtag] : 0;
  	else
  		mw = m->ww;

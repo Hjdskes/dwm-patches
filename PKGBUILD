@@ -22,7 +22,7 @@ _patches=(00-dwm-6.0-pertag2.diff
 		  07-dwm-6.0-singularborders.diff
 		  08-dwm-6.0-attachaside.diff
 		  09-dwm-6.0-centerclock.diff
-		  10-dwm-6.0-monocle.diff
+		  10-dwm-6.0-monocleindicator.diff
 		  11-dwm-6.0-focusfollowmousetag.diff
 		  12-dwm-6.0-removeunfunc.diff
 		  13-dwm-6.0-xkeycodetokeysymfix.diff
@@ -30,16 +30,16 @@ _patches=(00-dwm-6.0-pertag2.diff
 source=(${_source[@]} ${_patches[@]})
 
 build() {
-  for PATCH in "${_patches[@]}"; do
-    msg "${PATCH##*/}" && patch -Np1 -i "${startdir}/${PATCH##*/}"
-  done
+	for PATCH in "${_patches[@]}"; do
+		msg "${PATCH##*/}" && patch -Np1 -i "${startdir}/${PATCH##*/}"
+	done
 
-  cd $srcdir/$pkgname-$pkgver
-  cp $srcdir/config.h config.h
+	cd $srcdir/$pkgname-$pkgver
+	cp $srcdir/config.h config.h
 
-  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 || return 1
-  make PREFIX=/usr DESTDIR=$pkgdir install || return 1
+	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 || return 1
+	make PREFIX=/usr DESTDIR=$pkgdir install || return 1
 
-  install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE && \
-  install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
+	install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE && \
+	install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
 }
