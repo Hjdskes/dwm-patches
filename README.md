@@ -6,7 +6,6 @@ This is my personal DWM
 The `Other patches` directory contains, well, other patches. They're just a collection of patches I saved up over time; most of them I used in previous setups. Some are diff'ed against a vanilla dwm.c, but others are not so they will require hand-patching.
 
 **ToDo:**
-* Fix chatlayout again with singularborders when buddy list isnt shown
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make monitor2 one, single tag on its own
 * Spacing of layout symbol in the actual code --> XFT patch.
 * Move unsigned long real_opacity[] someplace else, use only once --> transparent statusbar patch. 
@@ -15,4 +14,5 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 
 **Issues:**
 * singular borders
-	* on multimonitor, you see monitor one's borders on monitor two and vice-versa
+	* on multimonitor, you see monitor one's borders on monitor two and vice-versa.
+	* in gridlayout, we can't hide either the left or the right screen edge's border off-screen.
