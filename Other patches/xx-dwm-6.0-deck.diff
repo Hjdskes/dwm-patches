@@ -1,5 +1,5 @@
---- dwm.c	2011-12-19 16:02:46.000000000 +0100
-+++ dwm.c	2013-03-23 17:01:55.899868842 +0100
+--- dwm.c.orig	2011-12-19 16:02:46.000000000 +0100
++++ dwm.c	2013-03-23 17:19:43.676517546 +0100
 @@ -171,6 +171,7 @@
  static void configurenotify(XEvent *e);
  static void configurerequest(XEvent *e);
@@ -8,7 +8,7 @@
  static void destroynotify(XEvent *e);
  static void detach(Client *c);
  static void detachstack(Client *c);
-@@ -670,6 +671,37 @@
+@@ -661,6 +662,33 @@
  }
  
  void
@@ -31,18 +31,14 @@
 +	for(i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 +		if(i < m->nmasters[m->curtag]) {
 +			h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
-+			if(n == 1)
-+				resize(c, m->wx - c->bw, m->wy, m->ww, m->wh, False);
-+			else
-+				resize(c, m->wx - c->bw, m->wy + my, mw - c->bw, h - c->bw, False);
-+			my += HEIGHT(c) - c->bw;
++			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
++			my += HEIGHT(c);
 +		}
-+		else {
-+			resize(c, m->wx + mw - c->bw, m->wy, m->ww - mw, m->wh - c->bw, False);
-+		}
++		else
++			resize(c, m->wx + mw, m->wy, m->ww - mw - (2*c->bw), m->wh - (2*c->bw), False);
 +}
 +
 +void
- detach(Client *c) {
- 	Client **tc;
- 
+ destroynotify(XEvent *e) {
+ 	Client *c;
+ 	XDestroyWindowEvent *ev = &e->xdestroywindow;
