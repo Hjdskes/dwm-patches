@@ -1,0 +1,48 @@
+--- dwm.c	2011-12-19 16:02:46.000000000 +0100
++++ dwm.c	2013-03-23 17:01:55.899868842 +0100
+@@ -171,6 +171,7 @@
+ static void configurenotify(XEvent *e);
+ static void configurerequest(XEvent *e);
+ static Monitor *createmon(void);
++static void deck(Monitor *m);
+ static void destroynotify(XEvent *e);
+ static void detach(Client *c);
+ static void detachstack(Client *c);
+@@ -670,6 +671,37 @@
+ }
+ 
+ void
++deck(Monitor *m) {
++	unsigned int i, n, dn, h, mw, my;
++	Client *c;
++
++	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	if(n == 0)
++		return;
++
++	dn = n - 1;
++	if(dn > 0) /* override layout symbol */
++		snprintf(m->ltsymbol, sizeof m->ltsymbol, "D %d", dn);
++
++	if(n > m->nmasters[m->curtag])
++		mw = m->nmasters[m->curtag] ? m->ww * m->mfacts[m->curtag] : 0;
++	else
++		mw = m->ww;
++	for(i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++		if(i < m->nmasters[m->curtag]) {
++			h = (m->wh - my) / (MIN(n, m->nmasters[m->curtag]) - i);
++			if(n == 1)
++				resize(c, m->wx - c->bw, m->wy, m->ww, m->wh, False);
++			else
++				resize(c, m->wx - c->bw, m->wy + my, mw - c->bw, h - c->bw, False);
++			my += HEIGHT(c) - c->bw;
++		}
++		else {
++			resize(c, m->wx + mw - c->bw, m->wy, m->ww - mw, m->wh - c->bw, False);
++		}
++}
++
++void
+ detach(Client *c) {
+ 	Client **tc;
+ 
