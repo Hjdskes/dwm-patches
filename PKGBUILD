@@ -19,7 +19,7 @@ _patches=(00-dwm-6.0-pertag2.diff
 		  04-dwm-6.0-push.diff
 		  05-dwm-6.0-cycle.diff
 		  06-dwm-6.0-occupiedcol.diff
-		  07-dwm-6.0-singularborders2.diff
+		  07-dwm-6.0-singularborders.diff
 		  08-dwm-6.0-attachaside.diff
 		  09-dwm-6.0-centerclock.diff
 		  10-dwm-6.0-monocleindicator.diff

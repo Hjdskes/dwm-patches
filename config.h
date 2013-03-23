@@ -48,7 +48,7 @@ static const Rule rules[] = {
       class                 instance    title               tags mask   isfloating  monitor */
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
-    /*{ "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,      -1 },*/
+    { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
 	{ "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
     { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },

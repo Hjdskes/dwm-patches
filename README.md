@@ -6,7 +6,6 @@ This is my personal DWM
 The `Other patches` directory contains, well, other patches. They're just a collection of patches I saved up over time; most of them I used in previous setups. Some are diff'ed against a vanilla dwm.c, but others are not so they will require hand-patching.
 
 **ToDo:**
-* TTWM/Deck layout
 * Vertical mfact
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make monitor2 one, single tag on its own
 * Spacing of layout symbol in the actual code --> XFT patch.
