@@ -6,13 +6,14 @@ url="http://dwm.suckless.org"
 arch=('i686' 'x86_64')
 groups=(custom)
 license=('MIT')
-depends=('libxinerama' 'libxft')
+depends=('libx11')
 options=(zipman)
 provides=('dwm')
 conflicts=('dwm-pango')
 _source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
         config.h)
-_patches=(00-dwm-6.0-pertag2.diff
+_patches=(
+		  00-dwm-6.0-pertag2.diff
 		  01-dwm-6.0-statuscolors.diff
 		  02-dwm-6.0-hideempty.diff
 		  03-dwm-6.0-chat.diff
@@ -24,8 +25,9 @@ _patches=(00-dwm-6.0-pertag2.diff
 		  09-dwm-6.0-centerclock.diff
 		  10-dwm-6.0-monocleindicator.diff
 		  11-dwm-6.0-focusfollowmousetag.diff
-		  12-dwm-6.0-removeunfunc.diff
+		  12-dwm-6.0-removeunfunc2.diff
 		  13-dwm-6.0-xkeycodetokeysymfix.diff
+		  14-dwm-6.0-deck.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
 
@@ -37,9 +39,8 @@ build() {
 	cd $srcdir/$pkgname-$pkgver
 	cp $srcdir/config.h config.h
 
-	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 || return 1
-	make PREFIX=/usr DESTDIR=$pkgdir install || return 1
+	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+	make PREFIX=/usr DESTDIR=$pkgdir install
 
-	install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE && \
-	install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
+	install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }

@@ -6,13 +6,13 @@ static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#BDBDBD", "#F2F1F0", "#283A3F" },
-    { "#4A90D9", "#4A90D9", "#283A3F" },
-    { "#DC322F", "#DC322F", "#283A3F" },
-    { "#16596A", "#16596A", "#283A3F" },
+    { "#BDBDBD", "#F2F1F0", "#121212" },
+    { "#4A90D9", "#4A90D9", "#121212" },
+    { "#DC322F", "#DC322F", "#121212" },
+    { "#16596A", "#16596A", "#121212" },
 };
 
-static const unsigned int borderpx       = 2;      /* Border pixel of windows */
+static const unsigned int borderpx       = 1;      /* Border pixel of windows */
 static const unsigned int snap           = 2;      /* Snap pixel */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */
@@ -31,6 +31,7 @@ static const Layout layouts[] = {
 	{ "B",  bstack },
 	{ "M",  monocle },
 	{ "F",  NULL },
+	{ "D",  deck },
 };
 
 /* tagging */
@@ -132,10 +133,12 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,         XK_Right,                   tagcycle,       {.i = +1 } },
 	{ MODKEY|ShiftMask,         XK_f,                       togglefloating, {0} },
 	{ MODKEY,                   XK_t,                       setlayout,      {.v = &layouts[0] } },
+	{ MODKEY,                   XK_d,                       setlayout,      {.v = &layouts[0] } },
 	{ MODKEY,                   XK_c,                       setlayout,      {.v = &layouts[1] } },
 	{ MODKEY,                   XK_b,                       setlayout,      {.v = &layouts[2] } },
 	{ MODKEY,                   XK_m,                       setlayout,      {.v = &layouts[3] } },
 	{ MODKEY,                   XK_f,                       setlayout,      {.v = &layouts[4] } },
+	{ MODKEY,                   XK_d,                       setlayout,      {.v = &layouts[5] } },
 	TAGKEYS(                    XK_F1,                      0)
 	TAGKEYS(                    XK_F2,                      1)
 	TAGKEYS(                    XK_F3,                      2)

@@ -7,8 +7,7 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 
 **ToDo:**
 * Vertical mfact
-* Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make monitor2 one, single tag on its own
-* Spacing of layout symbol in the actual code --> XFT patch.
+* Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make the extra monitor one single tag on its own
 * Move unsigned long real_opacity[] someplace else, use only once --> transparent statusbar patch. 
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
 * Try cleaning up patches and code.
