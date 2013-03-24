@@ -25,7 +25,7 @@ _patches=(
 		  09-dwm-6.0-centerclock.diff
 		  10-dwm-6.0-monocleindicator.diff
 		  11-dwm-6.0-focusfollowmousetag.diff
-		  12-dwm-6.0-removeunfunc2.diff
+		  12-dwm-6.0-removeunfunc.diff
 		  13-dwm-6.0-xkeycodetokeysymfix.diff
 		  14-dwm-6.0-deck.diff
 		 )
