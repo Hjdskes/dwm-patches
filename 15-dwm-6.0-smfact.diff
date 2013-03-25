@@ -1,0 +1,116 @@
+--- dwm.c.orig	2013-03-24 21:46:11.200545630 +0100
++++ dwm.c	2013-03-26 00:32:18.843250659 +0100
+@@ -69,6 +69,7 @@ typedef union {
+ 	int i;
+ 	unsigned int ui;
+ 	float f;
++	float sf;
+ 	const void *v;
+ } Arg;
+ 
+@@ -144,14 +145,16 @@ struct Monitor {
+ 	int prevtag;
+ 	const Layout **lts;
+ 	double *mfacts;
++	double *smfacts;
+ 	int *nmasters;
+ };
+ 
+ typedef struct {
+ 	const char *name;
+ 	const Layout *layout;
+-	float mfact;
+ 	int nmaster;
++	float mfact;
++	float smfact;
+ } Tag;
+ 
+ typedef struct {
+@@ -237,6 +240,7 @@ static void setfocus(Client *c);
+ static void setfullscreen(Client *c, Bool fullscreen);
+ static void setlayout(const Arg *arg);
+ static void setmfact(const Arg *arg);
++static void setsmfact(const Arg *arg);
+ static void setup(void);
+ static int shifttag(int dist);
+ static void showhide(Client *c);
+@@ -628,6 +632,7 @@ cleanupmon(Monitor *mon) {
+ 	XUnmapWindow(dpy, mon->barwin);
+ 	XDestroyWindow(dpy, mon->barwin);
+ 	free(mon->mfacts);
++	free(mon->smfacts);
+ 	free(mon->nmasters);
+ 	free(mon->lts);
+ 	free(mon);
+@@ -769,12 +774,15 @@ createmon(void) {
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(Monitor));
+ 	if(!(m->mfacts = calloc(numtags, sizeof(double))))
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(double) * numtags);
++	if(!(m->smfacts = calloc(numtags, sizeof(double))))
++		die("fatal: could not malloc() %u bytes\n", sizeof(double) * numtags);
+ 	if(!(m->nmasters = calloc(numtags, sizeof(int))))
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(int) * numtags);
+ 	if(!(m->lts = calloc(numtags, sizeof(Layout *))))
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(Layout *) * numtags);
+ 	m->tagset[0] = m->tagset[1] = 1;
+ 	m->mfacts[0] = mfact;
++	m->smfacts[0] = smfact;
+ 	m->nmasters[0] = nmaster;
+ 	m->lts[0] = &layouts[0];
+ 	m->showbar = showbar;
+@@ -782,6 +790,7 @@ createmon(void) {
+ 	m->curtag = m->prevtag = 1;
+ 	for(i = 1; i < numtags; i++) {
+ 		m->mfacts[i] = tags[i - 1].mfact < 0 ? mfact : tags[i - 1].mfact;
++		m->smfacts[i] = tags[i - 1].smfact < 0 ? smfact : tags[i -1].smfact;
+ 		m->nmasters[i] = tags[i - 1].nmaster < 0 ? nmaster : tags[i - 1].nmaster;
+ 		m->lts[i] = tags[i - 1].layout;
+ 	}
+@@ -1801,6 +1810,19 @@ setmfact(const Arg *arg) {
+ }
+ 
+ void
++setsmfact(const Arg *arg) {
++	float sf;
++
++	if(!arg || !selmon->lt[selmon->sellt]->arrange)
++		return;
++	sf = arg->sf < 1.0 ? arg->sf + selmon->smfacts[selmon->curtag] : arg->sf - 1.0;
++	if(sf < 0 || sf > 0.95)
++		return;
++	selmon->smfacts[selmon->curtag] = sf;
++	arrange(selmon);
++}
++
++void
+ setup(void) {
+ 	XSetWindowAttributes wa;
+ 
+@@ -1941,7 +1963,7 @@ textnw(const char *text, unsigned int le
+ 
+ void
+ tile(Monitor *m) {
+-	unsigned int i, n, h, mw, my, ty;
++	unsigned int i, n, h, smh, mw, my, ty;
+ 	Client *c;
+ 
+ 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+@@ -1962,9 +1984,16 @@ tile(Monitor *m) {
+ 			my += HEIGHT(c) - c->bw;
+ 		}
+ 		else {
+-			h = (m->wh - ty) / (n - i);
++			smh = m->mh * m->smfacts[m->curtag];
++			if(!(nexttiled(c->next)))
++				h = (m->wh - ty) / (n - i);
++			else
++				h = (m->wh - smh - ty) / (n - i);
+ 			resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
+-			ty += HEIGHT(c) - c->bw;
++			if(!(nexttiled(c->next)))
++				ty += HEIGHT(c) - c->bw + smh;
++			else
++				ty += HEIGHT(c) - c->bw;
+ 		}
+ }
+ 

@@ -21,6 +21,7 @@ static const Bool topbar                 = True;   /* False means bottom bar */
 
 /* layouts */
 static const float mfact      = 0.63;  /* factor of master area size [0.05..0.95] */
+static const float smfact     = 0.00;  /* factor of tiled clients [0.05..1.00] */
 static const int nmaster      = 1;     /* number of clients in master area */
 static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
 
@@ -122,6 +123,8 @@ static Key keys[] = {
 	{ MODKEY,                   XK_q,                       killclient,     {0} },
 	{ MODKEY,                   XK_bracketleft,             setmfact,       {.f = -0.05} },
 	{ MODKEY,                   XK_bracketright,            setmfact,       {.f = +0.05} },
+	{ MODKEY,                   XK_0,                       setsmfact,      {.f = +0.05} },
+	{ MODKEY,                   XK_p,                       setsmfact,      {.f = -0.05} },
 	{ MODKEY,                   XK_equal,                   incnmaster,     {.i = +1 } },
 	{ MODKEY,                   XK_minus,                   incnmaster,     {.i = -1 } },
 	{ MODKEY,                   XK_space,                   setlayout,      {0} },
