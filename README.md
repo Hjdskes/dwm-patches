@@ -8,6 +8,9 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 **ToDo:**
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make the extra monitor one single tag on its own
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
+* Left to clean up:
+	* xx-dwm-6.0-occupiedcol_no_statuscolors.diff
+	* xx-dwm-6.0-systray.diff
 
 **Issues:**
 * singular borders

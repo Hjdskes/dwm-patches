@@ -3,7 +3,7 @@
 @@ -123,6 +123,7 @@
  	XftColor sel[ColLast];
  	XftColor urg[ColLast];
-     XftColor occ[ColLast];
+ 	XftColor occ[ColLast];
 +	XftColor sym[ColLast];
  	Drawable drawable;
  	GC gc;

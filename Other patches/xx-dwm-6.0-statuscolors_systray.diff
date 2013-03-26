@@ -50,7 +50,7 @@
  	x = dc.x;
  	if(m == selmon) { /* status is only drawn on selected monitor */
 -		dc.w = TEXTW(stext);
-+		dc.w = textnw(stext, strlen(stext)); // no padding
++		dc.w = textnw(stext, strlen(stext)); /* no padding */
  		dc.x = m->ww - dc.w;
  		if(showsystray && m == selmon) {
  			dc.x -= getsystraywidth();
@@ -188,7 +188,7 @@
  
  int
  textnw(const char *text, unsigned int len) {
-+	// remove non-printing color codes before calculating width
++	/* remove non-printing color codes before calculating width */
 +	char *ptr = (char *) text;
 +	unsigned int i, ibuf, lenbuf=len;
 +	char buf[len+1];
