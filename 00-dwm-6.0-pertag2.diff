@@ -1,5 +1,5 @@
---- dwm.c	2011-12-19 16:02:46.000000000 +0100
-+++ dwm.c	2013-03-09 21:04:53.671703568 +0100
+--- dwm.c.orig	2013-03-26 23:43:26.851249905 +0100
++++ dwm.c	2013-03-26 23:43:42.747916305 +0100
 @@ -126,8 +126,6 @@
  
  struct Monitor {
@@ -214,7 +214,7 @@
  		focus(NULL);
  		arrange(selmon);
  	}
-@@ -2043,11 +2108,26 @@
+@@ -2043,11 +2108,27 @@
  
  void
  view(const Arg *arg) {
@@ -233,7 +233,8 @@
 +			for (i=0; !(arg->ui & 1 << i); i++);
 +			selmon->curtag = i + 1;
 +		}
-+	} else {
++	}
++	else {
 +		selmon->prevtag= selmon->curtag ^ selmon->prevtag;
 +		selmon->curtag^= selmon->prevtag;
 +		selmon->prevtag= selmon->curtag ^ selmon->prevtag;
