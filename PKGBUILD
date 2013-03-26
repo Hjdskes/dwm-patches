@@ -37,9 +37,9 @@ build() {
 	cd $srcdir/$pkgname-$pkgver
 	cp $srcdir/config.h config.h
 
-	for PATCH in "${_patches[@]}"; do
-		msg "${PATCH##*/}" && patch -Np1 dwm.c "${startdir}/${PATCH##*/}"
-	done
+#	for PATCH in "${_patches[@]}"; do
+#		msg "${PATCH##*/}" && patch -Np1 dwm.c "${startdir}/${PATCH##*/}"
+#	done
 
 	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
 	make PREFIX=/usr DESTDIR=$pkgdir install

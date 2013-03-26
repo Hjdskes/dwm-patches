@@ -6,7 +6,6 @@ This is my personal DWM
 The `Other patches` directory contains, well, other patches. They're just a collection of patches I saved up over time; most of them I used in previous setups. Some are diff'ed against a vanilla dwm.c, but others are not so they will require hand-patching.
 
 **ToDo:**
-* Look into _NET_WM_STATE_DEMANDS_ATTENTION for proper Skype urgency hints
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make the extra monitor one single tag on its own
 * Move unsigned long real_opacity[] someplace else, use only once --> transparent statusbar patch. 
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
