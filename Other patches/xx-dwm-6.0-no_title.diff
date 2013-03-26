@@ -7,7 +7,7 @@
 -enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
 -       ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
 +enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin,
-+	   ClkRootWin, ClkLast };             /* clicks */
++       ClkRootWin, ClkLast };             /* clicks */
  
  typedef union {
  	int i;

@@ -5,7 +5,7 @@
  	XftColor sel[ColLast];
  	XftColor urg[ColLast];
 -    Drawable drawable;
-+    XftColor occ[ColLast];
++	XftColor occ[ColLast];
 +	Drawable drawable;
  	GC gc;
  	struct {

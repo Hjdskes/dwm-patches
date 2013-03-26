@@ -1,8 +1,7 @@
 #define INRECT(X,Y,RX,RY,RW,RH) ((X) >= (RX) && (X) < (RX) + (RW) && (Y) >= (RY) && (Y) < (RY) + (RH))
 
 void
-insertbefore(Client *a, Client *b)	/* insert a before b in the client list */
-{
+insertbefore(Client *a, Client *b) { /* insert a before b in the client list */
 	Monitor *m = a->mon;
 	Client **x = &m->clients;
 
@@ -13,8 +12,7 @@ insertbefore(Client *a, Client *b)	/* insert a before b in the client list */
 }
 
 void
-insertafter(Client *a, Client *b)	/* insert a after b in the client list */
-{
+insertafter(Client *a, Client *b) { /* insert a after b in the client list */
 	a->next = b->next;
 	b->next = a;
 }
@@ -42,7 +40,7 @@ tilemovemouse(const Arg *arg) {
 		return;
 	}
 	if(XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
-	None, cursor[CurMove], CurrentTime) != GrabSuccess)
+		None, cursor[CurMove], CurrentTime) != GrabSuccess)
 		return;
 	do {
 		XMaskEvent(dpy, MOUSEMASK|ExposureMask|SubstructureRedirectMask, &ev);

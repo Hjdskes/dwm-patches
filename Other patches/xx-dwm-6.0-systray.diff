@@ -28,8 +28,8 @@
 -       NetWMFullscreen, NetActiveWindow, NetWMWindowType,
 -       NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
 +enum { NetSupported, NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation,
-+	   NetWMName, NetWMState, NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-+	   NetWMWindowTypeDialog, NetLast }; /* EWMH atoms */
++       NetWMName, NetWMState, NetWMFullscreen, NetActiveWindow, NetWMWindowType,
++       NetWMWindowTypeDialog, NetLast }; /* EWMH atoms */
 +enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
  enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
  enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,

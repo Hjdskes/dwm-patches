@@ -6,7 +6,7 @@
  	XftColor sel[ColLast];
 -	Drawable drawable;
 +	XftColor urg[ColLast];
-+    Drawable drawable;
++	Drawable drawable;
  	GC gc;
  	struct {
  		int ascent;
@@ -15,7 +15,7 @@
  	for(i = 0; i < LENGTH(tags); i++) {
          dc.w = TEXTW(tags[i].name);
 -		col = m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
-+        col = urg & 1 << i ? dc.urg : m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
++		col = urg & 1 << i ? dc.urg : m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
  		drawtext(tags[i].name, col, urg & 1 << i);
  		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
  		           occ & 1 << i, urg & 1 << i, col);
@@ -25,9 +25,9 @@
  	dc.sel[ColFG] = getcolor(selfgcolor);
 -	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
 +	dc.urg[ColBorder] = getcolor(urgbordercolor);
-+    dc.urg[ColFG] = getcolor(urgbgcolor);
-+    dc.urg[ColBG] = getcolor(urgfgcolor);
-+    dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
++	dc.urg[ColFG] = getcolor(urgbgcolor);
++	dc.urg[ColBG] = getcolor(urgfgcolor);
++	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
      /* init system tray */
@@ -39,10 +39,10 @@
 +		else {
  			c->isurgent = (wmh->flags & XUrgencyHint) ? True : False;
 -		if(wmh->flags & InputHint)
-+            if(c->isurgent)
-+                XSetWindowBorder(dpy, c->win, dc.urg[ColBorder].pixel);
-+        }
-+        if(wmh->flags & InputHint)
++			if(c->isurgent)
++				XSetWindowBorder(dpy, c->win, dc.urg[ColBorder].pixel);
++		}
++		if(wmh->flags & InputHint)
  			c->neverfocus = !wmh->input;
  		else
  			c->neverfocus = False;

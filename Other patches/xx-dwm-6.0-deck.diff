@@ -1,5 +1,5 @@
---- dwm.c.orig	2011-12-19 16:02:46.000000000 +0100
-+++ dwm.c	2013-03-23 17:19:43.676517546 +0100
+--- dwm.c.orig	2013-03-26 23:50:10.044576455 +0100
++++ dwm.c	2013-03-26 23:50:27.494576161 +0100
 @@ -171,6 +171,7 @@
  static void configurenotify(XEvent *e);
  static void configurerequest(XEvent *e);
@@ -8,12 +8,13 @@
  static void destroynotify(XEvent *e);
  static void detach(Client *c);
  static void detachstack(Client *c);
-@@ -661,6 +662,33 @@
+@@ -661,6 +662,34 @@
  }
  
  void
 +deck(Monitor *m) {
-+	unsigned int i, n, dn, h, mw, my;
++	int dn;
++	unsigned int i, n, h, mw, my;
 +	Client *c;
 +
 +	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
