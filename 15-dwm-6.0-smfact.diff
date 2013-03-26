@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-03-24 21:46:11.200545630 +0100
-+++ dwm.c	2013-03-26 01:01:13.443221805 +0100
+--- dwm.c.orig	2013-03-26 18:06:03.674923785 +0100
++++ dwm.c	2013-03-26 18:07:42.834922116 +0100
 @@ -69,6 +69,7 @@ typedef union {
  	int i;
  	unsigned int ui;
@@ -8,7 +8,7 @@
  	const void *v;
  } Arg;
  
-@@ -144,14 +145,16 @@ struct Monitor {
+@@ -144,6 +145,7 @@ struct Monitor {
  	int prevtag;
  	const Layout **lts;
  	double *mfacts;
@@ -16,12 +16,10 @@
  	int *nmasters;
  };
  
- typedef struct {
- 	const char *name;
+@@ -152,6 +154,7 @@ typedef struct {
  	const Layout *layout;
--	float mfact;
+ 	float mfact;
  	int nmaster;
-+	float mfact;
 +	float smfact;
  } Tag;
  
