@@ -18,11 +18,11 @@
  	x = dc.x;
  	dc.w = TEXTW(stext);
 @@ -1780,6 +1781,8 @@
-     dc.urg[ColBG] = getcolor(urgfgcolor);
+ 	dc.urg[ColBG] = getcolor(urgfgcolor);
  	dc.occ[ColBG] = getcolor(occbgcolor);
  	dc.occ[ColFG] = getcolor(occfgcolor);
 +	dc.sym[ColFG] = getcolor(symfgcolor);
 +	dc.sym[ColBG] = getcolor(symbgcolor);
-     dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
+ 	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
