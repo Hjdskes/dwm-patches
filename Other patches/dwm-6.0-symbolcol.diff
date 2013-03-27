@@ -1,14 +1,14 @@
---- dwm.c.orig	2012-08-21 12:51:35.810479996 +0200
-+++ b/dwm-6.0/dwm.c	2012-08-21 12:52:29.017145428 +0200
-@@ -123,6 +123,7 @@
- 	XftColor sel[ColLast];
- 	XftColor urg[ColLast];
- 	XftColor occ[ColLast];
-+	XftColor sym[ColLast];
+--- dwm.c.orig	2013-03-27 16:36:32.416636802 +0100
++++ dwm.c	2013-03-27 16:37:51.526635474 +0100
+@@ -101,6 +101,7 @@
+ 	int x, y, w, h;
+ 	unsigned long norm[ColLast];
+ 	unsigned long sel[ColLast];
++	unsigned long sym[ColLast];
  	Drawable drawable;
  	GC gc;
  	struct {
-@@ -851,7 +852,7 @@
+@@ -737,7 +738,7 @@
  		dc.x += dc.w;
  	}
  	dc.w = blw = TEXTW(m->ltsymbol);
@@ -16,11 +16,11 @@
 +	drawtext(m->ltsymbol, dc.sym, False);
  	dc.x += dc.w;
  	x = dc.x;
- 	dc.w = TEXTW(stext);
-@@ -1780,6 +1781,8 @@
- 	dc.urg[ColBG] = getcolor(urgfgcolor);
- 	dc.occ[ColBG] = getcolor(occbgcolor);
- 	dc.occ[ColFG] = getcolor(occfgcolor);
+ 	if(m == selmon) { /* status is only drawn on selected monitor */
+@@ -1618,6 +1619,8 @@
+ 	dc.sel[ColBorder] = getcolor(selbordercolor);
+ 	dc.sel[ColBG] = getcolor(selbgcolor);
+ 	dc.sel[ColFG] = getcolor(selfgcolor);
 +	dc.sym[ColFG] = getcolor(symfgcolor);
 +	dc.sym[ColBG] = getcolor(symbgcolor);
  	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));

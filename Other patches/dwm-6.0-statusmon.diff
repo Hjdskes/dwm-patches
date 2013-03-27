@@ -1,31 +1,31 @@
---- dwm.c.orig	2012-12-17 16:39:35.400054839 +0100
-+++ b/dwm-6.0/dwm.c	2012-12-17 17:22:35.500642385 +0100
-@@ -146,6 +146,7 @@
+--- dwm.c.orig	2013-03-27 16:33:58.646639392 +0100
++++ dwm.c	2013-03-27 16:35:28.446637881 +0100
+@@ -126,6 +126,7 @@
  
  struct Monitor {
  	char ltsymbol[16];
 +	int status;
+ 	float mfact;
+ 	int nmaster;
  	int num;
- 	int by;               /* bar geometry */
- 	int mx, my, mw, mh;   /* screen size */
-@@ -750,6 +751,7 @@
- 	if(!(m->lts = calloc(numtags, sizeof(Layout *))))
- 		die("fatal: could not malloc() %u bytes\n", sizeof(Layout *) * numtags);
+@@ -650,6 +651,7 @@
+ 	if(!(m = (Monitor *)calloc(1, sizeof(Monitor))))
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(Monitor));
  	m->tagset[0] = m->tagset[1] = 1;
 +	m->status = 0;
- 	m->mfacts[0] = mfact;
- 	m->nmasters[0] = nmaster;
- 	m->lts[0] = &layouts[0];
-@@ -851,7 +853,7 @@
- 	drawtext(m->ltsymbol, dc.colors[0], False);
+ 	m->mfact = mfact;
+ 	m->nmaster = nmaster;
+ 	m->showbar = showbar;
+@@ -740,7 +742,7 @@
+ 	drawtext(m->ltsymbol, dc.norm, False);
  	dc.x += dc.w;
  	x = dc.x;
 -	if(m == selmon) { /* status is only drawn on selected monitor */
 +	if(m->status) { /* status is only drawn on status monitor */
- 		dc.w = textnw(stext, strlen(stext)); // no padding
+ 		dc.w = TEXTW(stext);
  		dc.x = m->ww - dc.w;
- 		if(showsystray && m == selmon) {
-@@ -2123,6 +2125,7 @@
+ 		if(dc.x < x) {
+@@ -1888,6 +1890,7 @@
  					m->my = m->wy = unique[i].y_org;
  					m->mw = m->ww = unique[i].width;
  					m->mh = m->wh = unique[i].height;
@@ -33,7 +33,7 @@
  					updatebarpos(m);
  				}
  		}
-@@ -2151,6 +2154,7 @@
+@@ -1916,6 +1919,7 @@
  	{
  		if(!mons)
  			mons = createmon();
@@ -41,7 +41,7 @@
  		if(mons->mw != sw || mons->mh != sh) {
  			dirty = True;
  			mons->mw = mons->ww = sw;
-@@ -2240,9 +2244,12 @@
+@@ -2005,9 +2009,12 @@
  
  void
  updatestatus(void) {

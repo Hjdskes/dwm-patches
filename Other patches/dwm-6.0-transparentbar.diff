@@ -1,0 +1,36 @@
+--- dwm.c.orig	2013-03-27 16:43:38.753296302 +0100
++++ dwm.c	2013-03-27 16:46:09.783293758 +0100
+@@ -60,7 +60,7 @@
+ enum { ColBorder, ColFG, ColBG, ColLast };              /* color */
+ enum { NetSupported, NetWMName, NetWMState,
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+-       NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
++       NetWMWindowsOpacity, NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+ enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+        ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
+@@ -1607,6 +1607,7 @@
+ 	netatom[NetWMFullscreen] = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
+ 	netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
+ 	netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
++	netatom[NetWMWindowsOpacity] = XInternAtom(dpy, "_NET_WM_WINDOW_OPACITY", False);
+ 	/* init cursors */
+ 	cursor[CurNormal] = XCreateFontCursor(dpy, XC_left_ptr);
+ 	cursor[CurResize] = XCreateFontCursor(dpy, XC_sizing);
+@@ -1820,6 +1821,7 @@
+ 
+ void
+ updatebars(void) {
++	unsigned long real_opacity[] = { opacity * 0xffffffff };
+ 	Monitor *m;
+ 	XSetWindowAttributes wa = {
+ 		.override_redirect = True,
+@@ -1830,6 +1832,8 @@
+ 		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, DefaultDepth(dpy, screen),
+ 		                          CopyFromParent, DefaultVisual(dpy, screen),
+ 		                          CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
++		XChangeProperty(dpy, m->barwin, netatom[NetWMWindowsOpacity], XA_CARDINAL,
++				32, PropModeReplace, (unsigned char *)real_opacity, 1);
+ 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]);
+ 		XMapRaised(dpy, m->barwin);
+ 	}
