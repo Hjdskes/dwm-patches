@@ -8,7 +8,7 @@ static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
     { "#BDBDBD", "#F2F1F0", "#121212" },
     { "#4A90D9", "#4A90D9", "#121212" },
-    { "#DC322F", "#DC322F", "#121212" },
+	{ "#DC322F", "#DC322F", "#121212" },
     { "#16596A", "#16596A", "#121212" },
 };
 

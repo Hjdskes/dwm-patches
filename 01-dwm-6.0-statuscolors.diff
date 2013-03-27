@@ -1,5 +1,5 @@
---- dwm.c	2013-03-17 23:43:42.659496724 +0100
-+++ dwm.c	2013-03-17 23:43:32.436163562 +0100
+--- dwm.c.orig	2013-03-27 21:58:21.429128974 +0100
++++ dwm.c	2013-03-27 21:58:41.859128631 +0100
 @@ -49,6 +49,7 @@
  #define LENGTH(X)               (sizeof X / sizeof X[0])
  #define MAX(A, B)               ((A) > (B) ? (A) : (B))
@@ -192,18 +192,3 @@
  	if(setfocus)
  		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
  }
-@@ -2096,9 +2118,12 @@
- 			wmh->flags &= ~XUrgencyHint;
- 			XSetWMHints(dpy, c->win, wmh);
- 		}
--		else
-+		else {
- 			c->isurgent = (wmh->flags & XUrgencyHint) ? True : False;
--		if(wmh->flags & InputHint)
-+            if(c->isurgent)
-+                XSetWindowBorder(dpy, c->win, dc.colors[2][ColBorder]);
-+        }
-+        if(wmh->flags & InputHint)
- 			c->neverfocus = !wmh->input;
- 		else
- 			c->neverfocus = False;
