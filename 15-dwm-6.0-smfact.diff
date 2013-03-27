@@ -105,7 +105,7 @@
 +		return;
 +	sf = arg->sf < 1.0 ? arg->sf + selmon->smfacts[selmon->curtag] : arg->sf - 1.0;
 +	for(n = 0, c = nexttiled(selmon->clients); c; c = nexttiled(c->next), n++);
-+	if(sf < 0 || ((n > 7) ? (sf > 0.50) : (sf > 0.95)))
++	if(sf < 0 || ((n > 7) ? sf > 0.50 : sf > 0.95))
 +		return;
 +	selmon->smfacts[selmon->curtag] = sf;
 +	arrange(selmon);
