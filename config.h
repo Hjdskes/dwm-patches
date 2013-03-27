@@ -8,7 +8,7 @@ static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
     { "#BDBDBD", "#F2F1F0", "#121212" },
     { "#4A90D9", "#4A90D9", "#121212" },
-	{ "#DC322F", "#DC322F", "#121212" },
+    { "#DC322F", "#DC322F", "#121212" },
     { "#16596A", "#16596A", "#121212" },
 };
 
@@ -32,7 +32,6 @@ static const Layout layouts[] = {
 	{ "B",  bstack },
 	{ "M",  monocle },
 	{ "F",  NULL },
-	{ "D",  deck },
 };
 
 /* tagging */
@@ -140,7 +139,6 @@ static Key keys[] = {
 	{ MODKEY,                   XK_b,                       setlayout,      {.v = &layouts[2] } },
 	{ MODKEY,                   XK_m,                       setlayout,      {.v = &layouts[3] } },
 	{ MODKEY,                   XK_f,                       setlayout,      {.v = &layouts[4] } },
-	{ MODKEY,                   XK_d,                       setlayout,      {.v = &layouts[5] } },
 	TAGKEYS(                    XK_F1,                      0)
 	TAGKEYS(                    XK_F2,                      1)
 	TAGKEYS(                    XK_F3,                      2)
