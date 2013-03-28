@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-03-27 12:50:11.736865270 +0100
-+++ dwm.c	2013-03-27 14:05:31.240122573 +0100
+--- dwm.c.orig	2013-03-28 14:24:05.916058185 +0100
++++ dwm.c	2013-03-28 15:26:57.679328067 +0100
 @@ -69,6 +69,7 @@
  	int i;
  	unsigned int ui;
@@ -24,7 +24,7 @@
  } Tag;
  
  typedef struct {
-@@ -237,6 +240,7 @@
+@@ -236,6 +239,7 @@
  static void setfullscreen(Client *c, Bool fullscreen);
  static void setlayout(const Arg *arg);
  static void setmfact(const Arg *arg);
@@ -32,7 +32,7 @@
  static void setup(void);
  static int shifttag(int dist);
  static void showhide(Client *c);
-@@ -453,7 +457,7 @@
+@@ -452,7 +456,7 @@
  
  void
  bstack(Monitor *m) {
@@ -41,18 +41,22 @@
  	Client *c;
  
  	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-@@ -474,9 +478,16 @@
+@@ -473,9 +477,19 @@
  			mx += WIDTH(c) - c->bw;
  		}
  		else {
 -			w = (m->ww - tx) / (n - i);
+-			resize(c, m->wx + tx - c->bw, m->wy + mh, w, m->wh - mh - c->bw, False);
+-			tx += WIDTH(c) - c->bw;
 +			smw = m->mh * m->smfacts[m->curtag];
 +			if(!(nexttiled(c->next)))
 +				w = (m->ww - tx) / (n - i);
 +			else
 +				w = (m->ww - smw - tx) / (n - i);
- 			resize(c, m->wx + tx - c->bw, m->wy + mh, w, m->wh - mh - c->bw, False);
--			tx += WIDTH(c) - c->bw;
++			if(h > minwsz)
++				resize(c, m->wx + tx - c->bw, m->wy + mh, w, m->wh - mh - c->bw, False);
++			else
++				c->isfloating = True;
 +			if(!(nexttiled(c->next)))
 +				tx += WIDTH(c) - c->bw + smw;
 +			else
@@ -60,7 +64,7 @@
  		}
  }
  
-@@ -628,6 +639,7 @@
+@@ -627,6 +641,7 @@
  	XUnmapWindow(dpy, mon->barwin);
  	XDestroyWindow(dpy, mon->barwin);
  	free(mon->mfacts);
@@ -68,7 +72,7 @@
  	free(mon->nmasters);
  	free(mon->lts);
  	free(mon);
-@@ -769,12 +781,15 @@
+@@ -768,12 +783,15 @@
  		die("fatal: could not malloc() %u bytes\n", sizeof(Monitor));
  	if(!(m->mfacts = calloc(numtags, sizeof(double))))
  		die("fatal: could not malloc() %u bytes\n", sizeof(double) * numtags);
@@ -84,7 +88,7 @@
  	m->nmasters[0] = nmaster;
  	m->lts[0] = &layouts[0];
  	m->showbar = showbar;
-@@ -782,6 +797,7 @@
+@@ -781,6 +799,7 @@
  	m->curtag = m->prevtag = 1;
  	for(i = 1; i < numtags; i++) {
  		m->mfacts[i] = tags[i - 1].mfact < 0 ? mfact : tags[i - 1].mfact;
@@ -92,20 +96,17 @@
  		m->nmasters[i] = tags[i - 1].nmaster < 0 ? nmaster : tags[i - 1].nmaster;
  		m->lts[i] = tags[i - 1].layout;
  	}
-@@ -1801,6 +1817,22 @@
+@@ -1766,6 +1785,19 @@
  }
  
  void
 +setsmfact(const Arg *arg) {
 +	float sf;
-+	int n = 0;
-+	Client *c;
 +
 +	if(!arg || !selmon->lt[selmon->sellt]->arrange)
 +		return;
 +	sf = arg->sf < 1.0 ? arg->sf + selmon->smfacts[selmon->curtag] : arg->sf - 1.0;
-+	for(n = 0, c = nexttiled(selmon->clients); c; c = nexttiled(c->next), n++);
-+	if(sf < 0 || ((n > 7) ? sf > 0.50 : sf > 0.95))
++	if(sf < 0 || sf > 0.9)
 +		return;
 +	selmon->smfacts[selmon->curtag] = sf;
 +	arrange(selmon);
@@ -115,7 +116,7 @@
  setup(void) {
  	XSetWindowAttributes wa;
  
-@@ -1941,7 +1973,7 @@
+@@ -1906,7 +1938,7 @@
  
  void
  tile(Monitor *m) {
@@ -124,18 +125,22 @@
  	Client *c;
  
  	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-@@ -1962,9 +1994,16 @@
+@@ -1927,9 +1959,19 @@
  			my += HEIGHT(c) - c->bw;
  		}
  		else {
 -			h = (m->wh - ty) / (n - i);
+-			resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
+-			ty += HEIGHT(c) - c->bw;
 +			smh = m->mh * m->smfacts[m->curtag];
 +			if(!(nexttiled(c->next)))
 +				h = (m->wh - ty) / (n - i);
 +			else
 +				h = (m->wh - smh - ty) / (n - i);
- 			resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
--			ty += HEIGHT(c) - c->bw;
++			if(h > minwsz)
++				resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
++			else
++				c->isfloating = True;
 +			if(!(nexttiled(c->next)))
 +				ty += HEIGHT(c) - c->bw + smh;
 +			else
