@@ -29,7 +29,7 @@
  					m->my = m->wy = unique[i].y_org;
  					m->mw = m->ww = unique[i].width;
  					m->mh = m->wh = unique[i].height;
-+					m->status = (i == statusmon ? 1: 0);
++					m->status = (i == statusmon ? 1 : 0);
  					updatebarpos(m);
  				}
  		}
