@@ -1,0 +1,52 @@
+--- dwm.c.orig	2013-03-30 22:41:54.206754254 +0100
++++ dwm.c	2013-03-30 22:44:35.130084879 +0100
+@@ -475,9 +475,21 @@ bstack(Monitor *m) {
+ 			mx += WIDTH(c);
+ 		}
+ 		else {
+-			w = (m->ww - tx) / (n - i);
+-			resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw), False);
+-			tx += WIDTH(c);
++			smw = m->mh * m->smfacts[m->curtag];
++			if(!(nexttiled(c->next)))
++				w = (m->ww - tx) / (n - i);
++			else
++				w = (m->ww - smw - tx) / (n - i);
++			if(w < minwsz) {
++				c->isfloating = True;
++				XRaiseWindow(dpy, c->win);
++			}
++			else
++				resize(c, m->wx + tx - c->bw, m->wy + mh, w, m->wh - mh - c->bw, False);
++			if(!(nexttiled(c->next)))
++				tx += WIDTH(c) - c->bw + smw;
++			else
++				tx += WIDTH(c) - c->bw;
+ 		}
+ }
+ 
+@@ -1893,9 +1905,21 @@ tile(Monitor *m) {
+ 			my += HEIGHT(c);
+ 		}
+ 		else {
+-			h = (m->wh - ty) / (n - i);
+-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+-			ty += HEIGHT(c);
++			smh = m->mh * m->smfacts[m->curtag];
++			if(!(nexttiled(c->next)))
++				h = (m->wh - ty) / (n - i);
++			else
++				h = (m->wh - smh - ty) / (n - i);
++			if(h < minwsz) {
++				c->isfloating = True;
++				XRaiseWindow(dpy, c->win);
++			}
++			else
++				resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
++			if(!(nexttiled(c->next)))
++				ty += HEIGHT(c) - c->bw + smh;
++			else
++				ty += HEIGHT(c) - c->bw;
+ 		}
+ }
+ 

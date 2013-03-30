@@ -2,7 +2,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const char font[]            = "-*-montecarlo-medium-r-normal--11-110-72-72-c-60-*-*";
+static const char font[]            = "Ubuntu Mono:size=9";
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
@@ -14,9 +14,10 @@ static const char colors[NUMCOLORS][ColLast][9] = {
 
 static const unsigned int borderpx       = 1;      /* Border pixel of windows */
 static const unsigned int snap           = 2;      /* Snap pixel */
-static const unsigned int minwsz         = 10;     /* Minimal heigt of a client for smfact */
+static const unsigned int minwsz         = 20;     /* Minimal heigt of a client for smfact */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */
+static const char statusprogram[]        = "dwmst"; /* program to execute to set DWM's status */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
 
