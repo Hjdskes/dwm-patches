@@ -51,7 +51,7 @@
 -		}
 -		else
 -			drawtext(NULL, dc.colors[0], False);
-+		/*drawtext(NULL, dc.colors[0], False);*/
++		drawtext(NULL, dc.colors[0], False);
 +		dc.w = MIN(dc.w, clockw);
 +		dc.x = MAX(dc.x, (m->mw / 2) - (clockw / 2));
 +		drawtext(clock, dc.colors[1], True);
