@@ -16,7 +16,7 @@ _source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
 _patches=(
 		  00-dwm-6.0-pertag2.diff
 		  01-dwm-6.0-xft.diff
-		  02-dwm-6.0-statuscolors_xft.diff
+		  02-dwm-6.0-statuscolors.diff
 		  03-dwm-6.0-hideempty.diff
 		  04-dwm-6.0-chat.diff
 		  05-dwm-6.0-push.diff
