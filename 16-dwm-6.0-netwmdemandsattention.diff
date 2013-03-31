@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-03-26 18:08:48.374921014 +0100
-+++ dwm.c	2013-03-26 18:56:16.951539816 +0100
+--- dwm.c.orig	2013-03-27 20:30:58.199217180 +0100
++++ dwm.c	2013-03-27 21:17:22.519170340 +0100
 @@ -58,7 +58,7 @@
  /* enums */
  enum { CurNormal, CurResize, CurMove, CurLast };        /* cursor */
@@ -9,22 +9,18 @@
         NetWMFullscreen, NetActiveWindow, NetWMWindowType,
         NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
  enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-@@ -668,6 +668,14 @@ clientmessage(XEvent *e) {
+@@ -668,6 +668,10 @@ clientmessage(XEvent *e) {
  		if(cme->data.l[1] == netatom[NetWMFullscreen] || cme->data.l[2] == netatom[NetWMFullscreen])
  			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
  			              || (cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */ && !c->isfullscreen)));
 +		else if(cme->data.l[1] == netatom[NetWMDemandsAttention]) {
-+			XWMHints *wmh;
-+			if((wmh = XGetWMHints(dpy, cme->window))) {
-+				wmh->flags |= XUrgencyHint;
-+				XSetWMHints(dpy, cme->window, wmh);
-+				XFree(wmh);
-+			}
++			c->isurgent = True;
++			drawbar(selmon);
 +		}
  	}
  	else if(cme->message_type == netatom[NetActiveWindow]) {
  		if(!ISVISIBLE(c)) {
-@@ -1851,6 +1859,7 @@ setup(void) {
+@@ -1851,6 +1855,7 @@ setup(void) {
  	wmatom[WMTakeFocus] = XInternAtom(dpy, "WM_TAKE_FOCUS", False);
  	netatom[NetActiveWindow] = XInternAtom(dpy, "_NET_ACTIVE_WINDOW", False);
  	netatom[NetSupported] = XInternAtom(dpy, "_NET_SUPPORTED", False);
