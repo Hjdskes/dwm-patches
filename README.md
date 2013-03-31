@@ -6,6 +6,7 @@ This is my personal DWM
 The `Other patches` directory contains, well, other patches. They're just a collection of patches I saved up over time; most of them I used in previous setups. They're all diffed against a vanilla dwm.c, so if you want to combine some you will probably have to hand patch a bit.
 
 **ToDo:**
+* Fix bar height?
 * Fix clock
 * Fix smfact
 * Decide which netwmdemandsattention patch is better. Feedback is welcome!

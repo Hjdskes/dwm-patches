@@ -214,7 +214,7 @@
 -	}
 -	return XTextWidth(dc.font.xfont, text, len);
 +	XGlyphInfo ext;
-+	XftTextExtentsUtf8(dpy, dc.font.xfont, (XftChar8 *) text, len, &ext);
++	XftTextExtentsUtf8(dpy, dc.font.xfont, (XftChar8 *)text, len, &ext);
 +	return ext.xOff;
  }
  
