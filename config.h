@@ -2,14 +2,15 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const char font[]            = "Ubuntu Mono:size=9";
+static const char font[]            = "Ubuntu Mono:size=9:antialias=true:hinting=true"; /*:rgba=rgb:hintstyle=hintsfull:lcdfilter=lcdlight:dpi=96";*/
+/*static const char font[]            = "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true:rgba=rgb:hintstyle=hintsfull:lcdfilter=lcdlight:dpi=96";*/
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#BDBDBD", "#F2F1F0", "#121212" },
-    { "#4A90D9", "#4A90D9", "#121212" },
-    { "#DC322F", "#DC322F", "#121212" },
-    { "#16596A", "#16596A", "#121212" },
+    { "#BDBDBD", "#8C8C8C", "#0A1724" },
+    { "#4A90D9", "#4A90D9", "#0A1724" },
+    { "#DC322F", "#DC322F", "#0A1724" },
+    { "#16596A", "#16596A", "#0A1724" },
 };
 
 static const unsigned int borderpx       = 1;      /* Border pixel of windows */
@@ -29,11 +30,11 @@ static const Bool resizehints = False; /* True means respect size hints in tiled
 
 static const Layout layouts[] = {
   /* symbol arrange */
-	{ "T",  tile },
-	{ "C",  chat },
-	{ "B",  bstack },
-	{ "M",  monocle },
-	{ "F",  NULL },
+	{ "   T",  tile },
+	{ "   C",  chat },
+	{ "   B",  bstack },
+	{ "   M",  monocle },
+	{ "   F",  NULL },
 };
 
 /* tagging */

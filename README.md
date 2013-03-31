@@ -7,6 +7,7 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 
 **ToDo:**
 * Fix clock
+* Fix smfact
 * Decide which netwmdemandsattention patch is better. Feedback is welcome!
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make the extra monitor one single tag on its own.
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
