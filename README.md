@@ -8,8 +8,7 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 **ToDo:**
 * Fix bar height?
 * Fix clock
-* Fix smfact
-* Decide which netwmdemandsattention patch is better. Feedback is welcome!
+* Fix smfact; stick with smfact2 or smfact? Try see if we can make stack clients appear top-left corner as vanilla DWM does.
 * Try adapt the way multimonitor is treated: make it like GNOME Shell - basically make the extra monitor one single tag on its own.
 * Implement runorraise? First find out if this can be done on a more global level too, e.g. dmenu.
 
@@ -19,5 +18,3 @@ The `Other patches` directory contains, well, other patches. They're just a coll
 	* in gridlayout, we can't hide either the left or the right screen edge's border off-screen.
 * smfact
 	* negative smfact can't properly function the way it is, so for now remains disabled.
-* netwmdemandsattention
-	* having the window manager set hints for a client is directly contrary to ICCCM §4.1.2. We could just use `c->isurgent = True`, but that does not give us the actual urgent border. Seeing DWM does mess with hints (in `clearurgent()` and in `updatewmhints()`, I'm not making it that big of an issue.

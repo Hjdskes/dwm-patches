@@ -24,7 +24,7 @@ static const Bool topbar                 = True;   /* False means bottom bar */
 
 /* layouts */
 static const float mfact      = 0.63;  /* factor of master area size [0.05..0.95] */
-/*static const float smfact     = 0.00;*/  /* factor of tiled clients [0.05..1.00] */
+static const float smfact     = 0.00;  /* factor of tiled clients [0.05..1.00] */
 static const int nmaster      = 1;     /* number of clients in master area */
 static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
 
@@ -53,7 +53,7 @@ static const Rule rules[] = {
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
     { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
-	{ "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
+	{ "st", 			    NULL,       NULL,               1 << 2,     False,      -1 },
     { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
@@ -77,7 +77,7 @@ static const Rule rules[] = {
 static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *find[]    = { "dmenu_finder", NULL };
 static const char *dmfm[]    = { "dmenu_fm", NULL };
-static const char *term[]    = { "urxvtc", NULL };
+static const char *term[]    = { "st", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *files[]   = { "nautilus", NULL };
 static const char *music[]   = { "audacious", NULL };
@@ -125,8 +125,8 @@ static Key keys[] = {
 	{ MODKEY,                   XK_q,                       killclient,     {0} },
 	{ MODKEY,                   XK_bracketleft,             setmfact,       {.f = -0.05} },
 	{ MODKEY,                   XK_bracketright,            setmfact,       {.f = +0.05} },
-	/*{ MODKEY,                   XK_0,                       setsmfact,      {.f = +0.05} },
-	{ MODKEY,                   XK_p,                       setsmfact,      {.f = -0.05} },*/
+	{ MODKEY,                   XK_0,                       setsmfact,      {.f = +0.05} },
+	{ MODKEY,                   XK_p,                       setsmfact,      {.f = -0.05} },
 	{ MODKEY,                   XK_equal,                   incnmaster,     {.i = +1 } },
 	{ MODKEY,                   XK_minus,                   incnmaster,     {.i = -1 } },
 	{ MODKEY,                   XK_space,                   setlayout,      {0} },
