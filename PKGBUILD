@@ -29,7 +29,7 @@ _patches=(
 		  12-dwm-6.0-focusfollowmousetag.diff
 		  13-dwm-6.0-removeunfunc.diff
 		  14-dwm-6.0-xkeycodetokeysymfix.diff
-		  15-dwm-6.0-smfact2.diff
+		  15-dwm-6.0-smfact22.diff
 		  16-dwm-6.0-netwmdemandsattention.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
@@ -44,7 +44,11 @@ build() {
 	done
 
 	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
-	make PREFIX=/usr DESTDIR=$pkgdir install
+}
 
+package() {
+	cd $srcdir/$pkgname-$pkgver 
+
+	make PREFIX=/usr DESTDIR=$pkgdir install
 	install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
