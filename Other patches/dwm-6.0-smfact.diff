@@ -1,5 +1,5 @@
---- config.def.h.orig	2013-03-28 17:38:07.683304594 +0100
-+++ config.def.h	2013-03-28 17:39:22.049970008 +0100
+--- config.def.h	2013-04-06 21:01:27.750829760 +0200
++++ config.def.h	2013-04-06 21:02:19.557495556 +0200
 @@ -10,6 +10,7 @@ static const char selbgcolor[]      = "#
  static const char selfgcolor[]      = "#eeeeee";
  static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -25,8 +25,8 @@
  	{ MODKEY,                       XK_Return, zoom,           {0} },
  	{ MODKEY,                       XK_Tab,    view,           {0} },
  	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
---- src/dwm-6.0/dwm.c	2011-12-19 16:02:46.000000000 +0100
-+++ dwm.c	2013-03-28 17:43:09.233299524 +0100
+--- dwm.c	2011-12-19 16:02:46.000000000 +0100
++++ dwm.c	2013-04-06 21:00:46.620830452 +0200
 @@ -69,6 +69,7 @@ typedef union {
  	int i;
  	unsigned int ui;
@@ -51,7 +51,15 @@
  static void setup(void);
  static void showhide(Client *c);
  static void sigchld(int unused);
-@@ -1581,6 +1584,19 @@ setmfact(const Arg *arg) {
+@@ -651,6 +654,7 @@ createmon(void) {
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(Monitor));
+ 	m->tagset[0] = m->tagset[1] = 1;
+ 	m->mfact = mfact;
++	m->smfact = smfact;
+ 	m->nmaster = nmaster;
+ 	m->showbar = showbar;
+ 	m->topbar = topbar;
+@@ -1581,6 +1585,19 @@ setmfact(const Arg *arg) {
  }
  
  void
@@ -60,10 +68,10 @@
 +
 +	if(!arg || !selmon->lt[selmon->sellt]->arrange)
 +		return;
-+	sf = arg->sf < 1.0 ? arg->sf + selmon->smfacts[selmon->curtag] : arg->sf - 1.0;
++	sf = arg->sf < 1.0 ? arg->sf + selmon->smfact : arg->sf - 1.0;
 +	if(sf < 0 || sf > 0.9)
 +		return;
-+	selmon->smfacts[selmon->curtag] = sf;
++	selmon->smfact = sf;
 +	arrange(selmon);
 +}
 +
@@ -71,7 +79,7 @@
  setup(void) {
  	XSetWindowAttributes wa;
  
-@@ -1703,7 +1719,7 @@ textnw(const char *text, unsigned int le
+@@ -1703,7 +1720,7 @@ textnw(const char *text, unsigned int le
  
  void
  tile(Monitor *m) {
@@ -80,20 +88,24 @@
  	Client *c;
  
  	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-@@ -1721,9 +1737,19 @@ tile(Monitor *m) {
+@@ -1721,9 +1738,23 @@ tile(Monitor *m) {
  			my += HEIGHT(c);
  		}
  		else {
 -			h = (m->wh - ty) / (n - i);
 -			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
 -			ty += HEIGHT(c);
-+			smh = m->mh * m->smfacts[m->curtag];
++			smh = m->mh * m->smfact;
 +			if(!(nexttiled(c->next)))
 +				h = (m->wh - ty) / (n - i);
 +			else
 +				h = (m->wh - smh - ty) / (n - i);
-+			if(h < minwsz)
++			if(h < minwsz) {
 +				c->isfloating = True;
++				XRaiseWindow(dpy, c->win);
++				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*c->bw), h - (2*c->bw), False);
++				ty -= HEIGHT(c);
++			}
 +			else
 +				resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
 +			if(!(nexttiled(c->next)))

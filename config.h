@@ -3,7 +3,6 @@
 
 /* appearance */
 static const char font[]            = "Ubuntu Mono:size=9:antialias=true:hinting=true"; /*:rgba=rgb:hintstyle=hintsfull:lcdfilter=lcdlight:dpi=96";*/
-/*static const char font[]            = "Source Sans Pro:Semibold:size=9:antialias=true:hinting=true:rgba=rgb:hintstyle=hintsfull:lcdfilter=lcdlight:dpi=96";*/
 #define NUMCOLORS 4
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
@@ -53,7 +52,7 @@ static const Rule rules[] = {
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
     { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
-	{ "st", 			    NULL,       NULL,               1 << 2,     False,      -1 },
+	{ "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
     { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
@@ -77,7 +76,7 @@ static const Rule rules[] = {
 static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *find[]    = { "dmenu_finder", NULL };
 static const char *dmfm[]    = { "dmenu_fm", NULL };
-static const char *term[]    = { "st", NULL };
+static const char *term[]    = { "urxvtc", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *files[]   = { "nautilus", NULL };
 static const char *music[]   = { "audacious", NULL };

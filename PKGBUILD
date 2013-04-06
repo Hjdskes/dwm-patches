@@ -29,7 +29,7 @@ _patches=(
 		  12-dwm-6.0-focusfollowmousetag.diff
 		  13-dwm-6.0-removeunfunc.diff
 		  14-dwm-6.0-xkeycodetokeysymfix.diff
-		  15-dwm-6.0-smfact2.diff
+		  15-dwm-6.0-smfact.diff
 		  16-dwm-6.0-netwmdemandsattention.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
