@@ -1,0 +1,39 @@
+--- dwm.c.orig	2013-04-07 15:30:13.323219433 +0200
++++ dwm.c	2013-04-07 19:32:53.546307822 +0200
+@@ -64,7 +64,7 @@ enum { NetSupported, NetWMDemandsAttenti
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+        NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClock,
++enum { ClkTagBar, ClkLtSymbol, ClkClSymbol, ClkStatusText, ClkClock,
+        ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
+ 
+ typedef union {
+@@ -278,7 +278,7 @@ static const char broken[] = "broken";
+ static char stext[256];
+ static int screen;
+ static int sw, sh;           /* X display screen geometry width, height */
+-static int bh, blw = 0;      /* bar geometry */
++static int bh, blw, clw = 0; /* bar geometry */
+ static int (*xerrorxlib)(Display *, XErrorEvent *);
+ static unsigned int numlockmask = 0;
+ static void (*handler[LASTEvent]) (XEvent *) = {
+@@ -528,6 +528,8 @@ buttonpress(XEvent *e) {
+ 		}
+ 		else if(ev->x < x + blw)
+ 			click = ClkLtSymbol;
++		else if(ev->x < x + blw + clw)
++			click = ClkClSymbol;
+ 		else if(ev->x > selmon->ww - TEXTW(stext))
+ 			click = ClkStatusText;
+ 		else
+@@ -902,6 +904,9 @@ drawbar(Monitor *m) {
+ 	dc.w = blw = TEXTW(m->ltsymbol);
+ 	drawtext(m->ltsymbol, dc.colors[0], False);
+ 	dc.x += dc.w;
++	dc.w = clw = TEXTW(clsymbol);
++	drawtext(clsymbol, dc.colors[0], False);
++	dc.x += dc.w;
+ 	x = dc.x;
+ 	if(m == selmon) { /* status is only drawn on selected monitor */
+ 		dc.w = textnw(stext, strlen(stext));

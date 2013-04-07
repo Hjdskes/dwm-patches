@@ -17,7 +17,7 @@ static const unsigned int snap           = 2;      /* Snap pixel */
 static const unsigned int minwsz         = 20;     /* Minimal heigt of a client for smfact */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */
-static const char statusprogram[]        = "dwmst"; /* program to execute to set DWM's status */
+static const char clsymbol[]             = "•";    /* Symbol for close button */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
 
@@ -160,6 +160,7 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkClSymbol,          0,              Button1,        killclient,     {0} },
 	{ ClkClock,             0,              Button1,        spawn,          {.v = term } },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = term } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
