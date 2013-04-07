@@ -14,7 +14,7 @@
  static int screen;
  static int sw, sh;           /* X display screen geometry width, height */
 -static int bh, blw = 0;      /* bar geometry */
-+static int bh, blw, clw = 0; /* bar geometry */
++static int bh, blw = 0, clw = 0; /* bar geometry */
  static int (*xerrorxlib)(Display *, XErrorEvent *);
  static unsigned int numlockmask = 0;
  static void (*handler[LASTEvent]) (XEvent *) = {
