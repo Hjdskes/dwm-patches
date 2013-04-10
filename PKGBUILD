@@ -10,7 +10,7 @@ depends=('libx11')
 options=(zipman)
 provides=('dwm')
 conflicts=('dwm-pango')
-_source=('http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz'
+_source=("http://dl.suckless.org/$pkgname/$pkgname-$pkgver.tar.gz"
          'config.h'
          'buildflags.diff'
         )
@@ -49,7 +49,7 @@ build() {
 }
 
 package() {
-  cd $srcdir/$pkgname-$pkgver 
+  cd $srcdir/$pkgname-$pkgver
 
   make PREFIX=/usr DESTDIR=$pkgdir install
   install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
