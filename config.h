@@ -17,7 +17,7 @@ static const unsigned int snap           = 2;      /* Snap pixel */
 static const unsigned int minwsz         = 20;     /* Minimal heigt of a client for smfact */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */
-static const char clsymbol[]             = "•";    /* Symbol for close button */
+static const char clsymbol[]             = "×";    /* Symbol for close button */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
 
@@ -52,6 +52,7 @@ static const Rule rules[] = {
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
     { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
+	{ "Gxms",               NULL,       NULL,               1 << 1,     False,      -1 },
 	{ "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
     { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
