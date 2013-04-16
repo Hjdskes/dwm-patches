@@ -58,9 +58,14 @@ static const Rule rules[] = {
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
     { "Gimp",               NULL,       NULL,               1 << 3,     False,      -1 },
+	{ "Eog",                NULL,       NULL,               1 << 3,     False,      -1 },
+	{ "Cheese",             NULL,       NULL,               1 << 3,     False,      -1 },
+	{ "Brasero",            NULL,       NULL,               1 << 3,     False,      -1 },
     { "Transmission-gtk",   NULL,       NULL,               1 << 3,     False,      -1 },
     { "VirtualBox",         NULL,       NULL,               1 << 3,     False,      -1 },
     { "Evince",             NULL,       NULL,               1 << 4,     False,      -1 },
+	{ "libreoffice-writer", NULL,       NULL,               1 << 4,     False,      -1 },
+	{ "libreoffice-startcenter", NULL,  NULL,               1 << 4,     False,      -1 },
 };
 
 /* key definitions */
@@ -74,7 +79,7 @@ static const Rule rules[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", NULL };
 static const char *find[]    = { "dmenu_finder", NULL };
 static const char *dmfm[]    = { "dmenu_fm", NULL };
 static const char *term[]    = { "urxvtc", NULL };
@@ -93,7 +98,6 @@ static const char *play[]    = { "audtool", "playback-playpause", NULL };
 static const char *next[]    = { "audtool", "playlist-advance", NULL };
 static const char *prev[]    = { "audtool", "playlist-reverse", NULL };
 static const char *stop[]    = { "audtool", "playback-stop", NULL };
-
 
 static Key keys[] = {
 	/* modifier                 key        function        argument */
@@ -156,13 +160,13 @@ static Key keys[] = {
 };
 
 /* button definitions */
-/* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* click can be ClkLtSymbol, ClkStatusText, ClkClock, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkClSymbol,          0,              Button1,        killclient,     {0} },
-	{ ClkClock,             0,              Button1,        spawn,          {.v = term } },
+	/*{ ClkClock,             0,              Button1,        killclient,     {0} },*/
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = term } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
