@@ -33,6 +33,7 @@ _patches=(
           15-dwm-6.0-smfact.diff
           16-dwm-6.0-netwmdemandsattention.diff
           17-dwm-6.0-closesymbol.diff
+          18-dwm-6.0-zoomswap.diff
 		 )
 source=(${_source[@]} ${_patches[@]})
 

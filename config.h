@@ -1,32 +1,40 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 
+#define NUMCOLORS 4
+#define MODKEY Mod1Mask
+#define MONKEY Mod4Mask
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define TAGKEYS(KEY,TAG) \
+	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+
 /* appearance */
 static const char font[]            = "Ubuntu Mono:size=9:antialias=true:hinting=true"; /*:rgba=rgb:hintstyle=hintsfull:lcdfilter=lcdlight:dpi=96";*/
-#define NUMCOLORS 4
+static const char wallpaper[]       = "/home/jente/Downloads/Achtergronden/7864597230_c0fb932d1d_h.jpg";
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#BDBDBD", "#8C8C8C", "#0A1724" },
-    { "#4A90D9", "#4A90D9", "#0A1724" },
-    { "#DC322F", "#DC322F", "#0A1724" },
-    { "#16596A", "#16596A", "#0A1724" },
+    { "#93a1a1", "#93a1a1", "#FFFFFF" },
+    { "#073642", "#073642", "#FFFFFF" },
+    { "#CB4B16", "#Cb4B16", "#FFFFFF" },
+    { "#16596A", "#93a1a1", "#FFFFFF" },
 };
 
+/* settings */
 static const unsigned int borderpx       = 1;      /* Border pixel of windows */
 static const unsigned int snap           = 2;      /* Snap pixel */
 static const unsigned int minwsz         = 20;     /* Minimal heigt of a client for smfact */
+static const float mfact                 = 0.63;   /* factor of master area size [0.05..0.95] */
+static const float smfact                = 0.00;   /* factor of tiled clients [0.05..1.00] */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
-static const char clock_fmt[]            = "%a %d %b, %R";   /* Clock format on the bar */
+static const char clock_fmt[]            = "%a %d %b, %R";         /* Clock format on the bar */
 static const char clsymbol[]             = "×";    /* Symbol for close button */
+static const int nmaster                 = 1;      /* number of clients in master area */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
+static const Bool resizehints            = False;  /* True means respect size hints in tiled resizals */
 
 /* layouts */
-static const float mfact      = 0.63;  /* factor of master area size [0.05..0.95] */
-static const float smfact     = 0.00;  /* factor of tiled clients [0.05..1.00] */
-static const int nmaster      = 1;     /* number of clients in master area */
-static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
-
 static const Layout layouts[] = {
   /* symbol arrange */
 	{ " T",  tile },
@@ -46,6 +54,7 @@ static const Tag tags[] = {
 	{ "5:work",	 &layouts[3], -1,	-1 },
 };
 
+/* rules */
 static const Rule rules[] = {
     /*WM_CLASS              WM_CLASS    WM_NAME
       class                 instance    title               tags mask   isfloating  monitor */
@@ -68,16 +77,6 @@ static const Rule rules[] = {
 	{ "libreoffice-startcenter", NULL,  NULL,               1 << 4,     False,      -1 },
 };
 
-/* key definitions */
-#define MODKEY Mod1Mask
-#define MONKEY Mod4Mask
-#define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
 /* commands */
 static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", NULL };
 static const char *find[]    = { "dmenu_finder", NULL };
@@ -99,6 +98,7 @@ static const char *next[]    = { "audtool", "playlist-advance", NULL };
 static const char *prev[]    = { "audtool", "playlist-reverse", NULL };
 static const char *stop[]    = { "audtool", "playback-stop", NULL };
 
+/* shortcuts */
 static Key keys[] = {
 	/* modifier                 key        function        argument */
 	{ MODKEY,                   XK_r,                       spawn,          {.v = dmenu } },
@@ -159,7 +159,7 @@ static Key keys[] = {
 	{ MONKEY|ShiftMask,         XK_Right,                   tagmon,         {.i = +1 } },
 };
 
-/* button definitions */
+/* mouse button */
 /* click can be ClkLtSymbol, ClkStatusText, ClkClock, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
