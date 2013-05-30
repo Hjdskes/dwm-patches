@@ -106,7 +106,7 @@
 -	else
 -		XDrawString(dpy, dc.drawable, dc.gc, x, y, buf, len);
 +
-+	d = XftDrawCreate(dpy, dc.drawable, DefaultVisual(dpy, screen), DefaultColormap(dpy,screen));
++	d = XftDrawCreate(dpy, dc.drawable, DefaultVisual(dpy, screen), DefaultColormap(dpy, screen));
 +
 +	XftDrawStringUtf8(d, &col[invert ? ColBG : ColFG], dc.font.xfont, x, y, (XftChar8 *) buf, len);
 +	XftDrawDestroy(d);

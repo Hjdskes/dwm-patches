@@ -6,7 +6,7 @@ url="http://dwm.suckless.org"
 arch=('i686' 'x86_64')
 groups=(custom)
 license=('MIT')
-depends=('libx11')
+depends=('libx11' 'pango')
 options=(zipman)
 provides=('dwm')
 conflicts=('dwm-pango')
@@ -16,7 +16,7 @@ _source=("http://dl.suckless.org/$pkgname/$pkgname-$pkgver.tar.gz"
         )
 _patches=(
           00-dwm-6.0-pertag2.diff
-          01-dwm-6.0-xft.diff
+          01-dwm-6.0-pango.diff
           02-dwm-6.0-statuscolors.diff
           03-dwm-6.0-hideempty.diff
           04-dwm-6.0-chat.diff

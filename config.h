@@ -10,14 +10,13 @@
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 
 /* appearance */
-static const char font[]            = "Ubuntu Mono:size=9:antialias=true:hinting=true"; /*:rgba=rgb:hintstyle=hintsfull:lcdfilter=lcdlight:dpi=96";*/
-static const char wallpaper[]       = "/home/jente/Downloads/Achtergronden/7864597230_c0fb932d1d_h.jpg";
+static const char font[]              = "Droid Sans 8";
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#93a1a1", "#93a1a1", "#FFFFFF" },
-    { "#073642", "#073642", "#FFFFFF" },
-    { "#CB4B16", "#Cb4B16", "#FFFFFF" },
-    { "#16596A", "#93a1a1", "#FFFFFF" },
+    { "#8C8C8C", "#8C8C8C", "#0A1724" },
+    { "#4A90D9", "#4A90D9", "#0A1724" },
+    { "#DC322F", "#DC322F", "#0A1724" },
+    { "#16596A", "#16596A", "#0A1724" },
 };
 
 /* settings */
@@ -37,21 +36,20 @@ static const Bool resizehints            = False;  /* True means respect size hi
 /* layouts */
 static const Layout layouts[] = {
   /* symbol arrange */
-	{ " T",  tile },
-	{ " C",  chat },
-	{ " B",  bstack },
-	{ " M",  monocle },
-	{ " F",  NULL },
+	{ "T",  tile },
+	{ "C",  chat },
+	{ "B",  bstack },
+	{ "M",  monocle },
+	{ "F",  NULL },
 };
 
 /* tagging */
 static const Tag tags[] = {
-	/* name		 layout       mfact	nmaster */
-	{ "1:web",	 &layouts[0], -1,	-1 },
-	{ "2:chill", &layouts[1], 0.80,	-1 },
-	{ "3:term",	 &layouts[0], -1,	-1 },
-	{ "4:media", &layouts[3], -1,	-1 },
-	{ "5:work",	 &layouts[3], -1,	-1 },
+	/* name		 layout  mfact	nmaster */
+	{ "1 web",	 &layouts[0], -1,	-1 },
+	{ "2 chill", &layouts[1], 0.80, -1 },
+	{ "3 term",  &layouts[0], -1,	-1 },
+	{ "4 misc",  &layouts[3], -1,	-1 },
 };
 
 /* rules */
@@ -61,32 +59,29 @@ static const Rule rules[] = {
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
     { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
-    { "Gxms",               NULL,       NULL,               1 << 1,     False,      -1 },
-    { "URxvt", 			    NULL,       NULL,               1 << 2,     False,      -1 },
-    { "Gedit",              NULL,       NULL,               1 << 2,     False,      -1 },
+    { "Termite",     	    NULL,       NULL,               1 << 2,     False,      -1 },
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
     { "Gimp",               NULL,       NULL,               1 << 3,     False,      -1 },
-	{ "Eog",                NULL,       NULL,               1 << 3,     False,      -1 },
 	{ "Cheese",             NULL,       NULL,               1 << 3,     False,      -1 },
 	{ "Brasero",            NULL,       NULL,               1 << 3,     False,      -1 },
     { "Transmission-gtk",   NULL,       NULL,               1 << 3,     False,      -1 },
     { "VirtualBox",         NULL,       NULL,               1 << 3,     False,      -1 },
-    { "Evince",             NULL,       NULL,               1 << 4,     False,      -1 },
-	{ "libreoffice-writer", NULL,       NULL,               1 << 4,     False,      -1 },
-	{ "libreoffice-startcenter", NULL,  NULL,               1 << 4,     False,      -1 },
+    { "Evince",             NULL,       NULL,               1 << 3,     False,      -1 },
+	{ "libreoffice-writer", NULL,       NULL,               1 << 3,     False,      -1 },
+	{ "libreoffice-startcenter", NULL,  NULL,               1 << 3,     False,      -1 },
 };
 
 /* commands */
 static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", NULL };
 static const char *find[]    = { "dmenu_finder", NULL };
 static const char *dmfm[]    = { "dmenu_fm", NULL };
-static const char *term[]    = { "urxvtc", NULL };
+static const char *term[]    = { "termite", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *files[]   = { "nautilus", NULL };
 static const char *music[]   = { "audacious", NULL };
 static const char *skype[]   = { "skype", NULL };
-static const char *scrot[]   = { "gnome-screenshot", NULL };
+static const char *scrot[]   = { "scrot", NULL };
 static const char *kill[]    = { "xkill", NULL };
 static const char *lock[]    = { "slock", NULL };
 static const char *halt[]    = { "dmenu_shutdown", NULL };
