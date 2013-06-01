@@ -57,7 +57,7 @@
 @@ -988,6 +996,11 @@ focus(Client *c) {
  		attachstack(c);
  		grabbuttons(c, True);
- 		XSetWindowBorder(dpy, c->win, dc.colors[1][ColBorder].pixel);
+ 		XSetWindowBorder(dpy, c->win, dc.sel[ColBorder].pixel);
 +		if(!c->isfloating) {
 +			wc.sibling = selmon->barwin;
 +			wc.stack_mode = Below;

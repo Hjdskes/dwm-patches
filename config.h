@@ -1,7 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 
-#define NUMCOLORS 3
 #define MODKEY Mod1Mask
 #define MONKEY Mod4Mask
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -10,13 +9,15 @@
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 
 /* appearance */
-static const char font[]              = "Droid Sans 8";
-static const char colors[NUMCOLORS][ColLast][9] = {
-    /* border   foreground  background */
-    { "#8C8C8C", "#8C8C8C", "#FFFFFF" },
-    { "#4A90D9", "#4A90D9", "#FFFFFF" },
-    { "#DC322F", "#DC322F", "#FFFFFF" },
-};
+static const char font[]            = "Droid Sans 8";
+static const char normbordercolor[] = "#8C8C8C";
+static const char normbgcolor[]     = "#FFFFFF";
+static const char normfgcolor[]     = "#8C8C8C";
+static const char selbordercolor[]  = "#4A90D9";
+static const char selbgcolor[]      = "#FFFFFF";
+static const char selfgcolor[]      = "#4A90D9";
+static const char urgbgcolor[]      = "#FFFFFF";
+static const char urgfgcolor[]      = "#DC322F";
 
 /* settings */
 static const unsigned int borderpx       = 1;      /* Border pixel of windows */

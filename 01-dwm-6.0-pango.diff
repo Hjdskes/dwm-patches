@@ -132,8 +132,8 @@
 +
 +	d = XftDrawCreate(dpy, dc.drawable, DefaultVisual(dpy, screen), DefaultColormap(dpy, screen));
 +
-+	pango_layout_set_text(dc.plo, text, len);
-+	pango_xft_render_layout(d, (col==dc.norm?dc.norm:dc.sel)+(invert?ColBG:ColFG), dc.plo, x * PANGO_SCALE, y * PANGO_SCALE);
++	pango_layout_set_markup(dc.plo, text, len);
++	pango_xft_render_layout(d, &col[invert?ColBG:ColFG], dc.plo, x * PANGO_SCALE, y * PANGO_SCALE);
  }
  
  void
@@ -253,7 +253,7 @@
 -		return r.width;
 -	}
 -	return XTextWidth(dc.font.xfont, text, len);
-+	pango_layout_set_text(dc.plo, text, len);
++	pango_layout_set_markup(dc.plo, text, len);
 +	pango_layout_get_extents(dc.plo, &r, 0);
 +	return r.width / PANGO_SCALE;
  }

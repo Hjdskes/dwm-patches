@@ -21,8 +21,8 @@
  	for(i = 0; i < LENGTH(tags); i++) {
  		dc.w = TEXTW(tags[i]);
 -		col = m->tagset[m->seltags] & 1 << i ? dc.sel : dc.norm;
-+		col = (m->tagset[m->seltags] & 1 << i) ? dc.sel : (occ & 1 << i ? dc.occ : dc.norm);
- 		drawtext(tags[i], col, urg & 1 << i);
++ 		col = (m->tagset[m->seltags] & 1 << i) ? dc.sel : (urg & 1 << i ? dc.urg : dc.norm);
+		drawtext(tags[i], col, urg & 1 << i);
 -		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 -		           occ & 1 << i, urg & 1 << i, col);
  		dc.x += dc.w;
