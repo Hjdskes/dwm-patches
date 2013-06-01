@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 
-#define NUMCOLORS 4
+#define NUMCOLORS 3
 #define MODKEY Mod1Mask
 #define MONKEY Mod4Mask
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -13,10 +13,9 @@
 static const char font[]              = "Droid Sans 8";
 static const char colors[NUMCOLORS][ColLast][9] = {
     /* border   foreground  background */
-    { "#8C8C8C", "#8C8C8C", "#0A1724" },
-    { "#4A90D9", "#4A90D9", "#0A1724" },
-    { "#DC322F", "#DC322F", "#0A1724" },
-    { "#16596A", "#16596A", "#0A1724" },
+    { "#8C8C8C", "#8C8C8C", "#FFFFFF" },
+    { "#4A90D9", "#4A90D9", "#FFFFFF" },
+    { "#DC322F", "#DC322F", "#FFFFFF" },
 };
 
 /* settings */
@@ -63,13 +62,13 @@ static const Rule rules[] = {
     { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
     { "Gimp",               NULL,       NULL,               1 << 3,     False,      -1 },
-	{ "Cheese",             NULL,       NULL,               1 << 3,     False,      -1 },
-	{ "Brasero",            NULL,       NULL,               1 << 3,     False,      -1 },
+    { "Cheese",             NULL,       NULL,               1 << 3,     False,      -1 },
+    { "Brasero",            NULL,       NULL,               1 << 3,     False,      -1 },
     { "Transmission-gtk",   NULL,       NULL,               1 << 3,     False,      -1 },
     { "VirtualBox",         NULL,       NULL,               1 << 3,     False,      -1 },
     { "Evince",             NULL,       NULL,               1 << 3,     False,      -1 },
-	{ "libreoffice-writer", NULL,       NULL,               1 << 3,     False,      -1 },
-	{ "libreoffice-startcenter", NULL,  NULL,               1 << 3,     False,      -1 },
+    { "libreoffice-writer", NULL,       NULL,               1 << 3,     False,      -1 },
+    { "libreoffice-startcenter", NULL,  NULL,               1 << 3,     False,      -1 },
 };
 
 /* commands */
@@ -145,7 +144,6 @@ static Key keys[] = {
 	TAGKEYS(                    XK_F2,                      1)
 	TAGKEYS(                    XK_F3,                      2)
 	TAGKEYS(                    XK_F4,                      3)
-	TAGKEYS(                    XK_F5,                      4)
 	{ MODKEY,                   XK_a,                       view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,         XK_a,                       tag,            {.ui = ~0 } },
 	{ MONKEY,                   XK_Left,                    focusmon,       {.i = -1 } },
@@ -160,8 +158,8 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkClSymbol,          0,              Button1,        killclient,     {0} },
-	/*{ ClkClock,             0,              Button1,        killclient,     {0} },*/
+	/*{ ClkClSymbol,          0,              Button1,        killclient,     {0} },*/
+	{ ClkClock,             0,              Button1,        killclient,     {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = term } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },

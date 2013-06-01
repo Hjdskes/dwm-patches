@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-05-28 23:13:46.719680567 +0200
-+++ dwm.c	2013-05-29 00:29:12.009576351 +0200
+--- dwm.c.orig	2013-05-31 17:31:07.309962648 +0200
++++ dwm.c	2013-05-31 17:31:23.246628944 +0200
 @@ -36,6 +36,10 @@
  #include <X11/Xlib.h>
  #include <X11/Xproto.h>
@@ -223,6 +223,15 @@
  	configure(c); /* propagates border_width, if size doesn't change */
  	updatewindowtype(c);
  	updatesizehints(c);
+@@ -1647,7 +1637,7 @@ setup(void) {
+ 	initfont(font);
+ 	sw = DisplayWidth(dpy, screen);
+ 	sh = DisplayHeight(dpy, screen);
+-	bh = dc.h = dc.font.height + 2;
++	bh = dc.h = dc.font.height + 1;
+ 	updategeom();
+ 	/* init atoms */
+ 	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);
 @@ -1675,8 +1665,6 @@ setup(void) {
  	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);

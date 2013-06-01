@@ -29,10 +29,10 @@
  		else
 @@ -902,6 +904,9 @@ drawbar(Monitor *m) {
  	dc.w = blw = TEXTW(m->ltsymbol);
- 	drawtext(m->ltsymbol, dc.colors[0]);
+ 	drawtext(m->ltsymbol, dc.colors[0], False);
  	dc.x += dc.w;
 +	dc.w = clw = TEXTW(clsymbol);
-+	drawtext(clsymbol, dc.colors[2]);
++	drawtext(clsymbol, dc.colors[2], True);
 +	dc.x += dc.w;
  	x = dc.x;
  	if(m == selmon) { /* status is only drawn on selected monitor */

@@ -1,33 +1,33 @@
---- dwm.c.orig	2013-03-30 23:08:51.853393706 +0100
-+++ dwm.c	2013-03-30 23:09:37.833392933 +0100
-@@ -193,7 +193,6 @@ static Monitor *dirtomon(int dir);
+--- dwm.c.orig	2013-05-30 20:27:48.987185606 +0200
++++ dwm.c	2013-05-30 20:28:30.960517973 +0200
+@@ -201,7 +201,6 @@ static Monitor *dirtomon(int dir);
  static void drawbar(Monitor *m);
  static void drawbars(void);
  static void drawcoloredtext(char *text);
 -static void drawsquare(Bool filled, Bool empty, XftColor col[ColLast]);
- static void drawtext(const char *text, XftColor col[ColLast]);
+ static void drawtext(const char *text, XftColor col[ColLast], Bool pad);
  static void enternotify(XEvent *e);
  static void expose(XEvent *e);
-@@ -852,9 +851,8 @@ drawbar(Monitor *m) {
+@@ -860,9 +859,8 @@ drawbar(Monitor *m) {
  		if (!(m->tagset[m->seltags] & 1 << i) && !(occ & 1 << i))
  			continue;
  		dc.w = TEXTW(tags[i].name);
 -		col = dc.colors[(m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:0)];
 +		col = dc.colors[(m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:(occ & 1 << i ? 3 : 0))];
- 		drawtext(tags[i].name, col);
--		drawsquare(False, False, urg & 1 << i, col);
+ 		drawtext(tags[i].name, col, True);
+-		drawsquare(False, urg & 1 << i, col);
  		dc.x += dc.w;
  	}
  	dc.w = blw = TEXTW(m->ltsymbol);
-@@ -877,7 +875,6 @@ drawbar(Monitor *m) {
+@@ -885,7 +883,6 @@ drawbar(Monitor *m) {
  		if(m->sel) {
  			col = dc.colors[m == selmon ? 1 : 0];
- 			drawtext(m->sel->name, col);
+ 			drawtext(m->sel->name, col, True);
 -			drawsquare(m->sel->isfixed, m->sel->isfloating, col);
  		}
  		else
- 			drawtext(NULL, dc.colors[0];
-@@ -920,18 +917,6 @@ drawcoloredtext(char *text) {
+ 			drawtext(NULL, dc.colors[0], False);
+@@ -937,18 +934,6 @@ drawcoloredtext(char *text) {
  }
  
  void
@@ -43,6 +43,6 @@
 -}
 -
 -void
- drawtext(const char *text, XftColor col[ColLast]) {
+ drawtext(const char *text, XftColor col[ColLast], Bool pad) {
  	char buf[256];
  	int i, x, y, h, len, olen;

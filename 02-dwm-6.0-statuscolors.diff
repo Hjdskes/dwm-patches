@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-05-29 01:38:48.916146822 +0200
-+++ dwm.c	2013-05-29 01:39:56.349478601 +0200
+--- dwm.c.orig	2013-05-31 20:57:32.603145652 +0200
++++ dwm.c	2013-05-31 21:26:24.809772425 +0200
 @@ -51,6 +51,7 @@
                                 * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
  #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
@@ -26,7 +26,7 @@
 -static void drawtext(const char *text, XftColor col[ColLast], Bool invert);
 +static void drawcoloredtext(char *text);
 +static void drawsquare(Bool filled, Bool empty, XftColor col[ColLast]);
-+static void drawtext(const char *text, XftColor col[ColLast]);
++static void drawtext(const char *text, XftColor col[ColLast], Bool pad);
  static void enternotify(XEvent *e);
  static void expose(XEvent *e);
  static void focus(Client *c);
@@ -39,13 +39,13 @@
 -		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 -		           occ & 1 << i, urg & 1 << i, col);
 +		col = dc.colors[(m->tagset[m->seltags] & 1 << i) ? 1 : (urg & 1 << i ? 2:0)];
-+		drawtext(tags[i].name, col);
++		drawtext(tags[i].name, col, True);
 +		drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i, occ & 1 << i, col);
  		dc.x += dc.w;
  	}
  	dc.w = blw = TEXTW(m->ltsymbol);
 -	drawtext(m->ltsymbol, dc.norm, False);
-+	drawtext(m->ltsymbol, dc.colors[0]);
++	drawtext(m->ltsymbol, dc.colors[0], True);
  	dc.x += dc.w;
  	x = dc.x;
  	if(m == selmon) { /* status is only drawn on selected monitor */
@@ -68,12 +68,12 @@
 -			drawtext(m->sel->name, col, False);
 -			drawsquare(m->sel->isfixed, m->sel->isfloating, False, col);
 +			col = dc.colors[m == selmon ? 1 : 0];
-+			drawtext(m->sel->name, col);
++			drawtext(m->sel->name, col, True);
 +			drawsquare(m->sel->isfixed, m->sel->isfloating, col);
  		}
  		else
 -			drawtext(NULL, dc.norm, False);
-+			drawtext(NULL, dc.colors[0]);
++			drawtext(NULL, dc.colors[0], False);
  	}
  	XCopyArea(dpy, dc.drawable, m->barwin, dc.gc, 0, 0, m->ww, bh, 0, 0);
  	XSync(dpy, False);
@@ -95,14 +95,14 @@
 +		*ptr = 0;
 +		if(i) {
 +			dc.w = selmon->ww - dc.x;
-+			drawtext(buf, col);
-+			dc.x += textnw(buf, i);
++			drawtext(buf, col, True);
++			dc.x += textnw(buf, i) + textnw(&c, 1);
 +		}
 +		*ptr = c;
 +		col = dc.colors[c-1];
 +		buf = ++ptr;
 +	}
-+	drawtext(buf, col);
++	drawtext(buf, col, True);
 +	dc.x = ox;
 +}
 +
@@ -115,12 +115,12 @@
  	x = (dc.font.ascent + dc.font.descent + 2) / 4;
  	if(filled)
  		XFillRectangle(dpy, dc.drawable, dc.gc, dc.x+1, dc.y+1, x+1, x+1);
-@@ -845,12 +870,12 @@ drawsquare(Bool filled, Bool empty, Bool
+@@ -845,17 +870,17 @@ drawsquare(Bool filled, Bool empty, Bool
  }
  
  void
 -drawtext(const char *text, XftColor col[ColLast], Bool invert) {
-+drawtext(const char *text, XftColor col[ColLast]) {
++drawtext(const char *text, XftColor col[ColLast], Bool pad) {
  	char buf[256];
  	int i, x, y, h, len, olen;
  	XftDraw *d;
@@ -130,6 +130,12 @@
  	XFillRectangle(dpy, dc.drawable, dc.gc, dc.x, dc.y, dc.w, dc.h);
  	if(!text)
  		return;
+ 	olen = strlen(text);
+-	h = dc.font.ascent + dc.font.descent;
++	h = pad? (dc.font.ascent + dc.font.descent) : 0;
+ 	y = dc.y + (dc.h / 2) - (h / 2);
+ 	x = dc.x + (h / 2);
+ 	/* shorten text if necessary */
 @@ -869,7 +894,7 @@ drawtext(const char *text, XftColor col[
  	d = XftDrawCreate(dpy, dc.drawable, DefaultVisual(dpy, screen), DefaultColormap(dpy, screen));
  
@@ -175,16 +181,14 @@
  	dc.drawable = XCreatePixmap(dpy, root, DisplayWidth(dpy, screen), bh, DefaultDepth(dpy, screen));
  	dc.gc = XCreateGC(dpy, root, 0, NULL);
  	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
-@@ -1734,9 +1758,24 @@ tagmon(const Arg *arg) {
- 
+@@ -1735,8 +1759,23 @@ tagmon(const Arg *arg) {
  int
  textnw(const char *text, unsigned int len) {
+ 	PangoRectangle r;
 +	char *ptr = (char *)text;
 +	unsigned int i, ibuf, lenbuf = len;
 +	char buf[len + 1];
- 	PangoRectangle r;
- 
--	pango_layout_set_text(dc.plo, text, len);
++
 +	for(i = 0, ibuf = 0; *ptr && i < len; i++, ptr++) {
 +		if(*ptr <= NUMCOLORS && *ptr > 0) {
 +			if (i < len)
@@ -196,7 +200,8 @@
 +		}
 +	}
 +	buf[ibuf] = 0;
-+
+ 
+-	pango_layout_set_text(dc.plo, text, len);
 +	pango_layout_set_text(dc.plo, buf, lenbuf);
  	pango_layout_get_extents(dc.plo, &r, 0);
  	return r.width / PANGO_SCALE;

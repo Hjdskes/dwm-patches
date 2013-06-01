@@ -15,26 +15,25 @@ _source=("http://dl.suckless.org/$pkgname/$pkgname-$pkgver.tar.gz"
          'buildflags.diff'
         )
 _patches=(
-          00-dwm-6.0-pertag2.diff
-          01-dwm-6.0-pango.diff
-          02-dwm-6.0-statuscolors.diff
-          03-dwm-6.0-hideempty.diff
-          04-dwm-6.0-chat.diff
-          05-dwm-6.0-push.diff
-          06-dwm-6.0-cycle.diff
-          07-dwm-6.0-occupiedcol.diff
-          08-dwm-6.0-singularborders.diff
-          09-dwm-6.0-attachaside.diff
-          10-dwm-6.0-centerclock.diff
-          11-dwm-6.0-monocleindicator.diff
-          12-dwm-6.0-focusfollowmousetag.diff
-          13-dwm-6.0-removeunfunc.diff
-          14-dwm-6.0-xkeycodetokeysymfix.diff
-          15-dwm-6.0-smfact.diff
-          16-dwm-6.0-netwmdemandsattention.diff
-          17-dwm-6.0-closesymbol.diff
-          18-dwm-6.0-zoomswap.diff
-		 )
+         00-dwm-6.0-pertag2.diff
+         01-dwm-6.0-pango.diff
+         02-dwm-6.0-statuscolors2.diff
+         03-dwm-6.0-hideempty.diff
+         04-dwm-6.0-chat.diff
+         05-dwm-6.0-push.diff
+         06-dwm-6.0-cycle.diff
+         07-dwm-6.0-singularborders.diff
+         08-dwm-6.0-attachaside.diff
+         09-dwm-6.0-centerclock.diff
+         10-dwm-6.0-monocleindicator.diff
+         11-dwm-6.0-focusfollowmousetag.diff
+         12-dwm-6.0-removeunfunc.diff
+         13-dwm-6.0-xkeycodetokeysymfix.diff
+         14-dwm-6.0-smfact.diff
+         15-dwm-6.0-netwmdemandsattention.diff
+#         16-dwm-6.0-closesymbol.diff
+         17-dwm-6.0-zoomswap.diff
+         )
 source=(${_source[@]} ${_patches[@]})
 
 build() {
