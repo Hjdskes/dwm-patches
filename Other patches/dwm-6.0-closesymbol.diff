@@ -32,7 +32,7 @@
  	drawtext(m->ltsymbol, dc.colors[0], False);
  	dc.x += dc.w;
 +	dc.w = clw = TEXTW(clsymbol);
-+	drawtext(clsymbol, dc.colors[2], True);
++	drawtext(clsymbol, dc.urg, True);
 +	dc.x += dc.w;
  	x = dc.x;
  	if(m == selmon) { /* status is only drawn on selected monitor */

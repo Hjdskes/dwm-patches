@@ -26,7 +26,6 @@ static const float mfact                 = 0.63;   /* factor of master area size
 static const float smfact                = 0.00;   /* factor of tiled clients [0.05..1.00] */
 static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
 static const char clock_fmt[]            = "%a %d %b, %R";         /* Clock format on the bar */
-static const char clsymbol[]             = "×";    /* Symbol for close button */
 static const int nmaster                 = 1;      /* number of clients in master area */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
@@ -44,8 +43,8 @@ static const Layout layouts[] = {
 
 /* tagging */
 static const Tag tags[] = {
-	/* name		 layout  mfact	nmaster */
-	{ "1 web",	 &layouts[0], -1,	-1 },
+	/* name	     layout       mfact	nmaster */
+	{ "1 web",   &layouts[0], -1,	-1 },
 	{ "2 chill", &layouts[1], 0.80, -1 },
 	{ "3 term",  &layouts[0], -1,	-1 },
 	{ "4 misc",  &layouts[3], -1,	-1 },
@@ -158,7 +157,6 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	/*{ ClkClSymbol,          0,              Button1,        killclient,     {0} },*/
 	{ ClkClock,             0,              Button1,        killclient,     {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = term } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
