@@ -132,8 +132,8 @@
 +
 +	d = XftDrawCreate(dpy, dc.drawable, DefaultVisual(dpy, screen), DefaultColormap(dpy, screen));
 +
-+	pango_layout_set_markup(dc.plo, text, len);
-+	pango_xft_render_layout(d, &col[invert?ColBG:ColFG], dc.plo, x * PANGO_SCALE, y * PANGO_SCALE);
++	pango_layout_set_markup(dc.plo, buf, len);
++	pango_xft_render_layout(d, &col[invert ? ColBG : ColFG], dc.plo, x * PANGO_SCALE, y * PANGO_SCALE);
  }
  
  void
@@ -228,7 +228,7 @@
  	sw = DisplayWidth(dpy, screen);
  	sh = DisplayHeight(dpy, screen);
 -	bh = dc.h = dc.font.height + 2;
-+	bh = dc.h = dc.font.height + 1;
++	bh = dc.h = dc.font.height + 4;
  	updategeom();
  	/* init atoms */
  	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);

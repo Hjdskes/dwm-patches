@@ -1,5 +1,5 @@
---- dwm.c.orig	2013-06-01 18:44:59.685190647 +0200
-+++ dwm.c	2013-06-01 18:46:16.778522205 +0200
+--- dwm.c.orig	2013-09-13 20:21:55.181723277 +0200
++++ dwm.c	2013-09-13 20:22:21.241722676 +0200
 @@ -30,6 +30,7 @@
  #include <unistd.h>
  #include <sys/types.h>
@@ -71,12 +71,12 @@
  		if(ev->atom == netatom[NetWMWindowType])
  			updatewindowtype(c);
  	}
-@@ -2350,6 +2351,8 @@ main(int argc, char *argv[]) {
+@@ -2344,7 +2345,7 @@ main(int argc, char *argv[]) {
+ 		die("dwm-"VERSION", © 2006-2011 dwm engineers, see LICENSE for details\n");
+ 	else if(argc != 1)
  		die("usage: dwm [-v]\n");
- 	if(!setlocale(LC_CTYPE, "") || !XSupportsLocale())
+-	if(!setlocale(LC_CTYPE, "") || !XSupportsLocale())
++	if(!setlocale(LC_ALL, "") || !XSupportsLocale())
  		fputs("warning: no locale support\n", stderr);
-+	else
-+		setlocale(LC_ALL, "");
  	if(!(dpy = XOpenDisplay(NULL)))
  		die("dwm: cannot open display\n");
- 	checkotherwm();

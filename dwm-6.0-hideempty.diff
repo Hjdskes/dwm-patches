@@ -75,3 +75,4 @@
  drawtext(const char *text, XftColor col[ColLast], Bool invert) {
  	char buf[256];
  	int i, x, y, h, len, olen;
+
