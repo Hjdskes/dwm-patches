@@ -1,0 +1,26 @@
+--- config.def.h.orig   2013-09-16 12:05:34.724989783 +0200
++++ config.def.h        2013-09-16 12:11:31.531339316 +0200
+@@ -12,6 +12,7 @@
+ static const unsigned int snap      = 32;       /* snap pixel */
+ static const Bool showbar           = True;     /* False means no bar */
+ static const Bool topbar            = True;     /* False means bottom bar */
++static const Bool showtitle         = False;    /* True means Show title in status bar */
+ 
+ /* tagging */
+ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+@@ -102,4 +103,3 @@
+   { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+   { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+ };
+
+--- dwm.c.orig	2013-09-16 12:05:18.046066934 +0200
++++ dwm.c	2013-09-16 12:06:36.620703473 +0200
+@@ -753,7 +753,7 @@
+ 		dc.x = m->ww;
+ 	if((dc.w = dc.x - x) > bh) {
+ 		dc.x = x;
+-		if(m->sel) {
++		if(m->sel && showtitle) {
+ 			col = m == selmon ? dc.sel : dc.norm;
+ 			drawtext(m->sel->name, col, False);
+ 			drawsquare(m->sel->isfixed, m->sel->isfloating, False, col);
